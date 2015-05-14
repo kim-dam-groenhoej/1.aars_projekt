@@ -4,7 +4,7 @@
 package ModelLayer;
 
 /**
- * @author Bo Handskemager S¿rensen
+ * @author Bo Handskemager Sï¿½rensen, buuuu
  *
  */
 public class Customer extends Person {
