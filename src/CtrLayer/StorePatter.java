@@ -8,5 +8,5 @@ package CtrLayer;
  *
  */
 public class StorePatter {
-	
+	private String test = "test";
 }
