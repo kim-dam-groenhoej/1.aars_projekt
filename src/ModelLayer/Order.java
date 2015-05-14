@@ -6,10 +6,10 @@ package ModelLayer;
 import java.util.Date;
 
 /**
- * @author Reclzz
+ * @author Bo Handskemager S¿rensen
  *
  */
-public class Order extends Person{
+public class Order{
 	public int id;
 	public Date date;
 	public int restId;

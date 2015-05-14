@@ -4,7 +4,7 @@
 package ModelLayer;
 
 /**
- * @author Reclzz
+ * @author Bo Handskemager S¿rensen
  *
  */
 public class Person {
@@ -14,7 +14,7 @@ public class Person {
 	public String street;
 	public String phone;
 	
-	Public Person (int id, String name, int zip, String street, String phone){
+	Person (int id, String name, int zip, String street, String phone){
 		this.id = id;
 		this.name = name;
 		this.zip = zip;

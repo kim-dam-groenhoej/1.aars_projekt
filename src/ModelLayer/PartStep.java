@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Reclzz
+ * @author Bo Handskemager S¿rensen
  *
  */
 public class PartStep {
@@ -19,7 +19,7 @@ public class PartStep {
 	
 	
 	
-	public PartStep(int id, Date startDate, Step step, Order order, Employee employees){
+	public PartStep(int id, Date startDate, Step step, Order order, List<Employee> employees){
 		this.id = id;
 		this.startDate = startDate;
 		this.step = step;
