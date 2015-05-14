@@ -30,4 +30,33 @@ public class Employee extends Person {
 		this.partSteps = partSteps;
 		this.restaurant = restaurant;
 	}
+
+	/**
+	 * @return the employeeNo
+	 */
+	public int getEmployeeNo() {
+		return employeeNo;
+	}
+
+	/**
+	 * @return the position
+	 */
+	public String getPosition() {
+		return position;
+	}
+
+	/**
+	 * @return the partSteps
+	 */
+	public List<PartStep> getPartSteps() {
+		return partSteps;
+	}
+
+	/**
+	 * @return the restaurant
+	 */
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+	
 }
