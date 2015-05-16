@@ -16,7 +16,7 @@ public class OrderCtr {
 	
 	public OrderCtr()
 	{
-		/* orderDB = new OrderDB(); Kim: 16-05-2015: Kan ikke compile! /*
+		/* orderDB = new OrderDB(); Kim: 16-05-2015: Kan ikke compile! */
 	}
 	
 	/*This function finds order by orderId */
