@@ -1,6 +1,7 @@
 package DBLayer;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -27,18 +28,22 @@ public class StepDB implements IStepDB {
 	public List<Step> findNextSteps(int orderId, int stepId) throws Exception
 	{
 		String wClause = " order_id = ? AND step_id = ? ORDER BY startDate";
-		return findMultiplyWhere(wClause);
+		return findMultiplyWhere(wClause, orderId, stepId);
 	}
 	
-	private List<Step> findMultiplyWhere(String wClause) throws Exception {
+	private List<Step> findMultiplyWhere(String wClause, int orderId, int stepId) throws Exception {
 
 		ResultSet results;
 		List<Step> steps = new ArrayList<Step>();
 		String query = findBuildQuery(wClause);
 		
-		Statement stmt = con.createStatement();
+		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setQueryTimeout(5);
-		results = stmt.executeQuery(query);
+		
+		stmt.setInt(1, orderId);
+		stmt.setInt(2, stepId);
+		
+		results = stmt.executeQuery();
 		
 		while (results.next()){
 			steps.add(findBuildStep(results));
@@ -75,15 +80,15 @@ public class StepDB implements IStepDB {
 	
 	private String findBuildQuery(String wClause) {
 		String query = "SELECT "
-				+ "s.name, s.description, sr.nextstep_id, s.is_last_step, s.rest_id, r.name AS resName, r.street, r.zip, r.phone, r.email, r.website"
-				+ "FROM [PartStep] AS ps "
-				+ "INNER JOIN [Step] AS s ON ps.step_id = s.id "
-				+ "INNER JOIN [Restaurent] AS r ON s.rest_id = r.id"
-				+ "INNER JOIN [StepRelation] AS sr ON s.id = sr.step_id";
+				+ "s.name, s.description, sr.nextstep_id, s.is_last_step, s.rest_id, r.name AS resName, r.street, r.zip, r.phone, r.email, r.website "
+				+ "FROM [PartStep] ps "
+				+ "INNER JOIN [Step] s ON ps.step_id = s.id "
+				+ "INNER JOIN [Restaurant] r ON s.rest_id = r.id "
+				+ "INNER JOIN [StepRelation] sr ON s.id = sr.step_id";
 		
 		if(wClause.length()>0)
 		{
-			query=query+" where " + wClause;
+			query=query+" WHERE " + wClause;
 		}	
 		
 		return query;
