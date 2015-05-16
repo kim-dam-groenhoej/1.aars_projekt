@@ -85,6 +85,7 @@ public class StepDB implements IStepDB {
 		{
 			query=query+" where " + wClause;
 		}	
+		
 		return query;
 	}
 }
