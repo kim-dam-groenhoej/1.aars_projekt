@@ -10,5 +10,5 @@ import ModelLayer.Order;
  *
  */
 public interface IOrderDB {
-	List<Order> findOrder(int orderId);
+	List<Order> findOrder(int orderId) throws Exception;
 }

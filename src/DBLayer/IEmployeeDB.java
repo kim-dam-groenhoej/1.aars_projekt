@@ -11,5 +11,5 @@ import ModelLayer.Employee;
  *
  */
 public interface IEmployeeDB {
-	List<Employee> findEmployees(int restaurentId);
+	List<Employee> findEmployees(int restaurentId) throws Exception;
 }

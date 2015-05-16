@@ -6,14 +6,14 @@ package ModelLayer;
 import java.util.List;
 
 /**
- * @author Bo Handskemager S¿rensen
+ * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
  *
  */
 public class Employee extends Person {
-	public int employeeNo;
-	public String position;
-	public List<PartStep> partSteps;
-	public Restaurant restaurant;
+	private int employeeNo;
+	private String position;
+	private List<PartStep> partSteps;
+	private Restaurant restaurant;
 	
 	/**
 	 * @param id

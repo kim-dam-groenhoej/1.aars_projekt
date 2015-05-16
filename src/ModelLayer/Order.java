@@ -6,14 +6,14 @@ package ModelLayer;
 import java.util.Date;
 
 /**
- * @author Bo Handskemager S¿rensen
+ * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
  *
  */
 public class Order{
-	public int id;
-	public Date date;
-	public int restId;
-	public int customerId;
+	private int id;
+	private Date date;
+	private int restId;
+	private int customerId;
 	
 	public Order(int id, Date date, int restId, int customerId){
 		this.id = id;

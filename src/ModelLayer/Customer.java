@@ -4,11 +4,11 @@
 package ModelLayer;
 
 /**
- * @author Bo Handskemager Sï¿½rensen
+ * @author Bo Handskemager Sï¿½rensen, Kim Dam Grønhøj
  *
  */
 public class Customer extends Person {
-	public String email;
+	private String email;
 	
 	/**
 	 * @param id

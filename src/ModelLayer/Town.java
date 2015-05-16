@@ -1,8 +1,13 @@
 package ModelLayer;
 
+/**
+ * 
+ * @author Kim Dam Grønhøj
+ *
+ */
 public class Town {
 	// public int zip;
-	public String name;
+	private String name;
 	
 	public Town(/*int zip;*/String name){
 		// this.zip = zip;

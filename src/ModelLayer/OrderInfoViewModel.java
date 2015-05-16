@@ -6,13 +6,13 @@ package ModelLayer;
 import java.util.List;
 
 /**
- * @author Bo Handskemager S¿rensen
+ * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
  *
  */
 public class OrderInfoViewModel {
-	public List<Employee> employees;
-	public List<Step> steps;
-	public Order order;
+	private List<Employee> employees;
+	private List<Step> steps;
+	private Order order;
 	
 	public OrderInfoViewModel(List<Employee> employees, List<Step> steps, Order order){
 		this.employees = employees;

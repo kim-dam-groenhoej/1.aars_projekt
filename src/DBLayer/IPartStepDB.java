@@ -5,5 +5,5 @@ package DBLayer;
  *
  */
 public interface IPartStepDB {
-	void finishStep();
+	void finishStep() throws Exception;
 }

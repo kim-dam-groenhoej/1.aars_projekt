@@ -4,17 +4,17 @@
 package ModelLayer;
 
 /**
- * @author Bo Handskemager S¿rensen
+ * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
  *
  */
 public class Restaurant {
-	public int id;
-	public String name;
-	public String street;
-	public int zip;
-	public String phone;
-	public String email;
-	public String website;
+	private int id;
+	private String name;
+	private String street;
+	private int zip;
+	private String phone;
+	private String email;
+	private String website;
 	
 	/**
 	 * @param id
@@ -27,7 +27,7 @@ public class Restaurant {
 	 */
 	public Restaurant(int id, String name, String street, int zip,
 			String phone, String email, String website) {
-		super();
+
 		this.id = id;
 		this.name = name;
 		this.street = street;

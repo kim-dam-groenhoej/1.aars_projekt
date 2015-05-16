@@ -4,15 +4,15 @@
 package ModelLayer;
 
 /**
- * @author Bo Handskemager S¿rensen
+ * @author Bo Handskemager S¿rensen, KIm Dam Grønhøj
  *
  */
 public class Step {
-	public int id;
-	public String name;
-	public String description;
-	public Restaurant restaurant;
-	public boolean isLastStep;
+	private int id;
+	private String name;
+	private String description;
+	private Restaurant restaurant;
+	private boolean isLastStep;
 	
 	public Step(int id, String name, String description, Restaurant restaurant, boolean isLastStep){
 		this.id = id;

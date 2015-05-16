@@ -4,15 +4,15 @@
 package ModelLayer;
 
 /**
- * @author Bo Handskemager S¿rensen
+ * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
  *
  */
 public class Person {
-	public int id;
-	public String name;
-	public int zip;
-	public String street;
-	public String phone;
+	private int id;
+	private String name;
+	private int zip;
+	private String street;
+	private String phone;
 	
 	Person (int id, String name, int zip, String street, String phone){
 		this.id = id;

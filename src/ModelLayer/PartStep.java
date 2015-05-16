@@ -7,15 +7,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Bo Handskemager S¿rensen
+ * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
  *
  */
 public class PartStep {
-	public int id;
-	public Date startDate;
-	public Step step;
-	public Order order;
-	public List<Employee> employees;
+	private int id;
+	private Date startDate;
+	private Step step;
+	private Order order;
+	private List<Employee> employees;
 	
 	
 	
