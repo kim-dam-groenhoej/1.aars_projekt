@@ -1,12 +1,15 @@
 /**
  * 
  */
-package Controllers;
+package CtrLayer;
 
 import java.util.ArrayList;
 
+import DBLayer.IEmployeeDB;
+import ModelLayer.Employee;
+
 /**
- * @author Frank Eskelund
+ * @author Frank Eskelund, Kim Dam Grønhøj
  * @version 
  */
 public class EmployeeCtr {

@@ -2,6 +2,8 @@ package DBLayer;
 
 import java.util.List;
 
+import ModelLayer.Employee;
+
 /**
  * 
  * @author Kim Dam Grønhøj

@@ -1,10 +1,13 @@
 /**
  * 
  */
-package Controllers;
+package CtrLayer;
+
+import DBLayer.IOrderDB;
+import ModelLayer.Order;
 
 /**
- * @author Frank Eskelund
+ * @author Frank Eskelund, Kim Dam Grønhøj
  * @version 
  */
 public class OrderCtr {
@@ -13,7 +16,7 @@ public class OrderCtr {
 	
 	public OrderCtr()
 	{
-		orderDB = new OrderDB();
+		/* orderDB = new OrderDB(); Kim: 16-05-2015: Kan ikke compile! /*
 	}
 	
 	/*This function finds order by orderId */

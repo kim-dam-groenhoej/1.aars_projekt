@@ -1,12 +1,15 @@
 /**
  * 
  */
-package Controllers;
+package CtrLayer;
 
 import java.util.ArrayList;
 
+import DBLayer.IStepDB;
+import ModelLayer.Step;
+
 /**
- * @author Frank Eskelund
+ * @author Frank Eskelund, Kim Dam Grønhøj
  * @version 
  */
 public class StepCtr {

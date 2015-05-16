@@ -1,10 +1,11 @@
 package DBLayer;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
-import ModelLayer.Customer;
-import ModelLayer.Enums.CustomerType;
+import ModelLayer.Step;
 
 /**
  * 
@@ -18,15 +19,17 @@ public class StepDB implements IStepDB {
 	
 	public StepDB()
 	{
-		this.con = new DBConnection().getDBcon();
+		this.con = DBConnection.getInstance().getDBcon();
 	}
 	
 	public List<Step> findNextSteps(int orderId, int stepId)
 	{
-		String wClause = " phonenumber = '" + phonenumber +"'";
-		return findSingleWhere(wClause);
+		/*String wClause = " phonenumber = '" + phonenumber +"'";
+		return findSingleWhere(wClause);*/
+		
+		return null;
 	}
-	
+	/*
 	private Customer findSingleWhere(String wClause) {
 
 		ResultSet results;
@@ -70,5 +73,5 @@ public class StepDB implements IStepDB {
 			query=query+" where " + wClause;
 		}	
 		return query;
-	}
+	}*/
 }
