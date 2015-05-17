@@ -11,5 +11,5 @@ import ModelLayer.Step;
  *
  */
 public interface IStepDB {
-	List<Step> findNextSteps(int orderId, int stepId) throws Exception;
+	List<Step> findNextSteps(int orderId) throws Exception;
 }

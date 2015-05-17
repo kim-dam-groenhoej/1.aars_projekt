@@ -1,4 +1,4 @@
-use Hungry 
+use dmaa0914_2Sem_1 
 
 create table Town(
 	zip		int not null primary key,
@@ -87,7 +87,7 @@ create table PartStep(
 
 create table StepRelation(
 	step_id		int		not null	primary key,
-	nextstep_id	int		not null
+	nextstep_id	int		not null	primary key
 	foreign key(step_id)	references Step(id),
 	foreign key(nextstep_id) references Step(id)
 );

@@ -14,46 +14,66 @@ import ModelLayer.Restaurant;
  * 
  * @author Kim Dam Grønhøj
  * 
- * """"""""""""KODE ER IKKE FÆRDIG"""""""""""""""
  *
  */
 public class StepDB implements IStepDB {
 	private Connection con;
 	
+	/**
+	 * initializes database connection
+	 */
 	public StepDB()
 	{
 		con = DBConnection.getInstance().getDBcon();
 	}
 	
-	public List<Step> findNextSteps(int orderId, int stepId) throws Exception
+	/**
+	 * Find the next steps for an order by orderId
+	 * @orderId current orderId
+	 * @return List of Step's the an user can choose
+	 * @exception its possiblle SQL can throw exceptions
+	 */
+	@Override
+	public List<Step> findNextSteps(int orderId) throws SQLException
 	{
-		String wClause = " order_id = ? AND step_id = ? ORDER BY startDate";
-		return findMultiplyWhere(wClause, orderId, stepId);
-	}
-	
-	private List<Step> findMultiplyWhere(String wClause, int orderId, int stepId) throws Exception {
-
 		ResultSet results;
 		List<Step> steps = new ArrayList<Step>();
-		String query = findBuildQuery(wClause);
 		
+		// t-SQL query
+		String query = "SELECT "
+				+ "s.id, s.name, s.description, sr.nextstep_id, s.is_last_step, s.rest_id, r.name AS resName, r.street, r.zip, r.phone, r.email, r.website "
+				+ "FROM (SELECT TOP(1) * FROM [PartStep] ps WHERE ps.order_id = ? ORDER BY ps.startDate DESC) ps "
+				+ "INNER JOIN [StepRelation] sr ON ps.step_id = sr.step_id "
+				+ "INNER JOIN [Step] s ON sr.nextstep_id = s.id "
+				+ "INNER JOIN [Restaurant] r ON s.rest_id = r.id ";
+		
+		// prepare SQL-statement
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setQueryTimeout(5);
 		
+		// input parameters
 		stmt.setInt(1, orderId);
-		stmt.setInt(2, stepId);
 		
+		// send SQL-query and open a connection and return output
 		results = stmt.executeQuery();
 		
+		// loop all data from database and create instances of Step objects
 		while (results.next()){
 			steps.add(findBuildStep(results));
 		}
 		
+		// close connection
 		stmt.close();
 		
 		return steps;
 	}
 	
+	/**
+	 * Fill Step object with data from ResultSet
+	 * @param results current ResultSet data
+	 * @return Filled Step
+	 * @throws Exception
+	 */
 	private Step findBuildStep(ResultSet results) throws Exception {
 		Step step;
 		Restaurant res;
@@ -76,21 +96,5 @@ public class StepDB implements IStepDB {
 		
 		step = new Step(id, name, description, res, is_last_step);
 		return step;
-	}
-	
-	private String findBuildQuery(String wClause) {
-		String query = "SELECT "
-				+ "s.name, s.description, sr.nextstep_id, s.is_last_step, s.rest_id, r.name AS resName, r.street, r.zip, r.phone, r.email, r.website "
-				+ "FROM [PartStep] ps "
-				+ "INNER JOIN [Step] s ON ps.step_id = s.id "
-				+ "INNER JOIN [Restaurant] r ON s.rest_id = r.id "
-				+ "INNER JOIN [StepRelation] sr ON s.id = sr.step_id";
-		
-		if(wClause.length()>0)
-		{
-			query=query+" WHERE " + wClause;
-		}	
-		
-		return query;
 	}
 }
