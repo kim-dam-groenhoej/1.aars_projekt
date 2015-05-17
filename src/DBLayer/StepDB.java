@@ -3,6 +3,7 @@ package DBLayer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +32,11 @@ public class StepDB implements IStepDB {
 	 * Find the next steps for an order by orderId
 	 * @orderId current orderId
 	 * @return List of Step's the an user can choose
+	 * @throws Exception 
 	 * @exception its possiblle SQL can throw exceptions
 	 */
 	@Override
-	public List<Step> findNextSteps(int orderId) throws SQLException
+	public List<Step> findNextSteps(int orderId) throws Exception
 	{
 		ResultSet results;
 		List<Step> steps = new ArrayList<Step>();
@@ -54,7 +56,7 @@ public class StepDB implements IStepDB {
 		// input parameters
 		stmt.setInt(1, orderId);
 		
-		// send SQL-query and open a connection and return output
+		// send SQL-query and open connection and return output
 		results = stmt.executeQuery();
 		
 		// loop all data from database and create instances of Step objects
