@@ -4,20 +4,20 @@
 package ModelLayer;
 
 /**
- * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
+ * @author Bo Handskemager Sï¿½rensen, Kim Dam Grï¿½nhï¿½j
  *
  */
 public class Person {
 	private int id;
 	private String name;
-	private int zip;
+	private Town town;
 	private String street;
 	private String phone;
 	
-	Person (int id, String name, int zip, String street, String phone){
+	Person (int id, String name, Town town, String street, String phone){
 		this.id = id;
 		this.name = name;
-		this.zip = zip;
+		this.town = town;
 		this.street = street;
 		this.phone = phone;
 	}
@@ -35,10 +35,10 @@ public class Person {
 		return name;
 	}
 	/**
-	 * @return the zip
+	 * @return the town
 	 */
-	public int getZip() {
-		return zip;
+	public Town getTown() {
+		return town;
 	}
 	/**
 	 * @return the street
