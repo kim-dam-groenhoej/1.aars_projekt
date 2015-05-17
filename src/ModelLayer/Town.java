@@ -2,24 +2,24 @@ package ModelLayer;
 
 /**
  * 
- * @author Kim Dam Grønhøj
+ * @author Kim Dam Grï¿½nhï¿½j
  *
  */
 public class Town {
-	// public int zip;
+	public int zip;
 	private String name;
 	
-	public Town(/*int zip;*/String name){
-		// this.zip = zip;
+	public Town(int zip, String name){
+		this.zip = zip;
 		this.name = name;
 	}
 	
-//	/**
-//	 * @return the zip
-//	 */
-//	public int getZip() {
-//		return zip;
-//	}
+	/**
+	 * @return the zip
+	 */
+	public int getZip() {
+		return zip;
+	}
 	
 	/**
 	 * @return the name

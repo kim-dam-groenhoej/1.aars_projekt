@@ -6,7 +6,7 @@ package ModelLayer;
 import java.util.List;
 
 /**
- * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
+ * @author Bo Handskemager Sï¿½rensen, Kim Dam Grï¿½nhï¿½j
  *
  */
 public class Employee extends Person {
@@ -22,8 +22,8 @@ public class Employee extends Person {
 	 * @param street
 	 * @param phone
 	 */
-	public Employee(int id, String name, int zip, String street, String phone, int employeeNo, String position, List<PartStep> partSteps, Restaurant restaurant) {
-		super(id, name, zip, street, phone);
+	public Employee(int id, String name, Town town, String street, String phone, int employeeNo, String position, List<PartStep> partSteps, Restaurant restaurant) {
+		super(id, name, town, street, phone);
 		// TODO Auto-generated constructor stub
 		this.employeeNo = employeeNo;
 		this.position = position;

@@ -4,7 +4,7 @@
 package ModelLayer;
 
 /**
- * @author Bo Handskemager Sï¿½rensen, Kim Dam Grønhøj
+ * @author Bo Handskemager Sï¿½rensen, Kim Dam Grï¿½nhï¿½j
  *
  */
 public class Customer extends Person {
@@ -17,8 +17,8 @@ public class Customer extends Person {
 	 * @param street
 	 * @param phone
 	 */
-	public Customer(int id, String name, int zip, String street, String phone, String email) {
-		super(id, name, zip, street, phone);
+	public Customer(int id, String name, Town town, String street, String phone, String email) {
+		super(id, name, town, street, phone);
 		// TODO Auto-generated constructor stub
 		this.email = email;
 	}
