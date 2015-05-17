@@ -21,7 +21,7 @@ public class JStep {
 		
 		IStepDB stepdb = new StepDB();
 		try {
-			java.util.List<Step> steps = stepdb.findNextSteps(1, 1);
+			java.util.List<Step> steps = stepdb.findNextSteps(1);
 			
 			for (Step s : steps) {
 				System.out.println(s.getName());
