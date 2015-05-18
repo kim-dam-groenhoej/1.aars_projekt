@@ -1,6 +1,8 @@
 package DBLayer;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+
 /**
  * 
  * @author Frank Eskelund
@@ -10,11 +12,16 @@ import java.sql.SQLException;
 import ModelLayer.Order;
 
 public class OrderDB implements IOrderDB {
+	
+	private Connection con;
 
 	@Override
-	public Order findOrder(int orderId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Order findOrder(int orderId) throws SQLException 
+	{
+	return null;
+		
 	}
+
+	
 
 }
