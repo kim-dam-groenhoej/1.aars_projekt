@@ -32,8 +32,8 @@ public class EmployeeCtr {
 	}
 	
 	/*This function find one employee from a EmployeeNO*/
-	public Employee findEmployee(int employeeNo)
+	public Employee findEmployee(int personId) throws SQLException
 	{
-		return null;
+		return employeeDB.findEmployee(personId);
 	}
 }

@@ -13,5 +13,5 @@ import ModelLayer.Employee;
  */
 public interface IEmployeeDB {
 	List<Employee> getAllEmployees(int restaurentId) throws SQLException;
-	Employee findEmployee(int employeeNumber);
+	Employee findEmployee(int employeeNumber) throws SQLException;
 }

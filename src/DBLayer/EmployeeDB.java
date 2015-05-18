@@ -1,6 +1,7 @@
 package DBLayer;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,22 +18,51 @@ import ModelLayer.Town;
  *
  */
 public class EmployeeDB implements IEmployeeDB {
-
 	private Connection con;
 	
-	
-	
+	/**
+	 * initializes database connection
+	 */
 	public EmployeeDB() {
 		this.con = DBConnection.getInstance().getDBcon();
 	}
 
-	/* (non-Javadoc)
-	 * @see DBLayer.IEmployeeDB#getAllEmployees(int)
+	/*
+	 * Find all Employee's from restaurent
+	 * @restaurentId current restaurent ID we need all employees
+	 * @return list of all Employees for the restaurent
 	 */
 	@Override
 	public List<Employee> getAllEmployees(int restaurentId) throws SQLException {
 		String wClause = " rest_id = " + restaurentId;
 		return multipleWhere(wClause);
+	}
+	
+	/**
+	 *  find one employee by person id
+	 *  @personId current person id
+	 *  @return filled Employee object with data
+	 */
+	@Override
+	public Employee findEmployee(int personId) throws SQLException
+	{
+		String wClause = " E.person_id = ?";
+		return singleWhere(wClause, personId)
+	}
+	
+	private Employee singleWhere(String wClause, int personId) throws Exception {
+		// prepare SQL-statement
+		PreparedStatement stmt = con.prepareStatement(buildSingleQuery(wClause));
+		stmt.setQueryTimeout(5);
+		
+		// input parameters
+		stmt.setInt(1, personId);
+		
+		// send SQL-query and open connection and return output
+		ResultSet results = stmt.executeQuery();
+		
+		// fill result data into object-model
+		return buildEmployee(results);
 	}
 
 	private List<Employee> multipleWhere(String wClause) throws SQLException {
@@ -49,6 +79,20 @@ public class EmployeeDB implements IEmployeeDB {
 		}
 		statement.close();
 		return list;
+	}
+	
+	private String buildSingleQuery(String wClause)
+	{
+		String query = "SELECT E.person_id, E.position, E.rest_id, E.employee_no, p.id, p.name, p.zip, p.street, p.phone, t.name AS town_name "
+				+ "FROM Employee AS E "
+				+ "INNER JOIN Person AS P ON E.person_id = P.id "
+				+ "INNER JOIN Town AS T ON P.zip = T.zip";
+		
+		if(wClause.length() > 0){
+			query += " WHERE " + wClause;
+		}
+		
+		return query;
 	}
 	
 	private Employee buildEmployee(ResultSet result) throws SQLException
@@ -78,14 +122,4 @@ public class EmployeeDB implements IEmployeeDB {
 		
 		return query;
 	}
-
-	/* (non-Javadoc)
-	 * @see DBLayer.IEmployeeDB#findEmployee(int)
-	 */
-	@Override
-	public Employee findEmployee(int employeeNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }
