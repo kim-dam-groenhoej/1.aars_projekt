@@ -18,7 +18,8 @@ public class PartStep {
 	private List<Employee> employees;
 	
 	
-	public PartStep(Step step, int id, Date startDate, Order order, List<Employee> employees){
+	public PartStep(Step step, int id, Date startDate, Order order, List<Employee> employees)
+	{
 		this(step, order);
 		this.id = id;
 		if(startDate != null){
@@ -27,7 +28,8 @@ public class PartStep {
 		this.employees = employees;
 	}
 
-	public PartStep(Step step, Order order){
+	public PartStep(Step step, Order order)
+	{
 		this.step = step;	
 		this.order = order;
 		this.startDate = new Date();
@@ -37,35 +39,40 @@ public class PartStep {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public int getId() 
+	{
 		return id;
 	}
 
 	/**
 	 * @return the startDate
 	 */
-	public Date getStartDate() {
+	public Date getStartDate()
+	{
 		return startDate;
 	}
 
 	/**
 	 * @return the step
 	 */
-	public Step getStep() {
+	public Step getStep() 
+	{
 		return step;
 	}
 
 	/**
 	 * @return the order
 	 */
-	public Order getOrder() {
+	public Order getOrder() 
+	{
 		return order;
 	}
 
 	/**
 	 * @return the employees
 	 */
-	public List<Employee> getEmployees() {
+	public List<Employee> getEmployees() 
+	{
 		return employees;
 	}
 	
@@ -73,7 +80,8 @@ public class PartStep {
 	 * sets the id
 	 * @param id
 	 */
-	public void setId(int id){
+	public void setId(int id)
+	{
 		this.id = id;
 	}
 	
@@ -81,7 +89,8 @@ public class PartStep {
 	 * sets the date
 	 * @param date
 	 */
-	public void setStartDate(Date date){
+	public void setStartDate(Date date)
+	{
 		this.startDate = date;
 	}
 	
@@ -89,21 +98,24 @@ public class PartStep {
 	 * sets the step
 	 * @param step
 	 */
-	public void setStep(Step step){
+	public void setStep(Step step)
+	{
 		this.step = step;
 	}
 	/**
 	 * sets the order
 	 * @param order
 	 */
-	public void setOrder(Order order){
+	public void setOrder(Order order)
+	{
 		this.order = order;
 	}
 	/**
 	 * set the employees
 	 * @param emp
 	 */
-	public void setEmployees(List<Employee> emp){
+	public void setEmployees(List<Employee> emp)
+	{
 		this.employees = emp;
 	}
 }
