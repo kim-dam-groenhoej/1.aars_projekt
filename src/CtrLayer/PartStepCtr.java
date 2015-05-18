@@ -4,6 +4,7 @@
 package CtrLayer;
 
 import DBLayer.IPartStepDB;
+import ModelLayer.Order;
 import ModelLayer.OrderInfoViewModel;
 import ModelLayer.PartStep;
 import ModelLayer.Step;
@@ -28,11 +29,11 @@ public class PartStepCtr {
 	}
 
 	/**
-	 * @param Step the Step to set
+	 * @param Step the PartStep to set
 	 */
-	public void setStep(Step step) 
+	public void setPartStep(Step step, Order order) 
 	{
-		/* currentPartStep = new PartStep(step); <-- Kim 16-05-2015: Kan ikke compile! */
+		 currentPartStep = new PartStep(step, order);
 	}
 	/*This function associate a employee by EmployeeNo*/
 	public void associateEmployee(int employeeNo)
