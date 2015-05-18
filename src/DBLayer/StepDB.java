@@ -13,7 +13,7 @@ import ModelLayer.Restaurant;
 
 /**
  * 
- * @author Kim Dam Grønhøj
+ * @author Kim Dam Grï¿½nhï¿½j
  * 
  *
  */
@@ -36,7 +36,7 @@ public class StepDB implements IStepDB {
 	 * @exception its possiblle SQL can throw exceptions
 	 */
 	@Override
-	public List<Step> findNextSteps(int orderId) throws Exception
+	public List<Step> findNextSteps(int orderId) throws SQLException
 	{
 		ResultSet results;
 		List<Step> steps = new ArrayList<Step>();
@@ -74,9 +74,9 @@ public class StepDB implements IStepDB {
 	 * Fill Step object with data from ResultSet
 	 * @param results current ResultSet data
 	 * @return Filled Step
-	 * @throws Exception
+	 * @throws SQLException
 	 */
-	private Step findBuildStep(ResultSet results) throws Exception {
+	private Step findBuildStep(ResultSet results) throws SQLException {
 		Step step;
 		Restaurant res;
 		

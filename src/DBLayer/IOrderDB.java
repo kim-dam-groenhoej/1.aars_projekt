@@ -1,14 +1,15 @@
 package DBLayer;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import ModelLayer.Order;
 
 /**
  * 
- * @author Kim Dam Grønhøj
+ * @author Kim Dam Grï¿½nhï¿½j, Frank Eskelund
  *
  */
 public interface IOrderDB {
-	List<Order> findOrder(int orderId) throws Exception;
+	Order findOrder(int orderId) throws SQLException;
 }

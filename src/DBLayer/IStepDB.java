@@ -1,15 +1,16 @@
 package DBLayer;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import ModelLayer.Step;
 
 /**
  * 
- * @author Kim Dam Grønhøj
+ * @author Kim Dam Grï¿½nhï¿½j
  * @version 15-05-2015
  *
  */
 public interface IStepDB {
-	List<Step> findNextSteps(int orderId) throws Exception;
+	List<Step> findNextSteps(int orderId) throws SQLException;
 }
