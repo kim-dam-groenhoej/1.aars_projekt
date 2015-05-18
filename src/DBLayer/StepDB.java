@@ -36,25 +36,22 @@ public class StepDB implements IStepDB {
 	 * @exception its possiblle SQL can throw exceptions
 	 */
 	@Override
-	public List<Step> findNextSteps(int orderId) throws Exception
+	public List<Step> findNextSteps(int stepID) throws Exception
 	{
 		ResultSet results;
 		List<Step> steps = new ArrayList<Step>();
 		
 		// t-SQL query
-		String query = "SELECT "
-				+ "s.id, s.name, s.description, sr.nextstep_id, s.is_last_step, s.rest_id, r.name AS resName, r.street, r.zip, r.phone, r.email, r.website "
-				+ "FROM (SELECT TOP(1) * FROM [PartStep] ps WHERE ps.order_id = ? ORDER BY ps.startDate DESC) ps "
-				+ "INNER JOIN [StepRelation] sr ON ps.step_id = sr.step_id "
-				+ "INNER JOIN [Step] s ON sr.nextstep_id = s.id "
-				+ "INNER JOIN [Restaurant] r ON s.rest_id = r.id ";
+		String query = "SELECT S.rest_id, S.name AS resName, S.street, S.zip, S.phone, S.email, S.website, R.id, R.name, R.description, R.is_last_step FROM [Step] AS S "
+				+ "INNER JOIN [StepRelation] AS SR ON S.id = SR.nextstep_id"
+				+ "INNER JOIN [Restaurant] AS R ON R.id = S.rest_id WHERE SR.step_id = ?";
 		
 		// prepare SQL-statement
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setQueryTimeout(5);
 		
 		// input parameters
-		stmt.setInt(1, orderId);
+		stmt.setInt(1, stepID);
 		
 		// send SQL-query and open connection and return output
 		results = stmt.executeQuery();

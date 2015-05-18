@@ -92,7 +92,7 @@ create table StepRelation(
 	foreign key(nextstep_id) references Step(id)
 );
 
-create table PartStepEmployee(
+create table EmployeesOnPartStep (
 	partstep_id		int not null,
 	employee_no		int	not null,
 	primary key(partstep_id, employee_no),
