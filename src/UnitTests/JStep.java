@@ -2,8 +2,6 @@ package UnitTests;
 
 import static org.junit.Assert.*;
 
-import java.awt.List;
-
 import org.junit.Test;
 
 import DBLayer.IStepDB;
@@ -21,7 +19,7 @@ public class JStep {
 		IStepDB stepdb = new StepDB();
 		
 		try {
-			java.util.List<Step> steps = stepdb.findNextSteps(1);
+			java.util.List<Step> steps = stepdb.findNextSteps(2);
 			
 			for (Step s : steps) {
 				System.out.println(s.getName());

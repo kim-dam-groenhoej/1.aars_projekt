@@ -42,8 +42,9 @@ public class StepDB implements IStepDB {
 		List<Step> steps = new ArrayList<Step>();
 		
 		// t-SQL query
-		String query = "SELECT S.rest_id, S.name AS resName, S.street, S.zip, S.phone, S.email, S.website, R.id, R.name, R.description, R.is_last_step FROM [Step] AS S "
-				+ "INNER JOIN [StepRelation] AS SR ON S.id = SR.nextstep_id"
+		String query = "SELECT S.rest_id, S.name AS resName, R.street, R.zip, R.phone, R.email, R.website, S.id, S.name, S.description, S.is_last_step "
+				+ "FROM [Step] AS S "
+				+ "INNER JOIN [StepRelation] AS SR ON S.id = SR.nextstep_id "
 				+ "INNER JOIN [Restaurant] AS R ON R.id = S.rest_id WHERE SR.step_id = ?";
 		
 		// prepare SQL-statement

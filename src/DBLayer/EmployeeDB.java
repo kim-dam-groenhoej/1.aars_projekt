@@ -47,10 +47,10 @@ public class EmployeeDB implements IEmployeeDB {
 	public Employee findEmployee(int personId) throws SQLException
 	{
 		String wClause = " E.person_id = ?";
-		return singleWhere(wClause, personId)
+		return singleWhere(wClause, personId);
 	}
 	
-	private Employee singleWhere(String wClause, int personId) throws Exception {
+	private Employee singleWhere(String wClause, int personId) throws SQLException {
 		// prepare SQL-statement
 		PreparedStatement stmt = con.prepareStatement(buildSingleQuery(wClause));
 		stmt.setQueryTimeout(5);
@@ -60,6 +60,8 @@ public class EmployeeDB implements IEmployeeDB {
 		
 		// send SQL-query and open connection and return output
 		ResultSet results = stmt.executeQuery();
+		
+		results.next();
 		
 		// fill result data into object-model
 		return buildEmployee(results);
