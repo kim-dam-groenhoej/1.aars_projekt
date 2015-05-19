@@ -61,6 +61,8 @@ public class EmployeeDB implements IEmployeeDB {
 		// send SQL-query and open connection and return output
 		ResultSet results = stmt.executeQuery();
 		
+		results.next();
+		
 		// fill result data into object-model
 		return buildEmployee(results);
 	}

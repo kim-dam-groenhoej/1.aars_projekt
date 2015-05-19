@@ -16,13 +16,14 @@ public class JEmployee {
 	public void testFindgetAllEmployees() throws SQLException {
 		EmployeeCtr ctr = new EmployeeCtr();
 		List<ModelLayer.Employee> list = ctr.getAllEmployees(1);
+		
 		assertEquals("List should contain one employee", 1, list.size());
 	}
 
 	@Test
 	public void testFindEmployee() throws SQLException {
 		EmployeeCtr ctr = new EmployeeCtr();
-		Employee e = ctr.findEmployee(1);
+		Employee e = ctr.findEmployee(2);
 		
 		assertTrue("Should return one Employee object", e != null);
 	}
