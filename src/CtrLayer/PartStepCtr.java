@@ -22,6 +22,13 @@ public class PartStepCtr {
 	private OrderCtr orderCtr;
 	private IPartStepDB partStepDB;
 	
+	public PartStepCtr()
+	{
+		employeeCtr = new EmployeeCtr();
+		stepCtr = new StepCtr();
+		orderCtr = new OrderCtr();
+	}
+	
 	/*This function finds order information by orderID*/
 	public OrderInfoViewModel findOrderInfo(int OrderID)
 	{
@@ -35,12 +42,18 @@ public class PartStepCtr {
 	{
 		 currentPartStep = new PartStep(step, order);
 	}
-	/*This function associate a employee by EmployeeNo*/
+	
+	/*
+	 * This function associate a employee by EmployeeNo
+	 * */
 	public void associateEmployee(int employeeNo)
 	{
 		
 	}
-	/*This function finish the steps*/
+
+	/**
+	 * Firing this method, sends all data to database
+	 */
 	public void finishStep()
 	{
 		
