@@ -2,13 +2,9 @@ package UnitTests;
 
 import static org.junit.Assert.*;
 
-<<<<<<< HEAD
 import java.awt.List;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-=======
->>>>>>> branch 'master' of https://github.com/Eskelund/1.aars_projekt.git
 import org.junit.Test;
 
 import CtrLayer.StepCtr;
