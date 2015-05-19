@@ -3,9 +3,12 @@ package UnitTests;
 import static org.junit.Assert.*;
 
 import java.awt.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
+import CtrLayer.StepCtr;
 import DBLayer.IStepDB;
 import DBLayer.StepDB;
 import ModelLayer.Step;
@@ -17,22 +20,15 @@ import ModelLayer.Step;
 public class JStep {
 
 	@Test
-	public void testStepDB() {
-		IStepDB stepdb = new StepDB();
+	public void testStepDB() throws SQLException {
+		StepCtr sctr = new StepCtr();
+		ArrayList<Step> steps = (ArrayList<Step>)sctr.findNextSteps(1);
 		
-		try {
-			java.util.List<Step> steps = stepdb.findNextSteps(1);
-			
-			for (Step s : steps) {
-				System.out.println(s.getName());
-			}
-			
-			assertTrue("Should contain one or more Step", steps.size() > 0);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (Step s : steps) {
+			System.out.println(s.getName());
 		}
+		
+		assertTrue("Should contain one or more Step", steps.size() > 0);
 	}
 
 }
