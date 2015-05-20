@@ -10,6 +10,7 @@ import java.util.List;
 
 import ModelLayer.Step;
 import ModelLayer.Restaurant;
+import ModelLayer.Town;
 
 /**
  * 
@@ -42,10 +43,12 @@ public class StepDB implements IStepDB {
 		List<Step> steps = new ArrayList<Step>();
 		
 		// t-SQL query
-		String query = "SELECT S.rest_id, S.name AS resName, R.street, R.zip, R.phone, R.email, R.website, S.id, S.name, S.description, S.is_last_step "
+		String query = "SELECT S.rest_id, S.name AS resName, R.street, R.zip, T.name AS Town_Name, R.phone, R.email, R.website, S.id, S.name, S.description, S.is_last_step "
 				+ "FROM [Step] AS S "
 				+ "INNER JOIN [StepRelation] AS SR ON S.id = SR.nextstep_id "
-				+ "INNER JOIN [Restaurant] AS R ON R.id = S.rest_id WHERE SR.step_id = ?";
+				+ "INNER JOIN [Restaurant] AS R ON R.id = S.rest_id "
+				+ "INNER JOIN [Town] AS T ON R.zip = t.zip "
+				+ "WHERE SR.step_id = ? ";
 		
 		// prepare SQL-statement
 		PreparedStatement stmt = con.prepareStatement(query);
@@ -82,11 +85,12 @@ public class StepDB implements IStepDB {
 		String resName = results.getString("resName");
 		String street = results.getString("street");
 		int zip = results.getInt("zip");
+		String townName = results.getString("Town_Name");
 		String phone = results.getString("phone");
 		String email = results.getString("email");
 		String website = results.getString("website");
-		
-		res = new Restaurant(restId, resName, street, zip, phone, email, website);
+		Town town = new Town(zip, townName);
+		res = new Restaurant(restId, resName, street, town, phone, email, website);
 		
 		int id = results.getInt("id");
 		String name = results.getString("name");

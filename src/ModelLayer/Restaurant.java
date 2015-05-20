@@ -4,14 +4,14 @@
 package ModelLayer;
 
 /**
- * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
+ * @author Bo Handskemager Sï¿½rensen, Kim Dam Grï¿½nhï¿½j
  *
  */
 public class Restaurant {
 	private int id;
 	private String name;
 	private String street;
-	private int zip;
+	private Town town;
 	private String phone;
 	private String email;
 	private String website;
@@ -25,13 +25,13 @@ public class Restaurant {
 	 * @param email
 	 * @param website
 	 */
-	public Restaurant(int id, String name, String street, int zip,
+	public Restaurant(int id, String name, String street, Town town,
 			String phone, String email, String website) {
 
 		this.id = id;
 		this.name = name;
 		this.street = street;
-		this.zip = zip;
+		this.town = town;
 		this.phone = phone;
 		this.email = email;
 		this.website = website;
@@ -61,8 +61,8 @@ public class Restaurant {
 	/**
 	 * @return the zip
 	 */
-	public int getZip() {
-		return zip;
+	public Town getTown() {
+		return town;
 	}
 
 	/**
