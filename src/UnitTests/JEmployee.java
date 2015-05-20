@@ -13,18 +13,50 @@ import ModelLayer.Employee;
 public class JEmployee {
 
 	@Test
-	public void testFindgetAllEmployees() throws SQLException {
+	public void positiveTest_FindgetAllEmployees() throws SQLException {
 		EmployeeCtr ctr = new EmployeeCtr();
 		List<ModelLayer.Employee> list = ctr.getAllEmployees(1);
 		
-		assertEquals("List should contain one employee", 1, list.size());
+		assertTrue("List should contain one employee", list.size() > 0);
+	}
+	
+	@Test
+	public void negativeTest_FindgetAllEmployees() throws SQLException {
+		EmployeeCtr ctr = new EmployeeCtr();
+		List<ModelLayer.Employee> list = ctr.getAllEmployees(10000);
+		
+		assertTrue("List should contain one employee", list.size() == 0);
+	}
+	
+	@Test
+	public void negativeTest_FindgetAllEmployees_withNegativeNumber() throws SQLException {
+		EmployeeCtr ctr = new EmployeeCtr();
+		List<ModelLayer.Employee> list = ctr.getAllEmployees(-1);
+		
+		assertTrue("List should contain one employee", list.size() == 0);
 	}
 
 	@Test
-	public void testFindEmployee() throws SQLException {
+	public void positiveTest_FindEmployee() throws SQLException {
 		EmployeeCtr ctr = new EmployeeCtr();
 		Employee e = ctr.findEmployee(2);
 		
 		assertTrue("Should return one Employee object", e != null);
+	}
+	
+	@Test
+	public void negativeTest_FindEmployee() throws SQLException {
+		EmployeeCtr ctr = new EmployeeCtr();
+		Employee e = ctr.findEmployee(25555);
+		
+		assertTrue("Should return one Employee object", e == null);
+	}
+	
+	@Test
+	public void negativeTest_FindEmployee_withNegativeNumber() throws SQLException {
+		EmployeeCtr ctr = new EmployeeCtr();
+		Employee e = ctr.findEmployee(-1);
+		
+		assertTrue("Should return one Employee object", e == null);
 	}
 }

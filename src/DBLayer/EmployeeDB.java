@@ -51,6 +51,8 @@ public class EmployeeDB implements IEmployeeDB {
 	}
 	
 	private Employee singleWhere(String wClause, int personId) throws SQLException {
+		Employee emp = null;
+		
 		// prepare SQL-statement
 		PreparedStatement stmt = con.prepareStatement(buildSingleQuery(wClause));
 		stmt.setQueryTimeout(5);
@@ -61,10 +63,12 @@ public class EmployeeDB implements IEmployeeDB {
 		// send SQL-query and open connection and return output
 		ResultSet results = stmt.executeQuery();
 		
-		results.next();
+		if (results.next()) {
+			emp = buildEmployee(results);
+		}
 		
 		// fill result data into object-model
-		return buildEmployee(results);
+		return emp;
 	}
 
 	private List<Employee> multipleWhere(String wClause) throws SQLException {
@@ -111,6 +115,7 @@ public class EmployeeDB implements IEmployeeDB {
 		Restaurant restaurant = null;
 		Town town = new Town(zip, townName);
 		Employee emp = new Employee(id, name, town, street, phone, employeeNo, position, partSteps, restaurant);
+		
 		return emp;
 	}
 
