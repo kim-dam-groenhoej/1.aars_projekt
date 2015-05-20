@@ -3,23 +3,27 @@
  */
 package ModelLayer;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
- * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
+ * @author Bo Handskemager Sï¿½rensen, Kim Dam Grï¿½nhï¿½j
  *
  */
 public class Order{
 	private int id;
 	private Date date;
-	private int restId;
+	private Restaurant restaurant;
+	private List<PartStep> partStepList;
 	private int customerId;
 	
-	public Order(int id, Date date, int restId, int customerId){
+	public Order(int id, Date date, Restaurant restaurant, int customerId){
 		this.id = id;
 		this.date = date;
-		this.restId = restId;
+		this.restaurant = restaurant;
 		this.customerId = customerId;
+		this.partStepList = new ArrayList<PartStep>();
 	}
 
 	/**
@@ -39,8 +43,8 @@ public class Order{
 	/**
 	 * @return the restId
 	 */
-	public int getRestId() {
-		return restId;
+	public Restaurant getRestId() {
+		return restaurant;
 	}
 
 	/**
@@ -48,6 +52,14 @@ public class Order{
 	 */
 	public int getCustomerId() {
 		return customerId;
+	}
+
+	public List<PartStep> getPartStepList() {
+		return partStepList;
+	}
+
+	public void addPartStep(PartStep ps) {
+		partStepList.add(ps);
 	}
 	
 }
