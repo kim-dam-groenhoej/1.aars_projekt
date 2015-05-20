@@ -13,9 +13,20 @@ import ModelLayer.Employee;
 public class JEmployee {
 
 	@Test
-	public void positiveTest_FindgetAllEmployees() throws SQLException {
+	public void positiveTest_FindgetAllEmployees() throws Exception, SQLException {
 		EmployeeCtr ctr = new EmployeeCtr();
 		List<ModelLayer.Employee> list = ctr.getAllEmployees(1);
+		
+		Boolean foundItem = false;
+		for (Employee emp : list) {
+			if (emp.getName().equals("Jens Henrik")) {
+				foundItem = true;
+			}
+		}
+		
+		if (!foundItem) {
+			throw new Exception("'Jens henrik' not found");
+		}
 		
 		assertTrue("List should contain one employee", list.size() > 0);
 	}
@@ -37,9 +48,13 @@ public class JEmployee {
 	}
 
 	@Test
-	public void positiveTest_FindEmployee() throws SQLException {
+	public void positiveTest_FindEmployee() throws SQLException, Exception {
 		EmployeeCtr ctr = new EmployeeCtr();
-		Employee e = ctr.findEmployee(2);
+		Employee e = ctr.findEmployee(1);
+		
+		if (!e.getName().equals("Jens Henrik")) {
+			throw new Exception("'Jens henrik' not found");
+		}
 		
 		assertTrue("Should return one Employee object", e != null);
 	}
