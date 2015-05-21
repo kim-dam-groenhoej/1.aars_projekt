@@ -16,14 +16,19 @@ public class Order{
 	private Date date;
 	private Restaurant restaurant;
 	private List<PartStep> partStepList;
-	private int customerId;
+
+	private Customer customer;
 	
-	public Order(int id, Date date, Restaurant restaurant, int customerId){
+	public Order(int id, Date date, Restaurant restaurant, Customer customer, ArrayList<PartStep> partSteps){
 		this.id = id;
 		this.date = date;
 		this.restaurant = restaurant;
-		this.customerId = customerId;
-		this.partStepList = new ArrayList<PartStep>();
+		this.customer = customer;
+		this.partStepList = partSteps;
+	}
+	
+	public Order(int id, Date date, Restaurant restaurant, Customer customer){
+		this(id, date, restaurant, customer, new ArrayList<PartStep>());
 	}
 
 	/**
@@ -43,19 +48,29 @@ public class Order{
 	/**
 	 * @return the restId
 	 */
-	public Restaurant getRestId() {
+	public Restaurant getRest() {
 		return restaurant;
 	}
 
 	/**
 	 * @return the customerId
 	 */
-	public int getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
 
+	/**
+	 * @return the list of partsteps
+	 */
 	public List<PartStep> getPartStepList() {
 		return partStepList;
+	}
+	
+	/**
+	 * @param partStepList the partStepList to set
+	 */
+	public void setPartStepList(List<PartStep> partStepList) {
+		this.partStepList = partStepList;
 	}
 
 	public void addPartStep(PartStep ps) {

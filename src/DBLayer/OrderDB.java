@@ -13,7 +13,18 @@ import java.sql.Statement;
 
 
 
+
+
+
+
+
+
+
+import java.util.ArrayList;
+import java.util.Date;
+
 import ModelLayer.Customer;
+import ModelLayer.Employee;
 /**
  * 
  * @author Frank Eskelund
@@ -21,6 +32,9 @@ import ModelLayer.Customer;
  *
  */
 import ModelLayer.Order;
+import ModelLayer.PartStep;
+import ModelLayer.Restaurant;
+import ModelLayer.Step;
 import ModelLayer.Town;
 
 public class OrderDB implements IOrderDB {
@@ -38,7 +52,7 @@ public class OrderDB implements IOrderDB {
 	@Override
 	public Order findOrder(int orderId) throws SQLException 
 	{
-		String wClause = " id = " + orderId;
+		String wClause = " @orderid = " + orderId;
 		return singleWhere(wClause);
 		
 	}
@@ -56,14 +70,79 @@ public class OrderDB implements IOrderDB {
 		
 		if(results.next())
 		{
+			int id = results.getInt("Order_Id");
+			Date date = results.getDate("Order_Date");
 			Customer customer = buildCustomer(results);
-			
+			Restaurant restaurant = buildRestaurant(results);
+			order = new Order(id, date, restaurant, customer);
+			order.setPartStepList(buildPartSteps(results, restaurant, order));
 		}
 		
 		return order;
 			
 	}
 	
+	private ArrayList<PartStep> buildPartSteps(ResultSet results, Restaurant restaurant, Order order) throws SQLException {
+		ArrayList<PartStep> steps = new ArrayList<PartStep>();
+		while(results.next()){
+			int stepId = results.getInt("Step_ID");
+			String stepName = results.getString("Step_Name");
+			String stepDesc = results.getString("Step_Description");
+			boolean isLast = results.getBoolean("Step_Is_Last");
+			
+			int partStepId = results.getInt("Partstep_ID");
+			Date partstepStartDate = results.getDate("Partstep_startdate");
+			ArrayList<Employee> employeesOnPartStep = buildEmployees(results, restaurant);
+			Step step = new Step(stepId, stepName, stepDesc, restaurant, isLast);
+			PartStep partStep = new PartStep(step, partStepId, partstepStartDate, order, employeesOnPartStep);;
+		}
+		return steps;
+	}
+
+	private ArrayList<Employee> buildEmployees(ResultSet results, Restaurant restaurant) throws SQLException {
+		ArrayList<Employee> list = new ArrayList<Employee>();
+		int partStepId = results.getInt("Partstep_ID");
+		int employeeID = results.getInt("Employee_Person_ID");
+		
+		boolean finished = employeeID == 0;
+		while(!finished){
+			String name = results.getString("Employee_Name");
+			int zip = results.getInt("Employee_Zip");
+			String townName = results.getString("Employee_Town_Name");
+			String street = results.getString("Employee_Street");
+			String phone = results.getString("Employee_Phone");
+			int employeeNo = results.getInt("Employee_no");
+			String position = results.getString("Employee_Position");
+			
+			Town town = new Town(zip, townName);
+			Employee e = new Employee(employeeID, name, town, street, phone, employeeNo, position, null, restaurant);
+			list.add(e);
+			if(!results.next())
+			{
+				finished = true;
+			}
+			employeeID = results.getInt("Employee_Person_ID");
+			finished = employeeID == 0;
+		}
+		return list;
+		
+	}
+
+	private Restaurant buildRestaurant(ResultSet results) throws SQLException {
+		Restaurant restaurant;
+		int id = results.getInt("Restaurant_ID");
+		String name = results.getString("Restaurant_Name");
+		String email = results.getString("Restaurant_Email");
+		String phone = results.getString("Restaurant_Phone");
+		String website = results.getString("Restaurant_Website");
+		String street = results.getString("Restaurant_Street");
+		int zip = results.getInt("Restaurant_zip");
+		String townName = results.getString("Restaurant_Town_Name");
+		Town town = new Town(zip, townName);
+		restaurant = new Restaurant(id, name, street, town, phone, email, website);
+		return restaurant;
+	}
+
 	private Customer buildCustomer(ResultSet results) throws SQLException {
 		Customer customer;
 		int id = results.getInt("Customer_id");
@@ -82,20 +161,10 @@ public class OrderDB implements IOrderDB {
 	//Builds query with wClause
 	private String buildQuery(String wClause)
 	{
-		String query = "SELECT O.id, O.date, R.id, R.name AS [Restaurant name], R.email, R.phone, R.street, R.zip, RT.name AS Restaurant_Town_Name, P.id AS Customer_id, P.name AS Customer_Name,C.email AS Customer_email, P.zip AS Customer_zip, CT.name AS Customer_Town_Name, P.street AS Customer_Street, p.phone AS Customer_Phone, PS.id as PartStep_ID, PS.startDate AS Partstep_startdate, S.name AS PartStep_Name, EOP.employee_no, E.position, EP.name"
-				+"FROM [Order] AS O INNER JOIN Restaurant AS R ON O.rest_id = R.id"
-				+ "INNER JOIN Town AS RT ON R.zip = RT.zip"
-				+ "INNER JOIN Person AS P ON O.customer_id = P.id"
-				+ "INNER JOIN Town AS CT ON P.zip = CT.zip "
-				+ "INNER JOIN Customer AS C ON O.customer_id = C.person_id"
-				+ "INNER JOIN PartStep AS PS ON PS.order_id = O.id"
-				+ "INNER JOIN Step AS S ON PS.step_id = S.id"
-				+ "LEFT JOIN EmployeesOnPartStep AS EOP ON PS.id = EOP.partstep_id"
-				+ "FULL OUTER JOIN Employee AS E ON E.employee_no = EOP.employee_no"
-				+ "FULL OUTER JOIN Person AS EP ON EP.id = E.person_id";
+		String query = "EXEC FindOrder ";
 		
 		if(wClause.length() > 0) {
-			query += " WHERE " + wClause;
+			query += wClause;
 		}
 		
 		return query;		
