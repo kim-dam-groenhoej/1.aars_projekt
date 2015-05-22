@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import ModelLayer.Order;
+import ModelLayer.PartStep;
 
 /**
  * 
@@ -12,4 +13,5 @@ import ModelLayer.Order;
  */
 public interface IOrderDB {
 	Order findOrder(int orderId) throws SQLException;
+	void savePartStep(PartStep partStep) throws SQLException;
 }

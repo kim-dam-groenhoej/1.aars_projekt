@@ -2,6 +2,7 @@ package DBLayer;
 
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -64,7 +65,8 @@ public class OrderDB implements IOrderDB {
 		Order order = null;
 		String query = buildQuery(wClause);
 		
-		Statement statement = con.createStatement();
+		//Parameterne til createStatement gør det muligt at gå frem og tilbage i ResultSettet.
+		Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		statement.setQueryTimeout(2);
 		results = statement.executeQuery(query);
 		
@@ -84,7 +86,8 @@ public class OrderDB implements IOrderDB {
 	
 	private ArrayList<PartStep> buildPartSteps(ResultSet results, Restaurant restaurant, Order order) throws SQLException {
 		ArrayList<PartStep> steps = new ArrayList<PartStep>();
-		while(results.next()){
+		boolean finished = false;
+		while(!finished){
 			int stepId = results.getInt("Step_ID");
 			String stepName = results.getString("Step_Name");
 			String stepDesc = results.getString("Step_Description");
@@ -94,15 +97,17 @@ public class OrderDB implements IOrderDB {
 			Date partstepStartDate = results.getDate("Partstep_startdate");
 			ArrayList<Employee> employeesOnPartStep = buildEmployees(results, restaurant);
 			Step step = new Step(stepId, stepName, stepDesc, restaurant, isLast);
-			PartStep partStep = new PartStep(step, partStepId, partstepStartDate, order, employeesOnPartStep);;
+			PartStep partStep = new PartStep(step, partStepId, partstepStartDate, order, employeesOnPartStep);
+			steps.add(partStep);
+			finished = !results.next();
 		}
 		return steps;
 	}
 
 	private ArrayList<Employee> buildEmployees(ResultSet results, Restaurant restaurant) throws SQLException {
 		ArrayList<Employee> list = new ArrayList<Employee>();
-		int partStepId = results.getInt("Partstep_ID");
 		int employeeID = results.getInt("Employee_Person_ID");
+		int partStepID = results.getInt("PartStep_ID");
 		
 		boolean finished = employeeID == 0;
 		while(!finished){
@@ -117,13 +122,22 @@ public class OrderDB implements IOrderDB {
 			Town town = new Town(zip, townName);
 			Employee e = new Employee(employeeID, name, town, street, phone, employeeNo, position, null, restaurant);
 			list.add(e);
-			if(!results.next())
+			
+			//Gå frem til næste tupel, og check om den indeholder en yderligere a.
+			if(results.next())
 			{
+				int currentPartStepID = results.getInt("PartStep_ID");
+				finished = currentPartStepID != partStepID;
+			}else{
 				finished = true;
 			}
-			employeeID = results.getInt("Employee_Person_ID");
-			finished = employeeID == 0;
+			if(finished)
+			{
+				//Færdig med at håndtere ansatte, flyt cursoren én tupel tilbage.
+				results.previous();
+			}
 		}
+		
 		return list;
 		
 	}
@@ -171,5 +185,36 @@ public class OrderDB implements IOrderDB {
 				
 	}
 	
+	@Override
+	public void savePartStep(PartStep partStep) throws SQLException
+	{
+		DBConnection.startTransaction();
+		String insertPartStepQuery = "INSERT INTO [PartStep] ([step_id] ,[order_id]) VALUES(?,?)";
+		String insertAssociatedEmployeesQuery = "INSERT INTO [EmployeesOnPartStep] ([partstep_id] ,[employee_no]) VALUES (?, ?)";
+		
+		PreparedStatement partStepStatement = con.prepareStatement(insertPartStepQuery, Statement.RETURN_GENERATED_KEYS);
+		partStepStatement.setQueryTimeout(2);
+		// Insert all parameters to query by index. First ? in query is fx. index 1. and next ? is index 2...
+		partStepStatement.setInt(1, partStep.getStep().getId());
+		partStepStatement.setInt(2, partStep.getOrder().getId());
+		partStepStatement.executeUpdate();
+		ResultSet result = partStepStatement.getGeneratedKeys();
+		result.next();
+		int psKey = result.getInt(1);
+
+		for(Employee e : partStep.getEmployees())
+		{
+			PreparedStatement employeesStatement = con.prepareStatement(insertAssociatedEmployeesQuery, Statement.RETURN_GENERATED_KEYS);
+			employeesStatement.setQueryTimeout(2);
+			// Insert all parameters to query by index. First ? in query is fx. index 1. and next ? is index 2...
+			employeesStatement.setInt(1, psKey);
+			employeesStatement.setInt(2, e.getId());
+			employeesStatement.executeUpdate();
+			employeesStatement.close();
+		}
+		
+		partStepStatement.close();
+		DBConnection.commitTransaction();
+	}
 
 }
