@@ -6,8 +6,12 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import CtrLayer.EmployeeCtr;
 import CtrLayer.OrderCtr;
+import CtrLayer.StepCtr;
 import ModelLayer.Order;
+import ModelLayer.PartStep;
+import ModelLayer.Step;
 
 public class JOrder {
 
@@ -15,7 +19,23 @@ public class JOrder {
 	public void CanFindOrder() throws SQLException {
 		OrderCtr ctr = new OrderCtr();
 		Order o = ctr.findOrder(2);
-		assertNotNull(0);
+		assertEquals(2, o.getId());
+		assertEquals(2, o.getPartStepList().get(1).getEmployees().size());
+		assertEquals(5, o.getPartStepList().get(1).getId());
+		assertEquals(4, o.getPartStepList().size());
+		assertNotNull(o);
 	}
 
+	@Test
+	public void CanAddPartStep() throws SQLException
+	{
+		OrderCtr oCtr = new OrderCtr();
+		StepCtr sCtr = new StepCtr();
+		EmployeeCtr eCtr = new EmployeeCtr();
+		Step s = sCtr.findNextSteps(2).get(0);
+		Order o = oCtr.findOrder(1);
+		PartStep ps = new PartStep(s, o);
+		ps.setEmployees(eCtr.getAllEmployees(1));
+		oCtr.finishStep(ps);
+	}
 }
