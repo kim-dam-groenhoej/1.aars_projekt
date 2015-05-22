@@ -14,7 +14,7 @@ import ModelLayer.Restaurant;
 import ModelLayer.Town;
 
 /**
- * @author Tobias
+ * @author Tobias, Kim Dam Grønhøj
  *
  */
 public class EmployeeDB implements IEmployeeDB {

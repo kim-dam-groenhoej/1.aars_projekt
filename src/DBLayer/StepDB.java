@@ -14,7 +14,7 @@ import ModelLayer.Town;
 
 /**
  * 
- * @author Kim Dam Gr�nh�j
+ * @author Kim Dam Gr�nh�j, Tobias
  * 
  *
  */

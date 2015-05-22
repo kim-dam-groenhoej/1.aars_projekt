@@ -10,6 +10,11 @@ import org.junit.Test;
 import CtrLayer.EmployeeCtr;
 import ModelLayer.Employee;
 
+/**
+ * 
+ * @author Kim Dam Grønhøj
+ *
+ */
 public class JEmployee {
 
 	@Test
