@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
+ * @author Bo Handskemager Sï¿½rensen, Kim Dam Grï¿½nhï¿½j
  *
  */
 public class PartStep {

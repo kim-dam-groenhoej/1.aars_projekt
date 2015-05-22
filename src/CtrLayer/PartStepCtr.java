@@ -3,7 +3,11 @@
  */
 package CtrLayer;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import DBLayer.IPartStepDB;
+import ModelLayer.Employee;
 import ModelLayer.Order;
 import ModelLayer.OrderInfoViewModel;
 import ModelLayer.PartStep;
@@ -11,7 +15,7 @@ import ModelLayer.Step;
 
 
 /**
- * @author Frank Eskelund, Kim Dam Grønhøj
+ * @author Frank Eskelund, Kim Dam Grï¿½nhï¿½j
  * @version 
  */
 public class PartStepCtr {
@@ -30,9 +34,19 @@ public class PartStepCtr {
 	}
 	
 	/*This function finds order information by orderID*/
-	public OrderInfoViewModel findOrderInfo(int OrderID)
+	public OrderInfoViewModel findOrderInfo(int orderID) throws SQLException
 	{
-		return null;
+		Order o = orderCtr.findOrder(orderID);
+		
+		ArrayList<PartStep> ps = (ArrayList<PartStep>) o.getPartStepList();
+		int psSize = ps.size();
+		PartStep lastPartStep = ps.get(psSize - 1);
+		ArrayList<Step> sl = (ArrayList<Step>) stepCtr.findNextSteps(lastPartStep.getStep().getId());
+		
+		ArrayList<Employee> el = (ArrayList<Employee>) employeeCtr.getAllEmployees(o.getRest().getId());
+		OrderInfoViewModel vm = new OrderInfoViewModel(el, sl, o);
+		
+		return vm;
 	}
 
 	/**
