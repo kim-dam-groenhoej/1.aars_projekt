@@ -14,7 +14,7 @@ import DBLayer.StepDB;
 import ModelLayer.Step;
 /**
  * 
- * @author Kim Dam Grønhøj
+ * @author Kim Dam Grï¿½nhï¿½j
  *
  */
 public class JStep {
@@ -30,15 +30,9 @@ public class JStep {
 			if (s.getName().equals("Pizza skal hentets")) {
 				foundStepItem = true;
 			}
-			
-			System.out.println(s.getName());
 		}
 		
-		// Validate an item in database
-		if (!foundStepItem) {
-			throw new Exception("'Pizza skal hentets' item is not found");
-		}
-		
+		assertTrue("item is not found", foundStepItem);
 		// Validate there is one or more items
 		assertTrue("Should contain one or more Step", steps.size() > 0);
 	}

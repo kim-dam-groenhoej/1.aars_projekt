@@ -12,7 +12,7 @@ import ModelLayer.Employee;
 
 /**
  * 
- * @author Kim Dam Grønhøj
+ * @author Kim Dam Grï¿½nhï¿½j
  *
  */
 public class JEmployee {
@@ -29,10 +29,11 @@ public class JEmployee {
 			}
 		}
 		
-		if (!foundItem) {
-			throw new Exception("'Jens henrik' not found");
-		}
+//		if (!foundItem) {
+//			throw new Exception("'Jens henrik' not found");
+//		}
 		
+		assertTrue("Could not find employee", foundItem);
 		assertTrue("List should contain one employee", list.size() > 0);
 	}
 	
@@ -41,7 +42,7 @@ public class JEmployee {
 		EmployeeCtr ctr = new EmployeeCtr();
 		List<ModelLayer.Employee> list = ctr.getAllEmployees(10000);
 		
-		assertTrue("List should contain one employee", list.size() == 0);
+		assertTrue("List should be empty", list.size() == 0);
 	}
 	
 	@Test
@@ -49,7 +50,7 @@ public class JEmployee {
 		EmployeeCtr ctr = new EmployeeCtr();
 		List<ModelLayer.Employee> list = ctr.getAllEmployees(-1);
 		
-		assertTrue("List should contain one employee", list.size() == 0);
+		assertTrue("List should be empty", list.size() == 0);
 	}
 
 	@Test
@@ -57,11 +58,12 @@ public class JEmployee {
 		EmployeeCtr ctr = new EmployeeCtr();
 		Employee e = ctr.findEmployee(1);
 		
-		if (!e.getName().equals("Jens Henrik")) {
-			throw new Exception("'Jens henrik' not found");
-		}
+//		if (!e.getName().equals("Jens Henrik")) {
+//			throw new Exception("'Jens henrik' not found");
+//		}
 		
-		assertTrue("Should return one Employee object", e != null);
+		assertEquals("Name not the same as excepted", "Jens Henrik", e.getName());
+		assertNotNull("Should return one Employee object", e);
 	}
 	
 	@Test
@@ -69,7 +71,7 @@ public class JEmployee {
 		EmployeeCtr ctr = new EmployeeCtr();
 		Employee e = ctr.findEmployee(25555);
 		
-		assertTrue("Should return one Employee object", e == null);
+		assertTrue("Should return a null Employee object", e == null);
 	}
 	
 	@Test

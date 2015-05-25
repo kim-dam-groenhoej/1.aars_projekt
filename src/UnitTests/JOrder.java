@@ -16,7 +16,7 @@ import ModelLayer.Step;
 public class JOrder {
 
 	@Test
-	public void CanFindOrder() throws SQLException {
+	public void positiveTest_CanFindOrder() throws SQLException {
 		OrderCtr ctr = new OrderCtr();
 		Order o = ctr.findOrder(2);
 		assertEquals(2, o.getId());
@@ -25,17 +25,25 @@ public class JOrder {
 		assertEquals(4, o.getPartStepList().size());
 		assertNotNull(o);
 	}
-
+	
 	@Test
-	public void CanAddPartStep() throws SQLException
+	public void negativeTest_NoOrder() throws SQLException
 	{
-		OrderCtr oCtr = new OrderCtr();
-		StepCtr sCtr = new StepCtr();
-		EmployeeCtr eCtr = new EmployeeCtr();
-		Step s = sCtr.findNextSteps(2).get(0);
-		Order o = oCtr.findOrder(1);
-		PartStep ps = new PartStep(s, o);
-		ps.setEmployees(eCtr.getAllEmployees(1));
-		oCtr.finishStep(ps);
+		OrderCtr ctr = new OrderCtr();
+		Order o = ctr.findOrder(2020);
+		assertNull(o);
 	}
+
+//	@Test
+//	public void CanAddPartStep() throws SQLException
+//	{
+//		OrderCtr oCtr = new OrderCtr();
+//		StepCtr sCtr = new StepCtr();
+//		EmployeeCtr eCtr = new EmployeeCtr();
+//		Step s = sCtr.findNextSteps(2).get(0);
+//		Order o = oCtr.findOrder(1);
+//		PartStep ps = new PartStep(s, o);
+//		ps.setEmployees(eCtr.getAllEmployees(1));
+//		oCtr.finishStep(ps);
+//	}
 }
