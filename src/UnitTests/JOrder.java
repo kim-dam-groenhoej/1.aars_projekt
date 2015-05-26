@@ -52,4 +52,19 @@ public class JOrder {
 			oCtr.finishStep(ps);
 		}
 	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void negativeTest_NoOrder_WithNegativeNumber() throws SQLException
+	{
+		OrderCtr ctr = new OrderCtr();
+		Order o = ctr.findOrder(-1);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void negativeTest_NoOrder_WithZero() throws SQLException
+	{
+		OrderCtr ctr = new OrderCtr();
+		Order o = ctr.findOrder(0);
+	}
+
 }

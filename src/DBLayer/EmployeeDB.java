@@ -14,7 +14,7 @@ import ModelLayer.Restaurant;
 import ModelLayer.Town;
 
 /**
- * @author Tobias, Kim Dam Grønhøj
+ * @author Tobias, Kim Dam Grï¿½nhï¿½j
  *
  */
 public class EmployeeDB implements IEmployeeDB {
@@ -34,6 +34,10 @@ public class EmployeeDB implements IEmployeeDB {
 	 */
 	@Override
 	public List<Employee> getAllEmployees(int restaurentId) throws SQLException {
+		if(restaurentId <= 0)
+		{
+			throw new IllegalArgumentException("An identifier must be a positive value.");
+		}
 		String wClause = " rest_id = " + restaurentId;
 		return multipleWhere(wClause);
 	}
@@ -46,6 +50,10 @@ public class EmployeeDB implements IEmployeeDB {
 	@Override
 	public Employee findEmployee(int personId) throws SQLException
 	{
+		if(personId <= 0)
+		{
+			throw new IllegalArgumentException("An identifier must be a positive value.");
+		}
 		String wClause = " E.person_id = ?";
 		return singleWhere(wClause, personId);
 	}

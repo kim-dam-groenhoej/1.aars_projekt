@@ -20,7 +20,7 @@ import ModelLayer.Step;
 public class JStep {
 
 	@Test
-	public void positiveTest_FindOneOrMore() throws Exception, SQLException {
+	public void positiveTest_FindOneOrMore() throws SQLException {
 		StepCtr sctr = new StepCtr();
 		ArrayList<Step> steps = (ArrayList<Step>)sctr.findNextSteps(2);
 		
@@ -38,7 +38,7 @@ public class JStep {
 	}
 	
 	@Test
-	public void negativeTest_NoSteps() throws Exception, SQLException {
+	public void negativeTest_NoSteps() throws SQLException {
 		StepCtr sctr = new StepCtr();
 		ArrayList<Step> steps = (ArrayList<Step>)sctr.findNextSteps(2222);
 		
@@ -51,17 +51,15 @@ public class JStep {
 		assertTrue("Should not contain one or more Step", steps.size() == 0);
 	}
 	
-	@Test
-	public void negativeTest_NoSteps_WithNegativeNumber() throws Exception, SQLException {
+	@Test(expected=IllegalArgumentException.class)
+	public void negativeTest_NoSteps_WithNegativeNumber() throws SQLException {
 		StepCtr sctr = new StepCtr();
 		ArrayList<Step> steps = (ArrayList<Step>)sctr.findNextSteps(-1);
-		
-		// Print steps in console
-		for (Step s : steps) {
-			System.out.println(s.getName());
-		}
-		
-		// Validate there is one or more items
-		assertTrue("Should not contain one or more Step", steps.size() == 0);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void negativeTest_NoSteps_WithZero() throws SQLException {
+		StepCtr sctr = new StepCtr();
+		ArrayList<Step> steps = (ArrayList<Step>)sctr.findNextSteps(0);
 	}
 }

@@ -45,12 +45,16 @@ public class JEmployee {
 		assertTrue("List should be empty", list.size() == 0);
 	}
 	
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void negativeTest_FindgetAllEmployees_withNegativeNumber() throws SQLException {
 		EmployeeCtr ctr = new EmployeeCtr();
 		List<ModelLayer.Employee> list = ctr.getAllEmployees(-1);
-		
-		assertTrue("List should be empty", list.size() == 0);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void negativeTest_FindgetAllEmployees_withZero() throws SQLException {
+		EmployeeCtr ctr = new EmployeeCtr();
+		List<ModelLayer.Employee> list = ctr.getAllEmployees(0);
 	}
 
 	@Test
@@ -74,11 +78,15 @@ public class JEmployee {
 		assertTrue("Should return a null Employee object", e == null);
 	}
 	
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void negativeTest_FindEmployee_withNegativeNumber() throws SQLException {
 		EmployeeCtr ctr = new EmployeeCtr();
 		Employee e = ctr.findEmployee(-1);
-		
-		assertTrue("Should return one Employee object", e == null);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void negativeTest_FindEmployee_withZero() throws SQLException {
+		EmployeeCtr ctr = new EmployeeCtr();
+		Employee e = ctr.findEmployee(0);
 	}
 }
