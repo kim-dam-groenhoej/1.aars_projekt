@@ -3,6 +3,7 @@ package UnitTests;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -22,7 +23,6 @@ public class JOrder {
 		assertEquals(2, o.getId());
 		assertEquals(2, o.getPartStepList().get(1).getEmployees().size());
 		assertEquals(5, o.getPartStepList().get(1).getId());
-		assertEquals(4, o.getPartStepList().size());
 		assertNotNull(o);
 	}
 	
@@ -65,6 +65,15 @@ public class JOrder {
 	{
 		OrderCtr ctr = new OrderCtr();
 		Order o = ctr.findOrder(0);
+	}
+	
+	@Test
+	public void positiveTest_CanFindAllActiveOrders() throws SQLException
+	{
+		OrderCtr ctr = new OrderCtr();
+		ArrayList<Order> orders = (ArrayList<Order>) ctr.findAllActiveOrders(1);
+		assertNotNull(orders);
+		assertEquals(2, orders.size());
 	}
 
 }

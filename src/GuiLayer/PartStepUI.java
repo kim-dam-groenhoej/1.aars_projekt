@@ -25,7 +25,7 @@ import javax.swing.JScrollBar;
 
 /**
  * 
- * @author Kim Dam Grønhøj
+ * @author Kim Dam Grï¿½nhï¿½j
  *
  */
 public class PartStepUI extends JFrame {
@@ -59,5 +59,6 @@ public class PartStepUI extends JFrame {
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setBounds(307, 0, 17, 391);
 		panel_1.add(scrollBar);
+		this.setVisible(true);
 	}
 }

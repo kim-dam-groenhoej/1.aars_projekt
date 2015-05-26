@@ -4,6 +4,7 @@
 package CtrLayer;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import DBLayer.IOrderDB;
 import DBLayer.OrderDB;
@@ -27,6 +28,11 @@ public class OrderCtr {
 	public Order findOrder(int orderId) throws SQLException
 	{
 		return orderDB.findOrder(orderId);
+	}
+	
+	public List<Order> findAllActiveOrders(int restaurantId) throws SQLException
+	{
+		return orderDB.findAllActiveOrders(restaurantId);
 	}
 	
 	public void finishStep(PartStep ps) throws SQLException

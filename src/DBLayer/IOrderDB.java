@@ -1,6 +1,7 @@
 package DBLayer;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import ModelLayer.Order;
@@ -14,4 +15,5 @@ import ModelLayer.PartStep;
 public interface IOrderDB {
 	Order findOrder(int orderId) throws SQLException;
 	void savePartStep(PartStep partStep) throws SQLException;
+	ArrayList<Order> findAllActiveOrders(int restaurantID) throws SQLException;
 }

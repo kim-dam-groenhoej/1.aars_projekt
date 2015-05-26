@@ -18,7 +18,7 @@ import ModelLayer.Town;
 
 /**
  * 
- * @author Frank Eskelund, KIm Dam Grønhøj, Tobias
+ * @author Frank Eskelund, KIm Dam Grï¿½nhï¿½j, Tobias
  * 
  *
  */
@@ -31,6 +31,49 @@ public class OrderDB implements IOrderDB {
 		this.con = DBConnection.getInstance().getDBcon();
 	}
 	
+	public ArrayList<Order> findAllActiveOrders(int restaurantID) throws SQLException
+	{
+		if(restaurantID <= 0)
+		{
+			throw new IllegalArgumentException("An identifier must be a positive value.");
+		}
+		
+		String wClause = " O.rest_id = " + restaurantID;
+		return multipleWhere(wClause);
+	}
+	
+	private ArrayList<Order> multipleWhere(String wClause) throws SQLException {
+		ResultSet results;
+		ArrayList<Order> orders = new ArrayList<Order>();
+		String query = "SELECT O.id as order_id, O.date as order_date, C.email as customer_email, CP.id as customer_id, CP.name as customer_name, CP.street as customer_street, CP.phone as customer_phone, T.zip as customer_zip, T.name as customer_town_name, PS.id as partstep_id, PS.startDate as partstep_startdate, S.id as step_id, S.name as step_name, S.description as step_description, S.is_last_step as step_is_last "
+				+ "FROM [Order] AS O "
+				+ "INNER JOIN CUSTOMER AS C ON C.person_id = O.customer_id "
+				+ "INNER JOIN PERSON AS CP ON CP.id = C.person_id "
+				+ "INNER JOIN TOWN AS T ON T.zip = CP.zip " 
+				+ "INNER JOIN PARTSTEP AS PS ON PS.order_id = O.id "
+				+ "INNER JOIN STEP AS S ON S.id = PS.step_id "
+				+ "WHERE O.id NOT IN "
+				+ "(SELECT O.id FROM [Order] AS O "
+				+ "INNER JOIN PartStep AS PS ON PS.order_id = O.id "
+				+ "INNER JOIN Step AS S ON S.id = PS.step_id "
+				+ "WHERE" + wClause + "AND is_last_step = 1 )";
+		
+		Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		statement.setQueryTimeout(2);
+		results = statement.executeQuery(query);
+		while(results.next())
+		{
+			int orderId = results.getInt("order_id");
+			Date orderDate = results.getDate("order_date");
+			Customer customer = buildCustomer(results);
+			Order order = new Order(orderId, orderDate, null, customer);
+			ArrayList<PartStep> steps = buildPartSteps(results, null, order, false);
+			order.setPartStepList(steps);
+			orders.add(order);
+		}
+		return orders;
+	}
+
 	/* (non-Javadoc)
 	 * @see DBLayer.OrderDB#findOrder(int)
 	 */
@@ -64,13 +107,13 @@ public class OrderDB implements IOrderDB {
 			Customer customer = buildCustomer(results);
 			Restaurant restaurant = buildRestaurant(results);
 			order = new Order(id, date, restaurant, customer);
-			order.setPartStepList(buildPartSteps(results, restaurant, order));
+			order.setPartStepList(buildPartSteps(results, restaurant, order, true));
 		}
 		
 		return order;		
 	}
 	
-	private ArrayList<PartStep> buildPartSteps(ResultSet results, Restaurant restaurant, Order order) throws SQLException {
+	private ArrayList<PartStep> buildPartSteps(ResultSet results, Restaurant restaurant, Order order, boolean retreiveAssociation) throws SQLException {
 		ArrayList<PartStep> steps = new ArrayList<PartStep>();
 		boolean finished = false;
 		while(!finished){
@@ -81,11 +124,28 @@ public class OrderDB implements IOrderDB {
 			
 			int partStepId = results.getInt("Partstep_ID");
 			Date partstepStartDate = results.getDate("Partstep_startdate");
-			ArrayList<Employee> employeesOnPartStep = buildEmployees(results, restaurant);
+			ArrayList<Employee> employeesOnPartStep;
+			if(retreiveAssociation){
+				employeesOnPartStep = buildEmployees(results, restaurant);
+			}else{
+				employeesOnPartStep = null;
+			}
+			
 			Step step = new Step(stepId, stepName, stepDesc, restaurant, isLast);
 			PartStep partStep = new PartStep(step, partStepId, partstepStartDate, order, employeesOnPartStep);
 			steps.add(partStep);
-			finished = !results.next();
+			if(results.next())
+			{
+				int currentPartStepID = results.getInt("order_id");
+				finished = currentPartStepID != order.getId();
+			}else{
+				finished = true;
+			}
+			if(finished)
+			{
+				//FÃ¦rdig med at hÃ¥ndtere partsteps, flyt cursoren Ã©n tupel tilbage.
+				results.previous();
+			}
 		}
 		return steps;
 	}
@@ -94,7 +154,6 @@ public class OrderDB implements IOrderDB {
 		ArrayList<Employee> list = new ArrayList<Employee>();
 		int employeeID = results.getInt("Employee_Person_ID");
 		int partStepID = results.getInt("PartStep_ID");
-		
 		boolean finished = employeeID == 0;
 		while(!finished){
 			String name = results.getString("Employee_Name");
@@ -176,8 +235,6 @@ public class OrderDB implements IOrderDB {
 		List<Employee> emps = partStep.getEmployees();
 		String combinedQuery = "";
 		
-		DBConnection.startTransaction();
-		
 		// SQL-queries
 		String insertPartStepQuery = "DECLARE @partStepID INT;"
 				+ "INSERT INTO [PartStep] ([step_id] ,[order_id]) VALUES(?,?);"
@@ -218,6 +275,5 @@ public class OrderDB implements IOrderDB {
 		partStepStatement.executeBatch();
 		
 		partStepStatement.close();
-		DBConnection.commitTransaction();
 	}
 }
