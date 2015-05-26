@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import ModelLayer.Customer;
 import ModelLayer.Employee;
 import ModelLayer.Order;
@@ -44,7 +43,6 @@ public class OrderDB implements IOrderDB {
 		}
 		String wClause = " @orderid = " + orderId;
 		return singleWhere(wClause);
-		
 	}
 	
 	//returns a single order based on a wClause
