@@ -39,6 +39,10 @@ public class StepDB implements IStepDB {
 	@Override
 	public List<Step> findNextSteps(int stepID) throws SQLException
 	{
+		if(stepID <= 0)
+		{
+			throw new IllegalArgumentException("An identifier must be a positive value.");
+		}
 		ResultSet results;
 		List<Step> steps = new ArrayList<Step>();
 		

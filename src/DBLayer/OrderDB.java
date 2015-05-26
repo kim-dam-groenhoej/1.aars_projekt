@@ -53,6 +53,10 @@ public class OrderDB implements IOrderDB {
 	@Override
 	public Order findOrder(int orderId) throws SQLException 
 	{
+		if(orderId <= 0)
+		{
+			throw new IllegalArgumentException("An identifier must be a positive value.");
+		}
 		String wClause = " @orderid = " + orderId;
 		return singleWhere(wClause);
 		

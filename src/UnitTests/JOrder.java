@@ -34,6 +34,13 @@ public class JOrder {
 		assertNull(o);
 	}
 
+	@Test(expected=IllegalArgumentException.class)
+	public void negativeTest_NoOrder_WithNegativeNumber() throws SQLException
+	{
+		OrderCtr ctr = new OrderCtr();
+		Order o = ctr.findOrder(-1);
+	}
+	
 //	@Test
 //	public void CanAddPartStep() throws SQLException
 //	{
