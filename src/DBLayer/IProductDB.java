@@ -3,8 +3,10 @@
  */
 package DBLayer;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import ModelLayer.PartOrder;
 import ModelLayer.Product;
 
 /**
@@ -12,5 +14,10 @@ import ModelLayer.Product;
  *
  */
 public interface IProductDB {
-	List<Product> findAllProducts(int orderId);
+	/**
+	 * @param orderId
+	 * @return
+	 * @throws SQLException
+	 */
+	List<PartOrder> findAllPartOrders(int orderId) throws SQLException;
 }

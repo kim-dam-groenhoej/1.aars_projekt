@@ -91,7 +91,9 @@ public class EmployeeDB implements IEmployeeDB {
 		while(results.next()){
 			list.add(buildEmployee(results));
 		}
+		
 		statement.close();
+		
 		return list;
 	}
 	

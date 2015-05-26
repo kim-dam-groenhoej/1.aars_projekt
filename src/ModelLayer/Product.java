@@ -8,8 +8,14 @@ package ModelLayer;
  *
  */
 public class Product {
-	private String Name;
+	private String name;
 	private Double price;
+	
+	public Product(String name, double price)
+	{
+		this.name = name;
+		this.price = price;
+	}
 	
 	/**
 	 * @return the price
@@ -27,12 +33,12 @@ public class Product {
 	 * @return the name
 	 */
 	public String getName() {
-		return Name;
+		return name;
 	}
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 }
