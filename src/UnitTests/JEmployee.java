@@ -50,6 +50,12 @@ public class JEmployee {
 		EmployeeCtr ctr = new EmployeeCtr();
 		List<ModelLayer.Employee> list = ctr.getAllEmployees(-1);
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void negativeTest_FindgetAllEmployees_withZero() throws SQLException {
+		EmployeeCtr ctr = new EmployeeCtr();
+		List<ModelLayer.Employee> list = ctr.getAllEmployees(0);
+	}
 
 	@Test
 	public void positiveTest_FindEmployee() throws SQLException, Exception {
@@ -76,5 +82,11 @@ public class JEmployee {
 	public void negativeTest_FindEmployee_withNegativeNumber() throws SQLException {
 		EmployeeCtr ctr = new EmployeeCtr();
 		Employee e = ctr.findEmployee(-1);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void negativeTest_FindEmployee_withZero() throws SQLException {
+		EmployeeCtr ctr = new EmployeeCtr();
+		Employee e = ctr.findEmployee(0);
 	}
 }

@@ -56,4 +56,10 @@ public class JStep {
 		StepCtr sctr = new StepCtr();
 		ArrayList<Step> steps = (ArrayList<Step>)sctr.findNextSteps(-1);
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void negativeTest_NoSteps_WithZero() throws SQLException {
+		StepCtr sctr = new StepCtr();
+		ArrayList<Step> steps = (ArrayList<Step>)sctr.findNextSteps(0);
+	}
 }
