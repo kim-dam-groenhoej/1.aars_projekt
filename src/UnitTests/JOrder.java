@@ -34,16 +34,22 @@ public class JOrder {
 		assertNull(o);
 	}
 
-//	@Test
-//	public void CanAddPartStep() throws SQLException
-//	{
-//		OrderCtr oCtr = new OrderCtr();
-//		StepCtr sCtr = new StepCtr();
-//		EmployeeCtr eCtr = new EmployeeCtr();
-//		Step s = sCtr.findNextSteps(2).get(0);
-//		Order o = oCtr.findOrder(1);
-//		PartStep ps = new PartStep(s, o);
-//		ps.setEmployees(eCtr.getAllEmployees(1));
-//		oCtr.finishStep(ps);
-//	}
+	@Test
+	public void CanAddPartStep() throws SQLException
+	{
+		// Set this to true to execute inserts
+		Boolean doExecuteQuery = false;
+		
+		OrderCtr oCtr = new OrderCtr();
+		StepCtr sCtr = new StepCtr();
+		EmployeeCtr eCtr = new EmployeeCtr();
+		Step s = sCtr.findNextSteps(2).get(0);
+		Order o = oCtr.findOrder(1);
+		PartStep ps = new PartStep(s, o);
+		ps.setEmployees(eCtr.getAllEmployees(1));
+		
+		if (doExecuteQuery) {
+			oCtr.finishStep(ps);
+		}
+	}
 }

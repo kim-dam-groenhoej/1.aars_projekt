@@ -1,43 +1,28 @@
 package DBLayer;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-
-
-
 import java.sql.Statement;
-
-
-
-
-
-
-
-
-
-
-
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import ModelLayer.Customer;
 import ModelLayer.Employee;
-/**
- * 
- * @author Frank Eskelund
- * 
- *
- */
 import ModelLayer.Order;
 import ModelLayer.PartStep;
 import ModelLayer.Restaurant;
 import ModelLayer.Step;
 import ModelLayer.Town;
 
+/**
+ * 
+ * @author Frank Eskelund, KIm Dam Grønhøj, Tobias
+ * 
+ *
+ */
 public class OrderDB implements IOrderDB {
 	
 	private Connection con;
@@ -80,8 +65,7 @@ public class OrderDB implements IOrderDB {
 			order.setPartStepList(buildPartSteps(results, restaurant, order));
 		}
 		
-		return order;
-			
+		return order;		
 	}
 	
 	private ArrayList<PartStep> buildPartSteps(ResultSet results, Restaurant restaurant, Order order) throws SQLException {
@@ -139,7 +123,6 @@ public class OrderDB implements IOrderDB {
 		}
 		
 		return list;
-		
 	}
 
 	private Restaurant buildRestaurant(ResultSet results) throws SQLException {
@@ -182,39 +165,57 @@ public class OrderDB implements IOrderDB {
 		}
 		
 		return query;		
-				
 	}
 	
 	@Override
 	public void savePartStep(PartStep partStep) throws SQLException
 	{
-		DBConnection.startTransaction();
-		String insertPartStepQuery = "INSERT INTO [PartStep] ([step_id] ,[order_id]) VALUES(?,?)";
-		String insertAssociatedEmployeesQuery = "INSERT INTO [EmployeesOnPartStep] ([partstep_id] ,[employee_no]) VALUES (?, ?)";
+		// Declare variables
+		List<Employee> emps = partStep.getEmployees();
+		String combinedQuery = "";
 		
-		PreparedStatement partStepStatement = con.prepareStatement(insertPartStepQuery, Statement.RETURN_GENERATED_KEYS);
-		partStepStatement.setQueryTimeout(2);
-		// Insert all parameters to query by index. First ? in query is fx. index 1. and next ? is index 2...
-		partStepStatement.setInt(1, partStep.getStep().getId());
-		partStepStatement.setInt(2, partStep.getOrder().getId());
-		partStepStatement.executeUpdate();
-		ResultSet result = partStepStatement.getGeneratedKeys();
-		result.next();
-		int psKey = result.getInt(1);
-
-		for(Employee e : partStep.getEmployees())
-		{
-			PreparedStatement employeesStatement = con.prepareStatement(insertAssociatedEmployeesQuery, Statement.RETURN_GENERATED_KEYS);
-			employeesStatement.setQueryTimeout(2);
-			// Insert all parameters to query by index. First ? in query is fx. index 1. and next ? is index 2...
-			employeesStatement.setInt(1, psKey);
-			employeesStatement.setInt(2, e.getId());
-			employeesStatement.executeUpdate();
-			employeesStatement.close();
+		DBConnection.startTransaction();
+		
+		// SQL-queries
+		String insertPartStepQuery = "DECLARE @partStepID INT;"
+				+ "INSERT INTO [PartStep] ([step_id] ,[order_id]) VALUES(?,?);"
+				+ "SET @partStepID = SCOPE_IDENTITY();";
+		String insertAssociatedEmployeesQuery = "INSERT INTO [EmployeesOnPartStep] ([partstep_id] ,[employee_no]) VALUES (@partStepID, ?);";
+		
+		// add insert partstep query into combined query
+		combinedQuery += insertPartStepQuery;
+		
+		// add the same insert associated query based on how many employees are into combined query
+		int l = 0;
+		while (emps.size() > l) {
+			combinedQuery += insertAssociatedEmployeesQuery;
+			l++;
 		}
+		
+		// prepare combined statement
+		PreparedStatement partStepStatement = con.prepareStatement(combinedQuery, Statement.RETURN_GENERATED_KEYS);
+		partStepStatement.setQueryTimeout(2);
+		
+		// Parameter index
+		int i = 1;
+		
+		// Add partstep parameters to query by index. First ? in query is fx. index 1. and next ? is index 2...
+		partStepStatement.setInt(i++, partStep.getStep().getId());
+		partStepStatement.setInt(i++, partStep.getOrder().getId());
+
+		// Add EmployeesOnPartStep parameters 
+		for(Employee e : emps)
+		{
+			partStepStatement.setInt(i++, e.getEmployeeNo());
+		}	
+		
+		// Add all parameters into query
+		partStepStatement.addBatch();
+		
+		// Execute combined query
+		partStepStatement.executeBatch();
 		
 		partStepStatement.close();
 		DBConnection.commitTransaction();
 	}
-
 }
