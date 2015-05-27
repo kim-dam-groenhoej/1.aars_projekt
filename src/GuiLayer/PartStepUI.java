@@ -9,7 +9,9 @@ import javax.swing.JPanel;
 
 import java.awt.FlowLayout;
 
+import javax.swing.GroupLayout.Group;
 import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JSplitPane;
 import javax.swing.JInternalFrame;
 import javax.swing.GroupLayout;
@@ -104,33 +106,25 @@ public class PartStepUI extends JFrame {
 	
 	private void createOrderItems(GroupLayout groupL)
 	{
-		ParallelGroup pgHorizontal = groupL.createParallelGroup(Alignment.LEADING);
+		groupL.setHorizontalGroup(groupL.createParallelGroup(Alignment.LEADING));
+		groupL.setVerticalGroup(groupL.createParallelGroup(Alignment.LEADING));
 		
-		ParallelGroup pgVertical = groupL.createParallelGroup(Alignment.LEADING);
+		SequentialGroup ggg = groupL.createSequentialGroup();
+		ggg = ggg.addContainerGap();
 		
-				
-		for (int i = 0; i<10;i++) {
+		SequentialGroup aaa = groupL.createSequentialGroup();
+		aaa = aaa.addContainerGap();
+		
+		//for (int i = 0; i<10;i++) {
 			
 			JPanel panel_3 = new JPanel();
+			JPanel panel_3_1 = new JPanel();
 			
-			groupL.setHorizontalGroup(
-					pgHorizontal
-						.addGroup(groupL.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
-							.addContainerGap())
-				);
+			ggg = ggg.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE).addComponent(panel_3_1, GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE).addContainerGap();
+		
+			aaa = aaa.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE).addComponent(panel_3_1, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE).addContainerGap(566, Short.MAX_VALUE);
 			
-			
-			groupL.setVerticalGroup(
-					pgVertical
-						.addGroup(groupL.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(566, Short.MAX_VALUE))
-			);
-			
-			panel_3.setLayout(null);
+
 			
 			JLabel lblNewLabel_2 = new JLabel("New label");
 			lblNewLabel_2.setBounds(10, 11, 46, 14);
@@ -142,8 +136,9 @@ public class PartStepUI extends JFrame {
 			
 			JPanel panel_4 = new JPanel();
 			scrollPane_1.setViewportView(panel_4);
-		}
+		//}
 		
-		
+		groupL.setHorizontalGroup(groupL.createParallelGroup(Alignment.LEADING).addGroup(ggg));
+		groupL.setVerticalGroup(groupL.createParallelGroup(Alignment.LEADING).addGroup(aaa));
 	}
 }
