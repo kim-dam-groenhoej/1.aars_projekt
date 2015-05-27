@@ -33,7 +33,13 @@ public class OrderCtr {
 	
 	public List<Order> findAllActiveOrders(int restaurantId) throws SQLException
 	{
-		return orderDB.findAllActiveOrders(restaurantId);
+		List<Order> orders = orderDB.findAllActiveOrders(restaurantId);
+		for(Order order : orders)
+		{
+			List<PartOrder> partOrders = findAllPartOrders(order.getId());
+			order.setPartOrderList(partOrders);
+		}
+		return orders;
 	}
 	
 	public void finishStep(PartStep ps) throws SQLException

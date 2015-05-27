@@ -4,7 +4,7 @@
 package ModelLayer;
 
 /**
- * @author Kim Dam Grønhøj
+ * @author Kim Dam Grï¿½nhï¿½j
  *
  */
 public class PartOrder {
@@ -12,25 +12,25 @@ public class PartOrder {
 	 * @param amount
 	 * @param product
 	 */
-	public PartOrder(double amount, Product product) {
+	public PartOrder(int amount, Product product) {
 		this.amount = amount;
 		this.product = product;
 	}
 
-	private double amount;
+	private int amount;
 	private Product product;
 
 	/**
 	 * @return the amount
 	 */
-	public double getAmount() {
+	public int getAmount() {
 		return amount;
 	}
 
 	/**
 	 * @param amount the amount to set
 	 */
-	public void setAmount(double amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -11,6 +12,7 @@ import CtrLayer.EmployeeCtr;
 import CtrLayer.OrderCtr;
 import CtrLayer.StepCtr;
 import ModelLayer.Order;
+import ModelLayer.PartOrder;
 import ModelLayer.PartStep;
 import ModelLayer.Step;
 
@@ -74,6 +76,23 @@ public class JOrder {
 		ArrayList<Order> orders = (ArrayList<Order>) ctr.findAllActiveOrders(1);
 		assertNotNull(orders);
 		assertEquals(2, orders.size());
+		assertEquals(2, orders.get(0).getPartOrderList().size());
 	}
+	
+	@Test
+	public void positiveTest_FindAllPartOrders() throws SQLException {
+		OrderCtr oc = new OrderCtr();
+		List<PartOrder> partOrders = oc.findAllPartOrders(1);
+		
+		for (PartOrder po : partOrders)
+		{
+			System.out.println("Amount: " + po.getAmount());
+	
+			System.out.println("Product name: " + po.getProduct().getName());
+		}
+		
+		assertTrue("partorders found", partOrders.size() > 0);
+	}
+	
 
 }

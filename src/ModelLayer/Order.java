@@ -16,6 +16,7 @@ public class Order{
 	private Date date;
 	private Restaurant restaurant;
 	private List<PartStep> partStepList;
+	private List<PartOrder> partOrderList;
 
 	private Customer customer;
 	
@@ -75,6 +76,14 @@ public class Order{
 
 	public void addPartStep(PartStep ps) {
 		partStepList.add(ps);
+	}
+
+	public List<PartOrder> getPartOrderList() {
+		return partOrderList;
+	}
+
+	public void setPartOrderList(List<PartOrder> partOrderList) {
+		this.partOrderList = partOrderList;
 	}
 	
 }
