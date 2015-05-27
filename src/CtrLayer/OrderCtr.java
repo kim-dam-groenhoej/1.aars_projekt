@@ -9,6 +9,7 @@ import java.util.List;
 import DBLayer.IOrderDB;
 import DBLayer.OrderDB;
 import ModelLayer.Order;
+import ModelLayer.PartOrder;
 import ModelLayer.PartStep;
 
 /**
@@ -38,5 +39,10 @@ public class OrderCtr {
 	public void finishStep(PartStep ps) throws SQLException
 	{
 		orderDB.savePartStep(ps);
+	}
+	
+	public List<PartOrder> findAllPartOrders(int orderID) throws SQLException
+	{
+		return this.orderDB.findAllPartOrders(orderID);
 	}
 }
