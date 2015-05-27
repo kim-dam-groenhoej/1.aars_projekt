@@ -54,7 +54,7 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * 
- * @author Kim Dam Gr�nh�j, Tobias
+ * @author Kim Dam Gr�nh�j, Tobias, Bo
  *
  */
 public class PartStepUI extends JFrame {
