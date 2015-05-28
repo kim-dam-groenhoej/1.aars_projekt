@@ -15,21 +15,26 @@ import ModelLayer.PartStep;
  */
 public class OrderCtr {
 
+	/**
+	 * Field variable
+	 */
 	private IOrderDB orderDB;
 	
+	/**
+	 * Constructor
+	 * Invokes the OrderDB constructor in order to get access to the DB
+	 */
 	public OrderCtr()
 	{
 		this.orderDB = new OrderDB();
 	}
 	
 	/**
-	 * This function finds order by orderId
+	 * This method finds order by orderId
 	 * 
 	 * @param orderId
 	 * @return
 	 * @throws SQLException
-	 * 
-	 * This function finds order by orderId
 	 */
 	public Order findOrder(int orderId) throws SQLException
 	{
@@ -43,7 +48,7 @@ public class OrderCtr {
 	}
 	
 	/**
-	 * This function finds all active orders and their respective part orders based on the restaurantId
+	 * This method finds all active orders and their respective part orders based on the restaurantId
 	 * 
 	 * @param restaurantId
 	 * @return
@@ -61,7 +66,7 @@ public class OrderCtr {
 	}
 	
 	/**
-	 * This function finishes the PartStep by saving it in the DB
+	 * This method finishes the PartStep by saving it in the DB
 	 * 
 	 * @param ps
 	 * @throws SQLException
@@ -72,7 +77,7 @@ public class OrderCtr {
 	}
 	
 	/**
-	 * This function finds all PartOrders by orderId
+	 * This method finds all PartOrders by orderId
 	 * 
 	 * @param orderID
 	 * @return

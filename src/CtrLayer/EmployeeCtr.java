@@ -14,14 +14,21 @@ import ModelLayer.Employee;
  */
 public class EmployeeCtr {
 	
+	/**
+	 * Field variable
+	 */
 	private IEmployeeDB employeeDB;
 	
+	/**
+	 * Constructor
+	 * Invokes the EmployeeDB constructor in order to get access to the DB
+	 */
 	public EmployeeCtr() {
 		this.employeeDB = new EmployeeDB();
 	}
 
 	/**
-	 * This function gets all the employees from the restaurant by restaurantId
+	 * This method gets all the employees from the restaurant by restaurantId
 	 * 
 	 * @param restaurantID
 	 * @return
@@ -33,7 +40,7 @@ public class EmployeeCtr {
 	}
 	
 	/**
-	 * This function finds one employee based on the personId
+	 * This method finds one employee based on the personId
 	 * 
 	 * @param personId
 	 * @return

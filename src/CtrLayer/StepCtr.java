@@ -15,14 +15,21 @@ import ModelLayer.Step;
 
 public class StepCtr {
 
+	/**
+	 * Field variable
+	 */
 	private IStepDB stepDB;
 	
+	/**
+	 * Constructor
+	 * Invokes the StepDB constructor in order to get access to the DB
+	 */
 	public StepCtr() {
 		stepDB = new StepDB();
 	}
 	
 	/**
-	 * This function finds the next steps available based on the current stepId
+	 * This method finds the next steps available based on the current stepId
 	 * 
 	 * @param stepId
 	 * @return
