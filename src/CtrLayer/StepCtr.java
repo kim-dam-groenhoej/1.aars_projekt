@@ -1,6 +1,3 @@
-/**
- * 
- */
 package CtrLayer;
 
 import java.sql.SQLException;
@@ -12,9 +9,10 @@ import DBLayer.StepDB;
 import ModelLayer.Step;
 
 /**
- * @author Frank Eskelund, Kim Dam Grønhøj
+ * @author Frank Eskelund, Kim Dam Grï¿½nhï¿½j, Bo Handskemager SÃ¸rensen
  * @version 
  */
+
 public class StepCtr {
 
 	private IStepDB stepDB;
@@ -23,6 +21,13 @@ public class StepCtr {
 		stepDB = new StepDB();
 	}
 	
+	/**
+	 * This function finds the next steps available based on the current stepId
+	 * 
+	 * @param stepId
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<Step> findNextSteps(int stepId) throws SQLException
 	{
 		return stepDB.findNextSteps(stepId);

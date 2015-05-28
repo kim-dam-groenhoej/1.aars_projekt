@@ -1,6 +1,3 @@
-/**
- * 
- */
 package CtrLayer;
 
 import java.sql.SQLException;
@@ -15,7 +12,7 @@ import ModelLayer.Step;
 
 
 /**
- * @author Frank Eskelund, Kim Dam Gr�nh�j
+ * @author Frank Eskelund, Kim Dam Gr�nh�j, Bo Handskemager Sørensen
  * @version 
  */
 public class PartStepCtr {
@@ -33,11 +30,17 @@ public class PartStepCtr {
 		orderCtr = new OrderCtr();
 	}
 	
-	/*This function finds order information by orderID*/
+	/**
+	 * 
+	 * 
+	 * @param orderID
+	 * @return
+	 * @throws SQLException
+	 */
 	public OrderInfoViewModel findOrderInfo(int orderID) throws SQLException
 	{
 		Order o = orderCtr.findOrder(orderID);
-		
+		o.setPartOrderList(orderCtr.findAllPartOrders(orderID));
 		ArrayList<PartStep> ps = (ArrayList<PartStep>) o.getPartStepList();
 		int psSize = ps.size();
 		PartStep lastPartStep = ps.get(psSize - 1);
@@ -50,6 +53,8 @@ public class PartStepCtr {
 	}
 
 	/**
+	 * 
+	 * 
 	 * @param Step the PartStep to set
 	 */
 	public void setPartStep(Step step, Order order) 
@@ -57,9 +62,11 @@ public class PartStepCtr {
 		 currentPartStep = new PartStep(step, order);
 	}
 	
-	/*
-	 * This function associate a employee by EmployeeNo
-	 * */
+	/**
+	 * Assigns an employee with a unique employee id number
+	 * 
+	 * @param employeeNo
+	 */
 	public void associateEmployee(int employeeNo)
 	{
 		

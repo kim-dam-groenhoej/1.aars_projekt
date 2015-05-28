@@ -42,8 +42,10 @@ import javax.swing.JList;
 import java.awt.GridLayout;
 
 import CtrLayer.OrderCtr;
+import CtrLayer.PartStepCtr;
 import ModelLayer.Customer;
 import ModelLayer.Order;
+import ModelLayer.OrderInfoViewModel;
 import ModelLayer.PartOrder;
 import ModelLayer.PartStep;
 import ModelLayer.Product;
@@ -81,16 +83,19 @@ import javax.swing.AbstractListModel;
  */
 public class PartStepUI extends JFrame {
 	private OrderCtr orderCtr;
-	
+	private PartStepCtr partstepCtr;
+	private List<Order> orders = new ArrayList<Order>();
+	JPanel panel_2 = new JPanel();
 	public PartStepUI() {
 		orderCtr = new OrderCtr();
-		
+		partstepCtr = new PartStepCtr();
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
+		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JPanel panel_2 = new JPanel();
+		
 		panel_2.setBounds(523, 36, 485, 675);
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.add(panel_2);
@@ -115,7 +120,12 @@ public class PartStepUI extends JFrame {
 		scrollPane.setViewportView(panel_1);
 		panel_1.setLayout(new MigLayout("", "[475px]", "[160px]"));
 		
-		createOrderItems(panel_1);
+	    createOrderItems(panel_1);
+		
+		
+		panel_2.setLayout(null);		
+		
+		
 		
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setBounds(0, 0, 200, 50);
@@ -127,7 +137,7 @@ public class PartStepUI extends JFrame {
 	
 	private void createOrderItems(JPanel panel1)
 	{
-		List<Order> orders = new ArrayList<Order>();
+		
 		try {
 			orders = orderCtr.findAllActiveOrders(1);
 		} catch (SQLException e) {
@@ -178,9 +188,6 @@ public class PartStepUI extends JFrame {
 			panel_7.add(panel_4);
 			panel_4.setLayout(null);
 			
-			JList list = new JList();
-			list.setBounds(97, 5, 0, 0);
-			panel_4.add(list);
 			
 			JList list_1 = new JList();
 			list_1.setModel(new AbstractListModel() {
@@ -215,7 +222,8 @@ public class PartStepUI extends JFrame {
 			
 			JButton btnNewButton = new JButton("Se detaljer");
 			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
+				public void actionPerformed(ActionEvent arg0) {		
+					createDetails(panel_2, order.getId());
 				}
 			});
 			btnNewButton.setBounds(356, 127, 100, 23);
@@ -244,43 +252,111 @@ public class PartStepUI extends JFrame {
 			panel_7.add(lblNewLabel_3);
 			
 			i++;
-		}
+		}		
 		
-		/*groupL.setHorizontalGroup(groupL.createParallelGroup(Alignment.LEADING));
-		groupL.setVerticalGroup(groupL.createParallelGroup(Alignment.LEADING));
-		
-		SequentialGroup ggg = groupL.createSequentialGroup();
-		ggg = ggg.addContainerGap();
-		
-		SequentialGroup aaa = groupL.createSequentialGroup();
-		aaa = aaa.addContainerGap();
-		
-		for (int i = 0; i<10;i++) {
-			
-			JPanel panel_3 = new JPanel();
-			
-			ggg = ggg.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 454, GroupLayout.PREFERRED_SIZE);
-		
-			aaa = aaa.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 105 + (11 * i), GroupLayout.PREFERRED_SIZE).addPreferredGap(ComponentPlacement.UNRELATED);
-			
-
-			
-			JLabel lblNewLabel_2 = new JLabel("New label");
-			lblNewLabel_2.setBounds(10, 11, 46, 14);
-			panel_3.add(lblNewLabel_2);
-			
-			JScrollPane scrollPane_1 = new JScrollPane();
-			scrollPane_1.setBounds(253, 11, 191, 97);
-			panel_3.add(scrollPane_1);
-			
-			JPanel panel_4 = new JPanel();
-			scrollPane_1.setViewportView(panel_4);
-		}
-		
-		ggg = ggg.addContainerGap();
-		aaa = aaa.addContainerGap(430, Short.MAX_VALUE);
-		
-		groupL.setHorizontalGroup(groupL.createParallelGroup(Alignment.LEADING).addGroup(ggg));
-		groupL.setVerticalGroup(groupL.createParallelGroup(Alignment.LEADING).addGroup(aaa));*/
 	}
+	
+	
+	private void createDetails(JPanel panel, int orderid){
+				OrderInfoViewModel info = null;
+				
+				try {
+					info = partstepCtr.findOrderInfo(orderid);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(info != null){
+				Order order = info.getOrder();
+				Customer customer = order.getCustomer();
+				Town town = customer.getTown();
+						
+				
+				JPanel panel_3 = new JPanel();
+				panel_3.setBounds(10, 11, 465, 653);
+				panel.add(panel_3);
+				panel_3.setLayout(null);
+								
+				
+				JPanel panel_4 = new JPanel();
+				panel_4.setBounds(260, 10, 195, 270);
+				panel_3.add(panel_4);
+				panel_4.setLayout(null);				
+				
+				List<PartOrder> partOrders = order.getPartOrderList();
+				JList list_1 = new JList();
+				list_1.setModel(new AbstractListModel() {
+					List<String> productNames = null;
+					
+					public List<String> getProductNames()
+					{
+						if (productNames == null) {
+							productNames = new ArrayList<String>();
+							
+							int l = 1;
+							for (PartOrder partOrder : partOrders) {
+								Product product = partOrder.getProduct();
+								productNames.add(l + ". " + product.getName());
+								
+								l++;
+							}
+						}
+						
+						return productNames;
+					}
+					
+					public int getSize() {
+						return getProductNames().size();
+					}
+					public Object getElementAt(int index) {
+						return getProductNames().get(index);
+					}
+				});
+				list_1.setBounds(0, 0, 195, 270);
+				panel_4.add(list_1);
+				
+				
+				JLabel label_2 = new JLabel("Ordre nr:");
+				label_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+				label_2.setBounds(10, 11, 61, 14);
+				panel_3.add(label_2);
+				
+				
+				JLabel label = new JLabel(customer.getName());
+				label.setBounds(10, 36, 240, 14);
+				panel_3.add(label);
+				
+				
+				JLabel lblNewLabel_4 = new JLabel(customer.getStreet());
+				lblNewLabel_4.setBounds(10, 61, 240, 14);
+				panel_3.add(lblNewLabel_4);
+				
+				
+				JLabel label_3 = new JLabel(town.getZip() + " " + town.getName());		
+				label_3.setBounds(10, 86, 240, 14);
+				panel_3.add(label_3);
+				
+				
+				String orderId = Integer.toString(order.getId());		
+				JLabel label_1 = new JLabel(orderId);
+				label_1.setBounds(64, 10, 61, 14);
+				panel_3.add(label_1);					
+				
+			}
+	}
+
+
+
+
+	private void setDetailsText(JPanel panel)
+	{
+		
+	}
+
+
 }
+
+
+	
+
+
