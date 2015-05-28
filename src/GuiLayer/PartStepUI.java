@@ -128,6 +128,8 @@ public class PartStepUI extends JFrame {
 		
 		
 		
+		
+		
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setBounds(0, 0, 200, 50);
 		
@@ -256,13 +258,6 @@ public class PartStepUI extends JFrame {
 		}		
 		
 	}
-
-
-
-
-
-
-
 }
 
 

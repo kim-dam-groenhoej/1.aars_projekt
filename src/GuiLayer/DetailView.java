@@ -6,16 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import sun.security.x509.NetscapeCertTypeExtension;
 import CtrLayer.PartStepCtr;
 import ModelLayer.Customer;
 import ModelLayer.Order;
 import ModelLayer.OrderInfoViewModel;
 import ModelLayer.PartOrder;
+import ModelLayer.PartStep;
 import ModelLayer.Product;
+import ModelLayer.Step;
 import ModelLayer.Town;
 
 public class DetailView extends JPanel {
@@ -28,6 +32,9 @@ public class DetailView extends JPanel {
 	private JLabel detailstown = new JLabel("");
 	private JLabel detailsorderId = new JLabel("");
 	
+	private JPanel pastSteps = new JPanel();
+	private JLabel currentStepName = new JLabel("");
+	private JPanel newSteps = new JPanel();
 	
 	public DetailView(JPanel panel){
 			
@@ -46,34 +53,50 @@ public class DetailView extends JPanel {
 						
 			
 			list_1.setBounds(0, 0, 195, 270);
-			panel_4.add(list_1);
-			
+			panel_4.add(list_1);			
 			
 			
 			DetailOrdernre.setFont(new Font("Tahoma", Font.BOLD, 11));
 			DetailOrdernre.setBounds(10, 11, 61, 14);
-			panel_3.add(DetailOrdernre);
-			
+			panel_3.add(DetailOrdernre);			
 			
 			
 			DetailCustomername.setBounds(10, 36, 240, 14);
-			panel_3.add(DetailCustomername);
-			
+			panel_3.add(DetailCustomername);			
 			
 			
 			detailsStreet.setBounds(10, 61, 240, 14);
-			panel_3.add(detailsStreet);
-			
+			panel_3.add(detailsStreet);			
 			
 					
 			detailstown.setBounds(10, 86, 240, 14);
-			panel_3.add(detailstown);
-			
-			
+			panel_3.add(detailstown);				
 				
 			
 			detailsorderId.setBounds(64, 10, 61, 14);
-			panel_3.add(detailsorderId);					
+			panel_3.add(detailsorderId);
+			
+			JPanel stepsContainer = new JPanel();
+			stepsContainer.setBounds(10, 402, 465, 262);
+			panel.add(stepsContainer);
+			stepsContainer.setLayout(null);
+			
+			JLabel peterFårSinVilje = new JLabel("Nuværende trin:");
+			peterFårSinVilje.setBounds(180, 0, 200, 100);
+			stepsContainer.add(peterFårSinVilje);
+			
+			currentStepName.setBounds(180, 15, 200, 100);
+			currentStepName.setFont(new Font("Tahoma", Font.BOLD, 13));
+			stepsContainer.add(currentStepName);
+			
+			
+			
+			pastSteps.setBounds(10, 11, 154, 240);
+			stepsContainer.add(pastSteps);
+			pastSteps.setLayout(null);
+			
+			newSteps.setBounds(301, 11, 154, 240);
+			stepsContainer.add(newSteps);
 			
 		}
 	
@@ -131,16 +154,32 @@ public class DetailView extends JPanel {
 		});
 		
 		
-		DetailCustomername.setText(customer.getName()); 
-		detailsStreet.setText(customer.getStreet()); 
-		detailstown.setText(town.getZip() + " " + town.getName()); 
-		String orderIdd = Integer.toString(order.getId());
-		detailsorderId.setText(orderIdd);
-		
-		
-		
-		
-		
+			DetailCustomername.setText(customer.getName()); 
+			detailsStreet.setText(customer.getStreet()); 
+			detailstown.setText(town.getZip() + " " + town.getName()); 
+			String orderIdd = Integer.toString(order.getId());
+			detailsorderId.setText(orderIdd);
+			
+			currentStepName.setText(order.getPartStepList().get(0).getStep().getName());
+			pastSteps.removeAll();
+			for(int i = 1; i < order.getPartStepList().size(); i++){
+				PartStep ps = order.getPartStepList().get(i);
+				JButton btnNewButton_1 = new JButton(ps.getStep().getName());
+				btnNewButton_1.setBounds(1, 40 * i, 153, 23);
+				pastSteps.add(btnNewButton_1);
+			}
+			pastSteps.repaint();
+			pastSteps.validate();
+			
+			newSteps.removeAll();
+			for(int i = 0; i < info.getSteps().size(); i++){
+				Step s = info.getSteps().get(0);
+				JButton btnNewButton_1 = new JButton(s.getName());
+				btnNewButton_1.setBounds(1, 40 * i, 153, 23);
+				newSteps.add(btnNewButton_1);
+			}
+			newSteps.repaint();
+			newSteps.validate();
 		}	
 		
 	}

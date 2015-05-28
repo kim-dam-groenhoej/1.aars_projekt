@@ -50,8 +50,7 @@ public class PartStepCtr {
 		Order o = orderCtr.findOrder(orderId);
 		o.setPartOrderList(orderCtr.findAllPartOrders(orderID));
 		ArrayList<PartStep> ps = (ArrayList<PartStep>) o.getPartStepList();
-		int psSize = ps.size();
-		PartStep lastPartStep = ps.get(psSize - 1);
+		PartStep lastPartStep = ps.get(0);
 		ArrayList<Step> sl = (ArrayList<Step>) stepCtr.findNextSteps(lastPartStep.getStep().getId());
 		
 		ArrayList<Employee> el = (ArrayList<Employee>) employeeCtr.getAllEmployees(o.getRest().getId());
