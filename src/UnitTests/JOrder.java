@@ -24,7 +24,7 @@ import ModelLayer.Step;
 public class JOrder {
 
 	/**
-	 * This is a positive 
+	 * This is a positive test to find an order with partsteps, employees
 	 * @throws SQLException
 	 */
 	@Test
@@ -34,6 +34,7 @@ public class JOrder {
 		assertEquals(2, o.getId());
 		assertEquals(2, o.getPartStepList().get(1).getEmployees().size());
 		assertEquals(5, o.getPartStepList().get(1).getId());
+		assertEquals("Pizza", o.getPartOrderList().get(0).getProduct().getName());
 		assertNotNull(o);
 	}
 	

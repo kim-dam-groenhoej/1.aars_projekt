@@ -33,7 +33,13 @@ public class OrderCtr {
 	 */
 	public Order findOrder(int orderId) throws SQLException
 	{
-		return orderDB.findOrder(orderId);
+		Order order = orderDB.findOrder(orderId);
+		if (order != null) {
+			List<PartOrder> partOrders = findAllPartOrders(order.getId());
+			order.setPartOrderList(partOrders);
+		}
+		
+		return order;
 	}
 	
 	/**
