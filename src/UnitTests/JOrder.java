@@ -17,15 +17,15 @@ import ModelLayer.PartStep;
 import ModelLayer.Step;
 
 /**
- * This class represent all Unit Tests for Orders and PartSteps
+ * This class represent all Unit Tests for Orders, PartSteps and partorders
  * @author Kim Dam Gr�nh�j, Tobias, Frank
  *
  */
 public class JOrder {
 
 	/**
-	 * This is a positive test to find an order with partsteps, employees
-	 * @throws SQLException
+	 * This is a positive test to find an order with partsteps, employees, partorders
+	 * @throws SQLException SQL-server can fail
 	 */
 	@Test
 	public void positiveTest_CanFindOrder() throws SQLException {
@@ -38,6 +38,10 @@ public class JOrder {
 		assertNotNull(o);
 	}
 	
+	/**
+	 * This is a negative test to check orderCtr returns nothing with ID 2020
+	 * @throws SQLException
+	 */
 	@Test
 	public void negativeTest_NoOrder() throws SQLException
 	{
@@ -46,6 +50,10 @@ public class JOrder {
 		assertNull(o);
 	}
 
+	/**
+	 * 
+	 * @throws SQLException
+	 */
 	@Test
 	public void CanAddPartStep() throws SQLException
 	{
@@ -103,6 +111,4 @@ public class JOrder {
 		
 		assertTrue("partorders found", partOrders.size() > 0);
 	}
-	
-
 }
