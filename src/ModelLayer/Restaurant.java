@@ -4,6 +4,7 @@
 package ModelLayer;
 
 /**
+ * This class represent the Restaurant
  * @author Bo Handskemager S�rensen, Kim Dam Gr�nh�j
  *
  */
@@ -17,17 +18,16 @@ public class Restaurant {
 	private String website;
 	
 	/**
-	 * @param id
-	 * @param name
-	 * @param street
-	 * @param zip
-	 * @param phone
-	 * @param email
-	 * @param website
+	 * @param id current id
+	 * @param name curret name of the restaurant
+	 * @param street street and number
+	 * @param town current town with zip and town name
+	 * @param phone current phone number
+	 * @param email current email
+	 * @param website current website for this restaurant
 	 */
 	public Restaurant(int id, String name, String street, Town town,
 			String phone, String email, String website) {
-
 		this.id = id;
 		this.name = name;
 		this.street = street;

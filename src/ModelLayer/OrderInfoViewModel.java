@@ -6,6 +6,7 @@ package ModelLayer;
 import java.util.List;
 
 /**
+ * This class is a ViewModel with all data for the Use Case "set step"
  * @author Bo Handskemager S¿rensen, Kim Dam Grønhøj
  *
  */
@@ -14,6 +15,12 @@ public class OrderInfoViewModel {
 	private List<Step> steps;
 	private Order order;
 	
+	/**
+	 * OrderInfoViewModel constructor initialize this model
+	 * @param employees
+	 * @param steps
+	 * @param order
+	 */
 	public OrderInfoViewModel(List<Employee> employees, List<Step> steps, Order order){
 		this.employees = employees;
 		this.steps = steps;
@@ -40,5 +47,4 @@ public class OrderInfoViewModel {
 	public Order getOrder() {
 		return order;
 	}
-	
 }

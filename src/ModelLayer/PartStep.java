@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * This represent a PartStep. With is every step the user save in the use case flow "set step"
  * @author Bo Handskemager S�rensen, Kim Dam Gr�nh�j
  *
  */
@@ -17,24 +18,37 @@ public class PartStep {
 	private Order order;
 	private List<Employee> employees;
 	
-	
+	/**
+	 * PartStep constructor initialize this model
+	 * @param step current Step used in the PartStep
+	 * @param id current id
+	 * @param startDate current time the PartStep was added
+	 * @param order current order used to save the PartStep
+	 * @param employees current employee
+	 */
 	public PartStep(Step step, int id, Date startDate, Order order, List<Employee> employees)
 	{
 		this(step, order);
 		this.id = id;
+		
 		if(startDate != null){
-		this.startDate = startDate;	
+			this.startDate = startDate;	
 		}
+		
 		this.employees = employees;
 	}
 
+	/**
+	 * PartStep constructor initialize this model
+	 * @param step current Step used in the PartStep
+	 * @param order current order used to save the PartStep
+	 */
 	public PartStep(Step step, Order order)
 	{
 		this.step = step;	
 		this.order = order;
 		this.startDate = new Date();
 	}
-	
 	
 	/**
 	 * @return the id
@@ -102,6 +116,7 @@ public class PartStep {
 	{
 		this.step = step;
 	}
+	
 	/**
 	 * sets the order
 	 * @param order
@@ -110,6 +125,7 @@ public class PartStep {
 	{
 		this.order = order;
 	}
+	
 	/**
 	 * set the employees
 	 * @param emp

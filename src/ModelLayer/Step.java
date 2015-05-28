@@ -4,6 +4,7 @@
 package ModelLayer;
 
 /**
+ * This class represent the real Step
  * @author Bo Handskemager S¿rensen, KIm Dam Grønhøj
  *
  */
@@ -14,6 +15,14 @@ public class Step {
 	private Restaurant restaurant;
 	private boolean isLastStep;
 	
+	/**
+	 * Step constructor initialize this model
+	 * @param id current id
+	 * @param name current step name
+	 * @param description current description of this step
+	 * @param restaurant current restaurant using this step
+	 * @param isLastStep is it the lastStep for this order-flow?
+	 */
 	public Step(int id, String name, String description, Restaurant restaurant, boolean isLastStep){
 		this.id = id;
 		this.name = name;

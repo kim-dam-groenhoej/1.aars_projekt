@@ -6,6 +6,7 @@ package ModelLayer;
 import java.util.List;
 
 /**
+ * This class represnt Employee and extends from person
  * @author Bo Handskemager S�rensen, Kim Dam Gr�nh�j
  *
  */
@@ -16,15 +17,16 @@ public class Employee extends Person {
 	private Restaurant restaurant;
 	
 	/**
-	 * @param id
-	 * @param name
-	 * @param zip
-	 * @param street
-	 * @param phone
+	 * Employee constructor initialize this model
+	 * @param id currrent id
+	 * @param name current full name of the employee
+	 * @param zip current Town object with zip and town name
+	 * @param street streetname with number
+	 * @param phone current phonenumber
 	 */
 	public Employee(int id, String name, Town town, String street, String phone, int employeeNo, String position, List<PartStep> partSteps, Restaurant restaurant) {
 		super(id, name, town, street, phone);
-		// TODO Auto-generated constructor stub
+
 		this.employeeNo = employeeNo;
 		this.position = position;
 		this.partSteps = partSteps;

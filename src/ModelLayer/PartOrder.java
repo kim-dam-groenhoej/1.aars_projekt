@@ -4,10 +4,14 @@
 package ModelLayer;
 
 /**
+ * This represent a "temp" class PartOrder. This class is used to get number of a product ordred
  * @author Kim Dam Gr�nh�j
  *
  */
 public class PartOrder {
+	private int amount;
+	private Product product;
+	
 	/**
 	 * @param amount
 	 * @param product
@@ -16,9 +20,6 @@ public class PartOrder {
 		this.amount = amount;
 		this.product = product;
 	}
-
-	private int amount;
-	private Product product;
 
 	/**
 	 * @return the amount
