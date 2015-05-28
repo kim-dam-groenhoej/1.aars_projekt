@@ -53,6 +53,10 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractListModel;
 
 /**
  * 
@@ -89,7 +93,7 @@ public class PartStepUI extends JFrame {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(null);
 		scrollPane.setViewportView(panel_1);
-		panel_1.setLayout(new MigLayout("", "[480px]", "[200px]"));
+		panel_1.setLayout(new MigLayout("", "[475px]", "[160px]"));
 		
 		createOrderItems(panel_1);
 		
@@ -103,25 +107,66 @@ public class PartStepUI extends JFrame {
 	
 	private void createOrderItems(JPanel panel1)
 	{
-		for (int i = 0; i<10;i++) {
+		//for (int i = 0; i<10;i++) {
 			JPanel panel_7 = new JPanel();
+			panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel_7.setLayout(null);
 			
 			// add panel to rows
-			panel1.add(panel_7, "cell 0 " + i + ",grow");
+			panel1.add(panel_7, "cell 0 0,grow");
 
 			// items for panel
-			JLabel lblNewLabel_2 = new JLabel("New label");
-			lblNewLabel_2.setBounds(10, 11, 46, 14);
+			JLabel lblNewLabel_2 = new JLabel("Ordre nr:");
+			lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+			lblNewLabel_2.setBounds(10, 11, 255, 14);
 			panel_7.add(lblNewLabel_2);
 			
-			JScrollPane scrollPane_1 = new JScrollPane();
-			scrollPane_1.setBounds(253, 11, 191, 97);
-			panel_7.add(scrollPane_1);
-			
 			JPanel panel_4 = new JPanel();
-			scrollPane_1.setViewportView(panel_4);
-		}
+			panel_4.setBounds(270, 12, 195, 104);
+			panel_7.add(panel_4);
+			panel_4.setLayout(null);
+			
+			JList list = new JList();
+			list.setBounds(97, 5, 0, 0);
+			panel_4.add(list);
+			
+			JList list_1 = new JList();
+			list_1.setModel(new AbstractListModel() {
+				String[] values = new String[] {"tst", "testasd"};
+				public int getSize() {
+					return values.length;
+				}
+				public Object getElementAt(int index) {
+					return values[index];
+				}
+			});
+			list_1.setBounds(-10, 0, 195, 104);
+			panel_4.add(list_1);
+			
+			JButton btnNewButton = new JButton("Se detaljer");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				}
+			});
+			btnNewButton.setBounds(376, 127, 89, 23);
+			panel_7.add(btnNewButton);
+			
+			JLabel lblNavn = new JLabel("Navn");
+			lblNavn.setBounds(10, 35, 73, 14);
+			panel_7.add(lblNavn);
+			
+			JLabel lblAdresse = new JLabel("Adresse");
+			lblAdresse.setBounds(10, 53, 73, 14);
+			panel_7.add(lblAdresse);
+			
+			JLabel lblPostnrBy = new JLabel("Postnr By");
+			lblPostnrBy.setBounds(10, 71, 73, 14);
+			panel_7.add(lblPostnrBy);
+			
+			JLabel lblTrinStTrin = new JLabel("Trin: S\u00E6t trin");
+			lblTrinStTrin.setBounds(10, 136, 179, 14);
+			panel_7.add(lblTrinStTrin);
+		//}
 		
 		/*groupL.setHorizontalGroup(groupL.createParallelGroup(Alignment.LEADING));
 		groupL.setVerticalGroup(groupL.createParallelGroup(Alignment.LEADING));
