@@ -86,6 +86,7 @@ public class PartStepUI extends JFrame {
 	private PartStepCtr partstepCtr;
 	private List<Order> orders = new ArrayList<Order>();
 	JPanel panel_2 = new JPanel();
+	DetailView k = new DetailView(panel_2);
 	public PartStepUI() {
 		orderCtr = new OrderCtr();
 		partstepCtr = new PartStepCtr();
@@ -222,8 +223,8 @@ public class PartStepUI extends JFrame {
 			
 			JButton btnNewButton = new JButton("Se detaljer");
 			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {		
-					createDetails(panel_2, order.getId());
+				public void actionPerformed(ActionEvent arg0) {	
+					k.setDetailsText(order.getId());
 				}
 			});
 			btnNewButton.setBounds(356, 127, 100, 23);
@@ -255,103 +256,11 @@ public class PartStepUI extends JFrame {
 		}		
 		
 	}
-	
-	
-	private void createDetails(JPanel panel, int orderid){
-				OrderInfoViewModel info = null;
-				
-				try {
-					info = partstepCtr.findOrderInfo(orderid);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if(info != null){
-				Order order = info.getOrder();
-				Customer customer = order.getCustomer();
-				Town town = customer.getTown();
-						
-				
-				JPanel panel_3 = new JPanel();
-				panel_3.setBounds(10, 11, 465, 653);
-				panel.add(panel_3);
-				panel_3.setLayout(null);
-								
-				
-				JPanel panel_4 = new JPanel();
-				panel_4.setBounds(260, 10, 195, 270);
-				panel_3.add(panel_4);
-				panel_4.setLayout(null);				
-				
-				List<PartOrder> partOrders = order.getPartOrderList();
-				JList list_1 = new JList();
-				list_1.setModel(new AbstractListModel() {
-					List<String> productNames = null;
-					
-					public List<String> getProductNames()
-					{
-						if (productNames == null) {
-							productNames = new ArrayList<String>();
-							
-							int l = 1;
-							for (PartOrder partOrder : partOrders) {
-								Product product = partOrder.getProduct();
-								productNames.add(l + ". " + product.getName());
-								
-								l++;
-							}
-						}
-						
-						return productNames;
-					}
-					
-					public int getSize() {
-						return getProductNames().size();
-					}
-					public Object getElementAt(int index) {
-						return getProductNames().get(index);
-					}
-				});
-				list_1.setBounds(0, 0, 195, 270);
-				panel_4.add(list_1);
-				
-				
-				JLabel label_2 = new JLabel("Ordre nr:");
-				label_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-				label_2.setBounds(10, 11, 61, 14);
-				panel_3.add(label_2);
-				
-				
-				JLabel label = new JLabel(customer.getName());
-				label.setBounds(10, 36, 240, 14);
-				panel_3.add(label);
-				
-				
-				JLabel lblNewLabel_4 = new JLabel(customer.getStreet());
-				lblNewLabel_4.setBounds(10, 61, 240, 14);
-				panel_3.add(lblNewLabel_4);
-				
-				
-				JLabel label_3 = new JLabel(town.getZip() + " " + town.getName());		
-				label_3.setBounds(10, 86, 240, 14);
-				panel_3.add(label_3);
-				
-				
-				String orderId = Integer.toString(order.getId());		
-				JLabel label_1 = new JLabel(orderId);
-				label_1.setBounds(64, 10, 61, 14);
-				panel_3.add(label_1);					
-				
-			}
-	}
 
 
 
 
-	private void setDetailsText(JPanel panel)
-	{
-		
-	}
+
 
 
 }
