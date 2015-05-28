@@ -4,7 +4,7 @@
 package ModelLayer;
 
 /**
- * @author Kim Dam Grønhøj
+ * @author Kim Dam Grønhøj & peter
  *
  */
 public class Product {
