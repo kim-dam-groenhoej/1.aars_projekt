@@ -40,7 +40,7 @@ public class PartStepCtr {
 	public OrderInfoViewModel findOrderInfo(int orderID) throws SQLException
 	{
 		Order o = orderCtr.findOrder(orderID);
-		
+		o.setPartOrderList(orderCtr.findAllPartOrders(orderID));
 		ArrayList<PartStep> ps = (ArrayList<PartStep>) o.getPartStepList();
 		int psSize = ps.size();
 		PartStep lastPartStep = ps.get(psSize - 1);
