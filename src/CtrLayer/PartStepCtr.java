@@ -16,13 +16,21 @@ import ModelLayer.Step;
  * @version 
  */
 public class PartStepCtr {
-
+	
+	/**
+	 * Field variables
+	 */
 	private PartStep currentPartStep;
 	private EmployeeCtr employeeCtr;
 	private StepCtr stepCtr;
 	private OrderCtr orderCtr;
 	private IPartStepDB partStepDB;
 	
+	/**
+	 * Constructor
+	 * Calls the Employee-, Step- and OrderCtr in order to find the right order and employee
+	 * so it can set the correct PartStep
+	 */
 	public PartStepCtr()
 	{
 		employeeCtr = new EmployeeCtr();
@@ -31,15 +39,15 @@ public class PartStepCtr {
 	}
 	
 	/**
-	 * 
+	 * TODO Tobias 
 	 * 
 	 * @param orderID
 	 * @return
 	 * @throws SQLException
 	 */
-	public OrderInfoViewModel findOrderInfo(int orderID) throws SQLException
+	public OrderInfoViewModel findOrderInfo(int orderId) throws SQLException
 	{
-		Order o = orderCtr.findOrder(orderID);
+		Order o = orderCtr.findOrder(orderId);
 		o.setPartOrderList(orderCtr.findAllPartOrders(orderID));
 		ArrayList<PartStep> ps = (ArrayList<PartStep>) o.getPartStepList();
 		int psSize = ps.size();
@@ -53,9 +61,9 @@ public class PartStepCtr {
 	}
 
 	/**
+	 * This method sets updates the current PartStep with the next one selected
 	 * 
-	 * 
-	 * @param Step the PartStep to set
+	 * @param order, step
 	 */
 	public void setPartStep(Step step, Order order) 
 	{
