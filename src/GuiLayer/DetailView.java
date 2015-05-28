@@ -1,6 +1,8 @@
 package GuiLayer;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ public class DetailView extends JPanel {
 	private JPanel pastSteps = new JPanel();
 	private JLabel currentStepName = new JLabel("");
 	private JPanel newSteps = new JPanel();
-	
+	private Step selectedStep = null;
 	public DetailView(JPanel panel){
 			
 					
@@ -166,6 +168,11 @@ public class DetailView extends JPanel {
 				PartStep ps = order.getPartStepList().get(i);
 				JButton btnNewButton_1 = new JButton(ps.getStep().getName());
 				btnNewButton_1.setBounds(1, 40 * i, 153, 23);
+				btnNewButton_1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {	
+						selectedStep = ps.getStep();
+					}
+				});
 				pastSteps.add(btnNewButton_1);
 			}
 			pastSteps.repaint();
@@ -173,9 +180,14 @@ public class DetailView extends JPanel {
 			
 			newSteps.removeAll();
 			for(int i = 0; i < info.getSteps().size(); i++){
-				Step s = info.getSteps().get(0);
+				Step s = info.getSteps().get(i);
 				JButton btnNewButton_1 = new JButton(s.getName());
 				btnNewButton_1.setBounds(1, 40 * i, 153, 23);
+				btnNewButton_1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {	
+						selectedStep = s;
+					}
+				});
 				newSteps.add(btnNewButton_1);
 			}
 			newSteps.repaint();
