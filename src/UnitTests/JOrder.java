@@ -16,8 +16,17 @@ import ModelLayer.PartOrder;
 import ModelLayer.PartStep;
 import ModelLayer.Step;
 
+/**
+ * This class represent all Unit Tests for Orders and PartSteps
+ * @author Kim Dam Gr�nh�j, Tobias, Frank
+ *
+ */
 public class JOrder {
 
+	/**
+	 * This is a positive 
+	 * @throws SQLException
+	 */
 	@Test
 	public void positiveTest_CanFindOrder() throws SQLException {
 		OrderCtr ctr = new OrderCtr();
