@@ -44,7 +44,9 @@ import java.awt.GridLayout;
 import CtrLayer.OrderCtr;
 import ModelLayer.Customer;
 import ModelLayer.Order;
+import ModelLayer.PartOrder;
 import ModelLayer.PartStep;
+import ModelLayer.Product;
 import ModelLayer.Step;
 import ModelLayer.Town;
 
@@ -138,10 +140,25 @@ public class PartStepUI extends JFrame {
 			Customer customer = order.getCustomer();
 			Town town = customer.getTown();
 			List<PartStep> partSteps = order.getPartStepList();
+			PartStep latestPartStep = null;
+			List<PartOrder> partOrders = order.getPartOrderList();
 			
 			// sweep
-			Date timeNow = new Date();
-			//for (PartStep partStep : )
+			Date lastSavedTime = null;
+			for (PartStep partStep : partSteps)
+			{
+				if (lastSavedTime == null) {
+					lastSavedTime = partStep.getStartDate();
+					latestPartStep = partStep;
+				}
+				
+				if (partStep.getStartDate().after(lastSavedTime)) {
+					lastSavedTime = partStep.getStartDate();
+					latestPartStep = partStep;
+				}
+			}
+			
+			Step currentStep = latestPartStep.getStep();
 			
 			JPanel panel_7 = new JPanel();
 			panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -167,12 +184,30 @@ public class PartStepUI extends JFrame {
 			
 			JList list_1 = new JList();
 			list_1.setModel(new AbstractListModel() {
-				String[] values = new String[] {"tst", "testasd"};
+				List<String> productNames = null;
+				
+				public List<String> getProductNames()
+				{
+					if (productNames == null) {
+						productNames = new ArrayList<String>();
+						
+						int l = 1;
+						for (PartOrder partOrder : partOrders) {
+							Product product = partOrder.getProduct();
+							productNames.add(l + ". " + product.getName());
+							
+							l++;
+						}
+					}
+					
+					return productNames;
+				}
+				
 				public int getSize() {
-					return values.length;
+					return getProductNames().size();
 				}
 				public Object getElementAt(int index) {
-					return values[index];
+					return getProductNames().get(index);
 				}
 			});
 			list_1.setBounds(0, 0, 185, 104);
@@ -198,7 +233,7 @@ public class PartStepUI extends JFrame {
 			lblPostnrBy.setBounds(10, 71, 173, 14);
 			panel_7.add(lblPostnrBy);
 			
-			JLabel lblTrinStTrin = new JLabel("Trin: S\u00E6t trin");
+			JLabel lblTrinStTrin = new JLabel("Trin: " + currentStep.getName());
 			lblTrinStTrin.setBounds(10, 136, 179, 14);
 			panel_7.add(lblTrinStTrin);
 			
