@@ -41,6 +41,13 @@ import javax.swing.JList;
 
 import java.awt.GridLayout;
 
+import CtrLayer.OrderCtr;
+import ModelLayer.Customer;
+import ModelLayer.Order;
+import ModelLayer.PartStep;
+import ModelLayer.Step;
+import ModelLayer.Town;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -53,9 +60,16 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.swing.AbstractListModel;
 
 /**
@@ -64,7 +78,11 @@ import javax.swing.AbstractListModel;
  *
  */
 public class PartStepUI extends JFrame {
+	private OrderCtr orderCtr;
+	
 	public PartStepUI() {
+		orderCtr = new OrderCtr();
+		
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
@@ -107,13 +125,30 @@ public class PartStepUI extends JFrame {
 	
 	private void createOrderItems(JPanel panel1)
 	{
-		//for (int i = 0; i<10;i++) {
+		List<Order> orders = new ArrayList<Order>();
+		try {
+			orders = orderCtr.findAllActiveOrders(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		int i = 0;
+		for (Order order : orders) {
+			Customer customer = order.getCustomer();
+			Town town = customer.getTown();
+			List<PartStep> partSteps = order.getPartStepList();
+			
+			// sweep
+			Date timeNow = new Date();
+			//for (PartStep partStep : )
+			
 			JPanel panel_7 = new JPanel();
 			panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel_7.setLayout(null);
 			
 			// add panel to rows
-			panel1.add(panel_7, "cell 0 0,grow");
+			panel1.add(panel_7, "cell 0 " + i + ",grow");
 
 			// items for panel
 			JLabel lblNewLabel_2 = new JLabel("Ordre nr:");
@@ -140,7 +175,7 @@ public class PartStepUI extends JFrame {
 					return values[index];
 				}
 			});
-			list_1.setBounds(-10, 0, 195, 104);
+			list_1.setBounds(0, 0, 185, 104);
 			panel_4.add(list_1);
 			
 			JButton btnNewButton = new JButton("Se detaljer");
@@ -148,25 +183,33 @@ public class PartStepUI extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 				}
 			});
-			btnNewButton.setBounds(376, 127, 89, 23);
+			btnNewButton.setBounds(356, 127, 100, 23);
 			panel_7.add(btnNewButton);
 			
-			JLabel lblNavn = new JLabel("Navn");
-			lblNavn.setBounds(10, 35, 73, 14);
+			JLabel lblNavn = new JLabel(customer.getName());
+			lblNavn.setBounds(10, 35, 173, 14);
 			panel_7.add(lblNavn);
 			
-			JLabel lblAdresse = new JLabel("Adresse");
-			lblAdresse.setBounds(10, 53, 73, 14);
+			JLabel lblAdresse = new JLabel(customer.getStreet());
+			lblAdresse.setBounds(10, 53, 173, 14);
 			panel_7.add(lblAdresse);
 			
-			JLabel lblPostnrBy = new JLabel("Postnr By");
-			lblPostnrBy.setBounds(10, 71, 73, 14);
+			JLabel lblPostnrBy = new JLabel(town.getZip() + " " + town.getName());
+			lblPostnrBy.setBounds(10, 71, 173, 14);
 			panel_7.add(lblPostnrBy);
 			
 			JLabel lblTrinStTrin = new JLabel("Trin: S\u00E6t trin");
 			lblTrinStTrin.setBounds(10, 136, 179, 14);
 			panel_7.add(lblTrinStTrin);
-		//}
+			
+			String orderId = Integer.toString(order.getId());
+			
+			JLabel lblNewLabel_3 = new JLabel(orderId);
+			lblNewLabel_3.setBounds(69, 7, 122, 23);
+			panel_7.add(lblNewLabel_3);
+			
+			i++;
+		}
 		
 		/*groupL.setHorizontalGroup(groupL.createParallelGroup(Alignment.LEADING));
 		groupL.setVerticalGroup(groupL.createParallelGroup(Alignment.LEADING));
