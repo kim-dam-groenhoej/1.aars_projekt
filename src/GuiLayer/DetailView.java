@@ -29,12 +29,12 @@ import ModelLayer.Town;
 public class DetailView extends JPanel {
 
 	PartStepCtr partstepCtr = new PartStepCtr();
-	private JList list_1 = new JList(); 
-	private JLabel DetailOrdernre = new JLabel("Ordre nr:");
-	private JLabel DetailCustomername = new JLabel("");
-	private JLabel detailsStreet = new JLabel("");
-	private JLabel detailstown = new JLabel("");
-	private JLabel detailsorderId = new JLabel("");
+	private JList list_1;
+	private JLabel DetailOrdernre;
+	private JLabel DetailCustomername;
+	private JLabel detailsStreet;
+	private JLabel detailstown;
+	private JLabel detailsorderId;
 	
 	private JPanel pastSteps = new JPanel();
 	private JLabel currentStepName = new JLabel("");
@@ -42,9 +42,9 @@ public class DetailView extends JPanel {
 	private ArrayList<Employee> selectedEmployees;
 	OrderInfoViewModel info = null;
 	private JPanel stepsContainer = null;
-	JPanel panel_3 = new JPanel();
+	JPanel panel_3;
 	private PartStepUI partStepUI;
-	
+	private JPanel panel;
 	public void showStepsContainer() {
 		this.getstepsContainer().setVisible(true);
 		this.getstepsContainer().revalidate();
@@ -52,8 +52,24 @@ public class DetailView extends JPanel {
 	}
 	
 	public DetailView(JPanel panel, PartStepUI partStepUI){
-		stepsContainer = new JPanel();
+		
+		this.panel = panel;
 		this.partStepUI = partStepUI;
+		
+		initialize();
+		}
+	
+	
+	
+	public void initialize(){
+		
+			panel.removeAll();
+			pastSteps.removeAll();
+			newSteps.removeAll();
+			currentStepName.setText("");
+			stepsContainer = new JPanel();
+			
+			panel_3 = new JPanel();
 			panel_3.setBounds(10, 11, 465, 653);
 			panel.add(panel_3);
 			panel_3.setLayout(null);
@@ -64,28 +80,28 @@ public class DetailView extends JPanel {
 			panel_3.add(panel_4);
 			panel_4.setLayout(null);				
 						
-			
+			list_1 = new JList(); 
 			list_1.setBounds(0, 0, 195, 270);
 			panel_4.add(list_1);			
 			
-			
+			DetailOrdernre = new JLabel("Ordre nr:");
 			DetailOrdernre.setFont(new Font("Tahoma", Font.BOLD, 11));
 			DetailOrdernre.setBounds(10, 11, 61, 14);
 			panel_3.add(DetailOrdernre);			
 			
-			
+			DetailCustomername = new JLabel("");
 			DetailCustomername.setBounds(10, 36, 240, 14);
 			panel_3.add(DetailCustomername);			
 			
-			
+			detailsStreet = new JLabel("");
 			detailsStreet.setBounds(10, 61, 240, 14);
 			panel_3.add(detailsStreet);			
 			
-					
+			detailstown = new JLabel("");		
 			detailstown.setBounds(10, 86, 240, 14);
 			panel_3.add(detailstown);				
 				
-			
+			detailsorderId = new JLabel("");
 			detailsorderId.setBounds(64, 10, 61, 14);
 			panel_3.add(detailsorderId);
 			
@@ -94,7 +110,7 @@ public class DetailView extends JPanel {
 			panel_3.add(stepsContainer);
 			stepsContainer.setLayout(null);
 			
-			JLabel peterFaarSinVilje = new JLabel("Nuv?rende trin:");
+			JLabel peterFaarSinVilje = new JLabel("Nuvaarende trin:");
 			peterFaarSinVilje.setBounds(180, 0, 200, 100);
 			stepsContainer.add(peterFaarSinVilje);
 			
@@ -111,9 +127,12 @@ public class DetailView extends JPanel {
 			newSteps.setBounds(301, 11, 154, 240);
 			stepsContainer.add(newSteps);
 			
-		}
-	
-	
+			
+			panel.validate();
+			panel.repaint();
+			
+		
+	}
 	
 	public void setDetailsText(int orderid )
 	{
@@ -265,6 +284,7 @@ public class DetailView extends JPanel {
 
 	public void refresh() {
 		partStepUI.createOrderItems();
+		initialize();
 		
 	}
 }
