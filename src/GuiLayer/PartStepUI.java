@@ -12,6 +12,7 @@ import java.awt.FlowLayout;
 import javax.swing.GroupLayout.Group;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JInternalFrame;
 import javax.swing.GroupLayout;
@@ -139,124 +140,127 @@ public class PartStepUI extends JFrame {
 	}
 	
 	private void createOrderItems(JPanel panel1)
-	{
-		
+	{		
+		JFrame f = this;
 		try {
-			orders = orderCtr.findAllActiveOrders(1);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		int i = 0;
-		for (Order order : orders) {
-			Customer customer = order.getCustomer();
-			Town town = customer.getTown();
-			List<PartStep> partSteps = order.getPartStepList();
-			PartStep latestPartStep = null;
-			List<PartOrder> partOrders = order.getPartOrderList();
-			
-			// sweep
-			Date lastSavedTime = null;
-			for (PartStep partStep : partSteps)
-			{
-				if (lastSavedTime == null) {
-					lastSavedTime = partStep.getStartDate();
-					latestPartStep = partStep;
-				}
+			try {
+				orders = orderCtr.findAllActiveOrders(1);
 				
-				if (partStep.getStartDate().after(lastSavedTime)) {
-					lastSavedTime = partStep.getStartDate();
-					latestPartStep = partStep;
-				}
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(f, "Database fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
 			}
 			
-			Step currentStep = latestPartStep.getStep();
-			
-			JPanel panel_7 = new JPanel();
-			panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panel_7.setLayout(null);
-			
-			// add panel to rows
-			panel1.add(panel_7, "cell 0 " + i + ",grow");
-
-			// items for panel
-			JLabel lblNewLabel_2 = new JLabel("Ordre nr:");
-			lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-			lblNewLabel_2.setBounds(10, 11, 255, 14);
-			panel_7.add(lblNewLabel_2);
-			
-			JPanel panel_4 = new JPanel();
-			panel_4.setBounds(270, 12, 195, 104);
-			panel_7.add(panel_4);
-			panel_4.setLayout(null);
-			
-			
-			JList list_1 = new JList();
-			list_1.setModel(new AbstractListModel() {
-				List<String> productNames = null;
+			int i = 0;
+			for (Order order : orders) {
+				Customer customer = order.getCustomer();
+				Town town = customer.getTown();
+				List<PartStep> partSteps = order.getPartStepList();
+				PartStep latestPartStep = null;
+				List<PartOrder> partOrders = order.getPartOrderList();
 				
-				public List<String> getProductNames()
+				// sweep
+				Date lastSavedTime = null;
+				for (PartStep partStep : partSteps)
 				{
-					if (productNames == null) {
-						productNames = new ArrayList<String>();
-						
-						int l = 1;
-						for (PartOrder partOrder : partOrders) {
-							Product product = partOrder.getProduct();
-							productNames.add(l + ". " + product.getName());
-							
-							l++;
-						}
+					if (lastSavedTime == null) {
+						lastSavedTime = partStep.getStartDate();
+						latestPartStep = partStep;
 					}
 					
-					return productNames;
+					if (partStep.getStartDate().after(lastSavedTime)) {
+						lastSavedTime = partStep.getStartDate();
+						latestPartStep = partStep;
+					}
 				}
 				
-				public int getSize() {
-					return getProductNames().size();
-				}
-				public Object getElementAt(int index) {
-					return getProductNames().get(index);
-				}
-			});
-			list_1.setBounds(0, 0, 185, 104);
-			panel_4.add(list_1);
-			
-			JButton btnNewButton = new JButton("Se detaljer");
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {	
-					k.setDetailsText(order.getId());
-				}
-			});
-			btnNewButton.setBounds(356, 127, 100, 23);
-			panel_7.add(btnNewButton);
-			
-			JLabel lblNavn = new JLabel(customer.getName());
-			lblNavn.setBounds(10, 35, 173, 14);
-			panel_7.add(lblNavn);
-			
-			JLabel lblAdresse = new JLabel(customer.getStreet());
-			lblAdresse.setBounds(10, 53, 173, 14);
-			panel_7.add(lblAdresse);
-			
-			JLabel lblPostnrBy = new JLabel(town.getZip() + " " + town.getName());
-			lblPostnrBy.setBounds(10, 71, 173, 14);
-			panel_7.add(lblPostnrBy);
-			
-			JLabel lblTrinStTrin = new JLabel("Trin: " + currentStep.getName());
-			lblTrinStTrin.setBounds(10, 136, 179, 14);
-			panel_7.add(lblTrinStTrin);
-			
-			String orderId = Integer.toString(order.getId());
-			
-			JLabel lblNewLabel_3 = new JLabel(orderId);
-			lblNewLabel_3.setBounds(69, 7, 122, 23);
-			panel_7.add(lblNewLabel_3);
-			
-			i++;
-		}		
-		
+				Step currentStep = latestPartStep.getStep();
+				
+				JPanel panel_7 = new JPanel();
+				panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
+				panel_7.setLayout(null);
+				
+				// add panel to rows
+				panel1.add(panel_7, "cell 0 " + i + ",grow");
+	
+				// items for panel
+				JLabel lblNewLabel_2 = new JLabel("Ordre nr:");
+				lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lblNewLabel_2.setBounds(10, 11, 255, 14);
+				panel_7.add(lblNewLabel_2);
+				
+				JPanel panel_4 = new JPanel();
+				panel_4.setBounds(270, 12, 195, 104);
+				panel_7.add(panel_4);
+				panel_4.setLayout(null);
+				
+				
+				JList list_1 = new JList();
+				list_1.setModel(new AbstractListModel() {
+					List<String> productNames = null;
+					
+					public List<String> getProductNames()
+					{
+						if (productNames == null) {
+							productNames = new ArrayList<String>();
+							
+							int l = 1;
+							for (PartOrder partOrder : partOrders) {
+								Product product = partOrder.getProduct();
+								productNames.add(l + ". " + product.getName());
+								
+								l++;
+							}
+						}
+						
+						return productNames;
+					}
+					
+					public int getSize() {
+						return getProductNames().size();
+					}
+					public Object getElementAt(int index) {
+						return getProductNames().get(index);
+					}
+				});
+				list_1.setBounds(0, 0, 185, 104);
+				panel_4.add(list_1);
+	
+				JButton btnNewButton = new JButton("Se detaljer");
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {	
+						k.setDetailsText(order.getId());
+					}
+				});
+				btnNewButton.setBounds(356, 127, 100, 23);
+				panel_7.add(btnNewButton);
+				
+				JLabel lblNavn = new JLabel(customer.getName());
+				lblNavn.setBounds(10, 35, 173, 14);
+				panel_7.add(lblNavn);
+				
+				JLabel lblAdresse = new JLabel(customer.getStreet());
+				lblAdresse.setBounds(10, 53, 173, 14);
+				panel_7.add(lblAdresse);
+				
+				JLabel lblPostnrBy = new JLabel(town.getZip() + " " + town.getName());
+				lblPostnrBy.setBounds(10, 71, 173, 14);
+				panel_7.add(lblPostnrBy);
+				
+				JLabel lblTrinStTrin = new JLabel("Trin: " + currentStep.getName());
+				lblTrinStTrin.setBounds(10, 136, 179, 14);
+				panel_7.add(lblTrinStTrin);
+				
+				String orderId = Integer.toString(order.getId());
+				
+				JLabel lblNewLabel_3 = new JLabel(orderId);
+				lblNewLabel_3.setBounds(69, 7, 122, 23);
+				panel_7.add(lblNewLabel_3);
+				
+				i++;
+			}		
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(f, "Client fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
 

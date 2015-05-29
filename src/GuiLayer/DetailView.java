@@ -11,6 +11,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import sun.security.x509.NetscapeCertTypeExtension;
@@ -39,9 +40,6 @@ public class DetailView extends JPanel {
 	private JPanel newSteps = new JPanel();
 	private Step selectedStep = null;
 	public DetailView(JPanel panel){
-			
-					
-			
 			JPanel panel_3 = new JPanel();
 			panel_3.setBounds(10, 11, 465, 653);
 			panel.add(panel_3);
@@ -107,13 +105,13 @@ public class DetailView extends JPanel {
 	public void setDetailsText(int orderid )
 	{
 		OrderInfoViewModel info = null;
+		JPanel p = this;
 		
 		try {
 			
 			info = partstepCtr.findOrderInfo(orderid);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(p, "Database fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
 		}
 		if(info != null){
 		Order order = info.getOrder();
