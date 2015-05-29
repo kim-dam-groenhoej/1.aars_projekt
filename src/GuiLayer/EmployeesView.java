@@ -27,6 +27,7 @@ import javax.swing.JCheckBox;
 public class EmployeesView extends JPanel {
 	private ArrayList<Employee> employees;
 	private ArrayList<Employee> selectedEmployees;
+	
 	public EmployeesView(List<Employee> list, final DetailView dtView, final int id) {
 		this.employees = (ArrayList<Employee>) list;
 		selectedEmployees = new ArrayList<Employee>();
@@ -131,6 +132,7 @@ public class EmployeesView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				dtView.setSelectedEmployees(selectedEmployees);
 				dtView.saveStep();
+				dtView.refresh();
 			}
 		});
 		add(btnNewButton_1);

@@ -43,6 +43,7 @@ public class DetailView extends JPanel {
 	OrderInfoViewModel info = null;
 	private JPanel stepsContainer = null;
 	JPanel panel_3 = new JPanel();
+	private PartStepUI partStepUI;
 	
 	public void showStepsContainer() {
 		this.getstepsContainer().setVisible(true);
@@ -50,9 +51,9 @@ public class DetailView extends JPanel {
 		this.getstepsContainer().repaint();
 	}
 	
-	public DetailView(JPanel panel){
+	public DetailView(JPanel panel, PartStepUI partStepUI){
 		stepsContainer = new JPanel();
-		
+		this.partStepUI = partStepUI;
 			panel_3.setBounds(10, 11, 465, 653);
 			panel.add(panel_3);
 			panel_3.setLayout(null);
@@ -227,9 +228,6 @@ public class DetailView extends JPanel {
 		
 	}
 	
-	
-	
-	
 	public JPanel getstepsContainer(){
 		return stepsContainer;
 	}
@@ -263,5 +261,10 @@ public class DetailView extends JPanel {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(this, "Database fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	public void refresh() {
+		partStepUI.createOrderItems();
+		
 	}
 }

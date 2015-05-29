@@ -100,7 +100,8 @@ public class OrderDB implements IOrderDB {
 				+ "(SELECT O.id FROM [Order] AS O "
 				+ "INNER JOIN PartStep AS PS ON PS.order_id = O.id "
 				+ "INNER JOIN Step AS S ON S.id = PS.step_id "
-				+ "WHERE" + wClause + " AND is_last_step = 1 )";
+				+ "WHERE" + wClause + " AND is_last_step = 1 )"
+				+ "ORDER BY O.id, partstep_startdate DESC";
 		
 		PreparedStatement statement = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		statement.setQueryTimeout(2);

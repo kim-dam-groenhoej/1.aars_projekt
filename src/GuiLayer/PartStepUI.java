@@ -86,8 +86,9 @@ public class PartStepUI extends JFrame {
 	private OrderCtr orderCtr;
 	private PartStepCtr partstepCtr;
 	private List<Order> orders = new ArrayList<Order>();
+	private JPanel panel_1;
 	JPanel panel_2 = new JPanel();
-	DetailView k = new DetailView(panel_2);
+	DetailView k = new DetailView(panel_2, this);
 	
 	public PartStepUI() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -119,19 +120,14 @@ public class PartStepUI extends JFrame {
 		scrollPane.setBounds(20, 36, 493, 675);
 		panel.add(scrollPane);
 		
-		JPanel panel_1 = new JPanel();
+		panel_1 = new JPanel();
 		panel_1.setBorder(null);
 		scrollPane.setViewportView(panel_1);
 		panel_1.setLayout(new MigLayout("", "[475px]", "[160px]"));
 		
-	    createOrderItems(panel_1);
-		
+	    createOrderItems();
 		
 		panel_2.setLayout(null);		
-		
-		
-		
-		
 		
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setBounds(0, 0, 200, 50);
@@ -141,9 +137,10 @@ public class PartStepUI extends JFrame {
 		this.setSize(new Dimension(1024, 768));
 	}
 	
-	private void createOrderItems(JPanel panel1)
+	public void createOrderItems()
 	{		
-		//Peter was here
+		panel_1.removeAll();
+		
 		JFrame f = this;
 		try {
 			try {
@@ -183,7 +180,7 @@ public class PartStepUI extends JFrame {
 				panel_7.setLayout(null);
 				
 				// add panel to rows
-				panel1.add(panel_7, "cell 0 " + i + ",grow");
+				panel_1.add(panel_7, "cell 0 " + i + ",grow");
 	
 				// items for panel
 				JLabel lblNewLabel_2 = new JLabel("Ordre nr:");
@@ -264,6 +261,9 @@ public class PartStepUI extends JFrame {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(f, "Client fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
 		}
+		
+		panel_1.validate();
+		panel_1.repaint();
 	}
 }
 
