@@ -196,6 +196,8 @@ public class DetailView extends JPanel {
 			currentStepName.setText(order.getPartStepList().get(0).getStep().getName());
 			pastSteps.removeAll();
 			
+			JFrame f = this;
+			
 			JButton btnNewButton_2 = new JButton("Tilbage");
 			btnNewButton_2.setBounds(1, 0, 153, 23);
 			btnNewButton_2.addActionListener(new ActionListener() {
@@ -206,7 +208,7 @@ public class DetailView extends JPanel {
 						refresh();
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(f, "Database fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
 					}								
 				}
 			});
