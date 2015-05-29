@@ -48,7 +48,7 @@ public class PartStepCtr {
 	public OrderInfoViewModel findOrderInfo(int orderId) throws SQLException
 	{
 		Order o = orderCtr.findOrder(orderId);
-		o.setPartOrderList(orderCtr.findAllPartOrders(orderID));
+		o.setPartOrderList(orderCtr.findAllPartOrders(orderId));
 		ArrayList<PartStep> ps = (ArrayList<PartStep>) o.getPartStepList();
 		PartStep lastPartStep = ps.get(0);
 		ArrayList<Step> sl = (ArrayList<Step>) stepCtr.findNextSteps(lastPartStep.getStep().getId());
