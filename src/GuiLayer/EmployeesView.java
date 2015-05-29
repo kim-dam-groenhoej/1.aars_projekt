@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import java.awt.Canvas;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +22,14 @@ import javax.swing.JLabel;
 
 import ModelLayer.Employee;
 
+import javax.swing.JCheckBox;
+
 public class EmployeesView extends JPanel {
 	private ArrayList<Employee> employees;
+	private ArrayList<Employee> selectedEmployees;
 	public EmployeesView(List<Employee> list, final DetailView dtView, final int id) {
 		this.employees = (ArrayList<Employee>) list;
+		selectedEmployees = new ArrayList<Employee>();
 		this.setBounds(10, 402, 465, 262);
 		this.setVisible(false);
 		setLayout(null);
@@ -33,12 +39,14 @@ public class EmployeesView extends JPanel {
 		add(panel_4);
 		panel_4.setLayout(new MigLayout("", "[grow][grow]", "[grow][grow]"));
 		
+		
+		
 		int colIndex = 0;
 		int rowIndex = 0;
 		for(int i = 0; i < list.size(); i++)
 		{	
 			int m = i % 2;
-						
+			final Employee employee = list.get(i);
 			JPanel panel = new JPanel();
 			panel_4.add(panel, "cell " + colIndex + " " + rowIndex + ",grow");
 			panel.setLayout(null);
@@ -48,9 +56,50 @@ public class EmployeesView extends JPanel {
 			lblNewLabel.setIcon(new ImageIcon("D:\\Datamatiker\\1. års projekt\\Kode29052015\\trunk\\Tobias.jpg"));
 			panel.add(lblNewLabel);
 			
-			JLabel lblFlotfyr = new JLabel(list.get(i).getName());
+			JLabel lblFlotfyr = new JLabel(employee.getName());
 			lblFlotfyr.setBounds(107, 11, 102, 75);
 			panel.add(lblFlotfyr);
+			
+			final JCheckBox chckbxNewCheckBox = new JCheckBox("");
+			chckbxNewCheckBox.setBounds(187, 11, 20, 20);
+			panel.add(chckbxNewCheckBox, "cell 0 0");
+			panel.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					chckbxNewCheckBox.setSelected(!chckbxNewCheckBox.isSelected());
+					if(chckbxNewCheckBox.isSelected()){
+						selectedEmployees.add(employee);
+					}else{
+						selectedEmployees.remove(employee);
+					}
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
 			if(m == 1){
 				rowIndex++;
 			}
@@ -74,8 +123,16 @@ public class EmployeesView extends JPanel {
 		BtnBack.setBounds(0, 222, 224, 23);
 		add(BtnBack);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(289, 222, 89, 23);
+		JButton btnNewButton_1 = new JButton("Godkend");
+		btnNewButton_1.setBounds(266, 222, 189, 23);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dtView.setSelectedEmployees(selectedEmployees);
+				dtView.saveStep();
+			}
+		});
 		add(btnNewButton_1);
 	}
 }

@@ -90,6 +90,7 @@ public class PartStepUI extends JFrame {
 	DetailView k = new DetailView(panel_2);
 	
 	public PartStepUI() {
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		orderCtr = new OrderCtr();
 		partstepCtr = new PartStepCtr();
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));

@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import sun.security.x509.NetscapeCertTypeExtension;
 import CtrLayer.PartStepCtr;
 import ModelLayer.Customer;
+import ModelLayer.Employee;
 import ModelLayer.Order;
 import ModelLayer.OrderInfoViewModel;
 import ModelLayer.PartOrder;
@@ -38,7 +39,7 @@ public class DetailView extends JPanel {
 	private JPanel pastSteps = new JPanel();
 	private JLabel currentStepName = new JLabel("");
 	private JPanel newSteps = new JPanel();
-	private Step selectedStep = null;
+	private ArrayList<Employee> selectedEmployees;
 	OrderInfoViewModel info = null;
 	private JPanel stepsContainer = null;
 	JPanel panel_3 = new JPanel();
@@ -189,7 +190,8 @@ public class DetailView extends JPanel {
 						panel_3.add(empView);
 						stepsContainer.setVisible(false);
 						empView.setVisible(true);
-						selectedStep = ps.getStep();
+						Step selectedStep = ps.getStep();
+						partstepCtr.setPartStep(selectedStep, order);
 					}
 				});
 				pastSteps.add(btnNewButton_1);
@@ -213,7 +215,8 @@ public class DetailView extends JPanel {
 						panel_3.add(empView);
 						stepsContainer.setVisible(false);
 						empView.setVisible(true);
-						selectedStep = s;
+						Step selectedStep = s;
+						partstepCtr.setPartStep(selectedStep, order);
 					}
 				});
 				newSteps.add(btnNewButton_1);
@@ -231,5 +234,34 @@ public class DetailView extends JPanel {
 		return stepsContainer;
 	}
 	
+	public void repaintStepsContainer(){
+		stepsContainer.setVisible(true);
+		super.repaint();
+		stepsContainer.validate();
+		stepsContainer.repaint();
+	}
+
+	/**
+	 * @return the selectedEmployees
+	 */
+	public ArrayList<Employee> getSelectedEmployees() {
+		return selectedEmployees;
+	}
+
+	/**
+	 * @param selectedEmployees the selectedEmployees to set
+	 */
+	public void setSelectedEmployees(ArrayList<Employee> selectedEmployees) {
+		this.selectedEmployees = selectedEmployees;
+	}
 	
+	public void saveStep()
+	{
+		try {
+			partstepCtr.associateEmployees(selectedEmployees);
+			partstepCtr.finishStep();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(this, "Database fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
+		}
+	}
 }

@@ -72,16 +72,17 @@ public class PartStepCtr {
 	 * 
 	 * @param employeeNo
 	 */
-	public void associateEmployee(int employeeNo)
+	public void associateEmployees(ArrayList<Employee> employees)
 	{
-		
+		currentPartStep.setEmployees(employees);
 	}
 
 	/**
 	 * Firing this method, sends all data to database
+	 * @throws SQLException 
 	 */
-	public void finishStep()
+	public void finishStep() throws SQLException
 	{
-		
+		orderCtr.finishStep(currentPartStep);
 	}
 }
