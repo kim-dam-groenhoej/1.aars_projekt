@@ -11,6 +11,7 @@ import org.junit.Test;
 import CtrLayer.EmployeeCtr;
 import CtrLayer.OrderCtr;
 import CtrLayer.StepCtr;
+import DBLayer.OrderDB;
 import ModelLayer.Order;
 import ModelLayer.PartOrder;
 import ModelLayer.PartStep;
@@ -95,6 +96,13 @@ public class JOrder {
 		assertNotNull(orders);
 		assertEquals(2, orders.size());
 		assertEquals(2, orders.get(0).getPartOrderList().size());
+	}
+	
+	@Test
+	public void positiveTest_deletePartSteps() throws SQLException
+	{
+		OrderDB orderDB = new OrderDB();
+		orderDB.deletePartSteps(1);
 	}
 	
 	@Test

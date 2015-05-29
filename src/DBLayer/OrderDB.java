@@ -36,6 +36,11 @@ public class OrderDB implements IOrderDB {
 	
 	public void deletePartSteps(int partStepId) throws SQLException
 	{
+		if(partStepId <= 0)
+		{
+			throw new IllegalArgumentException("An identifier must be a positive value.");
+		}
+		
 		String queryEmployess = "DELETE FROM [EmployeesOnPartStep] WHERE partstep_id = ?";
 		String query = "DELETE FROM [PartStep] WHERE id = ?";
 				
