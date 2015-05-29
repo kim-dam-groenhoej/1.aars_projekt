@@ -1,5 +1,6 @@
 package GuiLayer;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +15,10 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+
+
 import sun.security.x509.NetscapeCertTypeExtension;
+import CtrLayer.OrderCtr;
 import CtrLayer.PartStepCtr;
 import ModelLayer.Customer;
 import ModelLayer.Employee;
@@ -191,31 +195,32 @@ public class DetailView extends JPanel {
 			
 			currentStepName.setText(order.getPartStepList().get(0).getStep().getName());
 			pastSteps.removeAll();
+			
+			JButton btnNewButton_2 = new JButton("Tilbage");
+			btnNewButton_2.setBounds(1, 0, 153, 23);
+			btnNewButton_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {	
+					try {
+						OrderCtr or = new OrderCtr();
+						or.deletePartSteps(order.getPartStepList().get(0).getId());							
+						refresh();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}								
+				}
+			});
+			pastSteps.add(btnNewButton_2);
 			final DetailView DT = this;
 			final EmployeesView empView = new EmployeesView(info.getEmployees(),DT,order.getId());
-			for(int i = 1; i < order.getPartStepList().size(); i++){
-				final PartStep ps = order.getPartStepList().get(i);
+			for(int i = 0; i < order.getPartStepList().size(); i++){
+				final PartStep ps = order.getPartStepList().get(i);				
 				JButton btnNewButton_1 = new JButton(ps.getStep().getName());
-				btnNewButton_1.setBounds(1, 40 * i, 153, 23);
-				
-				btnNewButton_1.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {	
-						try {
-							info = partstepCtr.findOrderInfo(order.getId());
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-								
-						panel_3.add(empView);
-						stepsContainer.setVisible(false);
-						empView.setVisible(true);
-						Step selectedStep = ps.getStep();
-						partstepCtr.setPartStep(selectedStep, order);
-					}
-				});
+				btnNewButton_1.setBounds(1, (30 * i)+30, 153, 23);			
+				btnNewButton_1.setEnabled(false);
 				pastSteps.add(btnNewButton_1);
 			}
+			
 			pastSteps.repaint();
 			pastSteps.validate();
 			
@@ -226,12 +231,6 @@ public class DetailView extends JPanel {
 				btnNewButton_1.setBounds(1, 40 * i, 153, 23);
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {	
-						try {
-							info = partstepCtr.findOrderInfo(order.getId());
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
 						panel_3.add(empView);
 						stepsContainer.setVisible(false);
 						empView.setVisible(true);
