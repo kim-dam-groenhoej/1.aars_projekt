@@ -111,7 +111,7 @@ public class JOrder {
 		int i = 0;
 		while (!found)
 		{
-			PartStep po = PartStep.get(i);
+			PartStep po = steps.get(i);
 			if (po.getId() == partStepId)
 			{
 				orderDB.deletePartSteps(partStepId);
