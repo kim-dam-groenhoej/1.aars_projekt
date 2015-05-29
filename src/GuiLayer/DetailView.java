@@ -39,8 +39,12 @@ public class DetailView extends JPanel {
 	private JLabel currentStepName = new JLabel("");
 	private JPanel newSteps = new JPanel();
 	private Step selectedStep = null;
+	OrderInfoViewModel info = null;
+	JPanel stepsContainer = new JPanel();
+	JPanel panel_3 = new JPanel();
+	
 	public DetailView(JPanel panel){
-			JPanel panel_3 = new JPanel();
+			
 			panel_3.setBounds(10, 11, 465, 653);
 			panel.add(panel_3);
 			panel_3.setLayout(null);
@@ -76,14 +80,14 @@ public class DetailView extends JPanel {
 			detailsorderId.setBounds(64, 10, 61, 14);
 			panel_3.add(detailsorderId);
 			
-			JPanel stepsContainer = new JPanel();
+			
 			stepsContainer.setBounds(10, 402, 465, 262);
 			panel.add(stepsContainer);
 			stepsContainer.setLayout(null);
 			
-			JLabel peterFårSinVilje = new JLabel("Nuværende trin:");
-			peterFårSinVilje.setBounds(180, 0, 200, 100);
-			stepsContainer.add(peterFårSinVilje);
+			JLabel peterFaarSinVilje = new JLabel("Nuv?rende trin:");
+			peterFaarSinVilje.setBounds(180, 0, 200, 100);
+			stepsContainer.add(peterFaarSinVilje);
 			
 			currentStepName.setBounds(180, 15, 200, 100);
 			currentStepName.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -104,26 +108,23 @@ public class DetailView extends JPanel {
 	
 	public void setDetailsText(int orderid )
 	{
-		OrderInfoViewModel info = null;
-		JPanel p = this;
 		
-		try {
+		JPanel p = this;		try {
 			
 			info = partstepCtr.findOrderInfo(orderid);
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(p, "Database fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
 		}
 		if(info != null){
-		Order order = info.getOrder();
+		final Order order = info.getOrder();
 		Customer customer = order.getCustomer();
 		Town town = customer.getTown();
-		
 		
 		
 		String orderId = Integer.toString(order.getId());	
 		
 		
-		List<PartOrder> partOrders = order.getPartOrderList();
+		final List<PartOrder> partOrders = order.getPartOrderList();
 		
 		list_1.setModel(new AbstractListModel() {
 			List<String> productNames = null;
@@ -162,12 +163,25 @@ public class DetailView extends JPanel {
 			
 			currentStepName.setText(order.getPartStepList().get(0).getStep().getName());
 			pastSteps.removeAll();
+			final DetailView DT = this;
+			final EmployeesView empView = new EmployeesView(info.getEmployees(),DT,order.getId());
 			for(int i = 1; i < order.getPartStepList().size(); i++){
-				PartStep ps = order.getPartStepList().get(i);
+				final PartStep ps = order.getPartStepList().get(i);
 				JButton btnNewButton_1 = new JButton(ps.getStep().getName());
 				btnNewButton_1.setBounds(1, 40 * i, 153, 23);
+				
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {	
+						try {
+							info = partstepCtr.findOrderInfo(order.getId());
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+								
+						panel_3.add(empView);
+						stepsContainer.setVisible(false);
+						empView.setVisible(true);
 						selectedStep = ps.getStep();
 					}
 				});
@@ -178,11 +192,20 @@ public class DetailView extends JPanel {
 			
 			newSteps.removeAll();
 			for(int i = 0; i < info.getSteps().size(); i++){
-				Step s = info.getSteps().get(i);
+				final Step s = info.getSteps().get(i);
 				JButton btnNewButton_1 = new JButton(s.getName());
 				btnNewButton_1.setBounds(1, 40 * i, 153, 23);
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {	
+						try {
+							info = partstepCtr.findOrderInfo(order.getId());
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						panel_3.add(empView);
+						stepsContainer.setVisible(false);
+						empView.setVisible(true);
 						selectedStep = s;
 					}
 				});
@@ -195,6 +218,11 @@ public class DetailView extends JPanel {
 	}
 	
 	
+	
+	
+	public JPanel getstepsContainer(){
+		return stepsContainer;
+	}
 	
 	
 }

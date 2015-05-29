@@ -151,12 +151,12 @@ public class PartStepUI extends JFrame {
 			}
 			
 			int i = 0;
-			for (Order order : orders) {
+			for (final Order order : orders) {
 				Customer customer = order.getCustomer();
 				Town town = customer.getTown();
 				List<PartStep> partSteps = order.getPartStepList();
 				PartStep latestPartStep = null;
-				List<PartOrder> partOrders = order.getPartOrderList();
+				final List<PartOrder> partOrders = order.getPartOrderList();
 				
 				// sweep
 				Date lastSavedTime = null;
