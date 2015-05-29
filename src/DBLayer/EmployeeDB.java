@@ -38,8 +38,8 @@ public class EmployeeDB implements IEmployeeDB {
 		{
 			throw new IllegalArgumentException("An identifier must be a positive value.");
 		}
-		String wClause = " rest_id = " + restaurentId;
-		return multipleWhere(wClause);
+		String wClause = " rest_id = ?";
+		return multipleWhere(wClause, restaurentId);
 	}
 	
 	/**
@@ -79,14 +79,15 @@ public class EmployeeDB implements IEmployeeDB {
 		return emp;
 	}
 
-	private List<Employee> multipleWhere(String wClause) throws SQLException {
+	private List<Employee> multipleWhere(String wClause, int restaurentId) throws SQLException {
 		ResultSet results;
 		List<Employee> list = new ArrayList<Employee>();
 		String query = buildQuery(wClause);
 		
-		Statement statement = con.createStatement();
+		PreparedStatement statement = con.prepareStatement(query);
+		statement.setInt(1, restaurentId);
 		statement.setQueryTimeout(2);
-		results = statement.executeQuery(query);
+		results = statement.executeQuery();
 	
 		while(results.next()){
 			list.add(buildEmployee(results));

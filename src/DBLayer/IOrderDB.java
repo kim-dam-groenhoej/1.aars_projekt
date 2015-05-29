@@ -18,4 +18,5 @@ public interface IOrderDB {
 	void savePartStep(PartStep partStep) throws SQLException;
 	ArrayList<Order> findAllActiveOrders(int restaurantID) throws SQLException;
 	List<PartOrder> findAllPartOrders(int orderId) throws SQLException;
+	void deletePartSteps(int partStepId) throws SQLException;
 }

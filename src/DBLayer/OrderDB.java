@@ -34,6 +34,42 @@ public class OrderDB implements IOrderDB {
 		this.con = DBConnection.getInstance().getDBcon();
 	}
 	
+	public void deletePartSteps(int partStepId) throws SQLException
+	{
+		String queryEmployess = "DELETE FROM [EmployeesOnPartStep] WHERE partstep_id = ?";
+		String query = "DELETE FROM [PartStep] WHERE id = ?";
+				
+		//
+		// Delete employess on partstep
+		//
+		
+		// prepare SQL-statement
+		PreparedStatement stmt = con.prepareStatement(queryEmployess);
+		stmt.setInt(1, partStepId);
+		stmt.setQueryTimeout(5);
+		
+		// input parameters
+		stmt.setInt(1, partStepId);
+		
+		// send SQL-query and open connection and return output
+		stmt.execute();
+		
+		//
+		// Delete partstep
+		//
+		
+		// prepare SQL-statement
+		PreparedStatement stmtPartStep = con.prepareStatement(query);
+		stmtPartStep.setInt(1, partStepId);
+		stmtPartStep.setQueryTimeout(5);
+		
+		// input parameters
+		stmtPartStep.setInt(1, partStepId);
+		
+		// send SQL-query and open connection and return output
+		stmtPartStep.execute();
+	}
+	
 	public ArrayList<Order> findAllActiveOrders(int restaurantID) throws SQLException
 	{
 		if(restaurantID <= 0)
@@ -41,11 +77,11 @@ public class OrderDB implements IOrderDB {
 			throw new IllegalArgumentException("An identifier must be a positive value.");
 		}
 		
-		String wClause = " O.rest_id = " + restaurantID;
-		return multipleWhere(wClause);
+		String wClause = " O.rest_id = ?";
+		return multipleWhere(wClause, restaurantID);
 	}
 	
-	private ArrayList<Order> multipleWhere(String wClause) throws SQLException {
+	private ArrayList<Order> multipleWhere(String wClause, int restaurantID) throws SQLException {
 		ResultSet results;
 		ArrayList<Order> orders = new ArrayList<Order>();
 		String query = "SELECT O.id as order_id, O.date as order_date, C.email as customer_email, CP.id as customer_id, CP.name as customer_name, CP.street as customer_street, CP.phone as customer_phone, T.zip as customer_zip, T.name as customer_town_name, PS.id as partstep_id, PS.startDate as partstep_startdate, S.id as step_id, S.name as step_name, S.description as step_description, S.is_last_step as step_is_last "
@@ -59,11 +95,12 @@ public class OrderDB implements IOrderDB {
 				+ "(SELECT O.id FROM [Order] AS O "
 				+ "INNER JOIN PartStep AS PS ON PS.order_id = O.id "
 				+ "INNER JOIN Step AS S ON S.id = PS.step_id "
-				+ "WHERE" + wClause + "AND is_last_step = 1 )";
+				+ "WHERE" + wClause + " AND is_last_step = 1 )";
 		
-		Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		PreparedStatement statement = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		statement.setQueryTimeout(2);
-		results = statement.executeQuery(query);
+		statement.setInt(1, restaurantID);
+		results = statement.executeQuery();
 		while(results.next())
 		{
 			int orderId = results.getInt("order_id");
@@ -74,6 +111,9 @@ public class OrderDB implements IOrderDB {
 			order.setPartStepList(steps);
 			orders.add(order);
 		}
+		
+		statement.close();
+		
 		return orders;
 	}
 
@@ -99,9 +139,9 @@ public class OrderDB implements IOrderDB {
 		String query = buildQuery(wClause);
 		
 		//Parameterne til createStatement gør det muligt at gå frem og tilbage i ResultSettet.
-		Statement statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		PreparedStatement statement = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		statement.setQueryTimeout(2);
-		results = statement.executeQuery(query);
+		results = statement.executeQuery();
 		
 		if(results.next())
 		{
@@ -112,6 +152,8 @@ public class OrderDB implements IOrderDB {
 			order = new Order(id, date, restaurant, customer);
 			order.setPartStepList(buildPartSteps(results, restaurant, order, true));
 		}
+		
+		statement.close();
 		
 		return order;		
 	}

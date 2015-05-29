@@ -65,6 +65,11 @@ public class OrderCtr {
 		return orders;
 	}
 	
+	public void deletePartSteps(int partStepId) throws SQLException
+	{
+		orderDB.deletePartSteps(partStepId);
+	}
+	
 	/**
 	 * This method finishes the PartStep by saving it in the DB
 	 * 

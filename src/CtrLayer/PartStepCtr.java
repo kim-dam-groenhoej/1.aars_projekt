@@ -3,7 +3,6 @@ package CtrLayer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import DBLayer.IPartStepDB;
 import ModelLayer.Employee;
 import ModelLayer.Order;
 import ModelLayer.OrderInfoViewModel;
@@ -24,7 +23,6 @@ public class PartStepCtr {
 	private EmployeeCtr employeeCtr;
 	private StepCtr stepCtr;
 	private OrderCtr orderCtr;
-	private IPartStepDB partStepDB;
 	
 	/**
 	 * Constructor
