@@ -88,6 +88,7 @@ public class PartStepUI extends JFrame {
 	private List<Order> orders = new ArrayList<Order>();
 	JPanel panel_2 = new JPanel();
 	DetailView k = new DetailView(panel_2);
+	
 	public PartStepUI() {
 		orderCtr = new OrderCtr();
 		partstepCtr = new PartStepCtr();

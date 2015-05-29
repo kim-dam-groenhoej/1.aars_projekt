@@ -40,11 +40,18 @@ public class DetailView extends JPanel {
 	private JPanel newSteps = new JPanel();
 	private Step selectedStep = null;
 	OrderInfoViewModel info = null;
-	JPanel stepsContainer = new JPanel();
+	private JPanel stepsContainer = null;
 	JPanel panel_3 = new JPanel();
 	
+	public void showStepsContainer() {
+		this.getstepsContainer().setVisible(true);
+		this.getstepsContainer().revalidate();
+		this.getstepsContainer().repaint();
+	}
+	
 	public DetailView(JPanel panel){
-			
+		stepsContainer = new JPanel();
+		
 			panel_3.setBounds(10, 11, 465, 653);
 			panel.add(panel_3);
 			panel_3.setLayout(null);
@@ -82,7 +89,7 @@ public class DetailView extends JPanel {
 			
 			
 			stepsContainer.setBounds(10, 402, 465, 262);
-			panel.add(stepsContainer);
+			panel_3.add(stepsContainer);
 			stepsContainer.setLayout(null);
 			
 			JLabel peterFaarSinVilje = new JLabel("Nuv?rende trin:");

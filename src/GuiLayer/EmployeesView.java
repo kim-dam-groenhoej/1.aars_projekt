@@ -65,10 +65,10 @@ public class EmployeesView extends JPanel {
 		BtnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {		
 				EmpView.setVisible(false);
-				JPanel steps = dtView.getstepsContainer();
-				steps.validate();
-				steps.repaint();
-				steps.setVisible(true);
+				dtView.showStepsContainer();
+				dtView.setVisible(true);
+				dtView.revalidate();
+				dtView.repaint();
 			}
 		});
 		BtnBack.setBounds(0, 222, 224, 23);
