@@ -129,9 +129,8 @@ public class EmployeesView extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for(Employee em : selectedEmployees){
-					System.out.println(em.getName());
-				}
+				dtView.setSelectedEmployees(selectedEmployees);
+				dtView.saveStep();
 			}
 		});
 		add(btnNewButton_1);
