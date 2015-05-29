@@ -101,8 +101,24 @@ public class JOrder {
 	@Test
 	public void positiveTest_deletePartSteps() throws SQLException
 	{
+		int partStepId = 1;
 		OrderDB orderDB = new OrderDB();
-		orderDB.deletePartSteps(1);
+			
+		Order order = orderDB.findOrder(1);
+		List<PartStep> steps = order.getPartStepList();
+		
+		Boolean found = false;
+		int i = 0;
+		while (!found)
+		{
+			PartStep po = PartStep.get(i);
+			if (po.getId() == partStepId)
+			{
+				orderDB.deletePartSteps(partStepId);
+				
+				found = true;
+			}
+		}
 	}
 	
 	@Test
