@@ -143,6 +143,7 @@ public class PartStepUI extends JFrame {
 	
 	private void createOrderItems(JPanel panel1)
 	{		
+		//Peter was here
 		JFrame f = this;
 		try {
 			try {
