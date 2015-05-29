@@ -41,38 +41,24 @@ public class OrderDB implements IOrderDB {
 			throw new IllegalArgumentException("An identifier must be a positive value.");
 		}
 		
-		String queryEmployess = "DELETE FROM [EmployeesOnPartStep] WHERE partstep_id = ?";
-		String query = "DELETE FROM [PartStep] WHERE id = ?";
+		String query = "DELETE FROM [EmployeesOnPartStep] WHERE partstep_id = ?;DELETE FROM [PartStep] WHERE id = ?;";
 				
 		//
-		// Delete employess on partstep
+		// Delete employess on partstep and PartStep
 		//
 		
 		// prepare SQL-statement
-		PreparedStatement stmt = con.prepareStatement(queryEmployess);
-		stmt.setInt(1, partStepId);
+		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setQueryTimeout(5);
 		
 		// input parameters
 		stmt.setInt(1, partStepId);
+		stmt.setInt(2, partStepId);
 		
 		// send SQL-query and open connection and return output
 		stmt.execute();
 		
-		//
-		// Delete partstep
-		//
-		
-		// prepare SQL-statement
-		PreparedStatement stmtPartStep = con.prepareStatement(query);
-		stmtPartStep.setInt(1, partStepId);
-		stmtPartStep.setQueryTimeout(5);
-		
-		// input parameters
-		stmtPartStep.setInt(1, partStepId);
-		
-		// send SQL-query and open connection and return output
-		stmtPartStep.execute();
+		stmt.close();
 	}
 	
 	public ArrayList<Order> findAllActiveOrders(int restaurantID) throws SQLException
