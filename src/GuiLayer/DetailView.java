@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 
 
@@ -113,22 +115,18 @@ public class DetailView extends JPanel {
 			stepsContainer.setBounds(10, 402, 465, 262);
 			panel_3.add(stepsContainer);
 			stepsContainer.setLayout(null);
-			
-			JLabel peterFaarSinVilje = new JLabel("Nuvaarende trin:");
-			peterFaarSinVilje.setBounds(180, 0, 200, 100);
-			stepsContainer.add(peterFaarSinVilje);
-			
+						
 			currentStepName.setBounds(180, 15, 200, 100);
 			currentStepName.setFont(new Font("Tahoma", Font.BOLD, 13));
 			stepsContainer.add(currentStepName);
 			
 			
 			
-			pastSteps.setBounds(10, 11, 154, 240);
+			pastSteps.setBounds(0, 11, 200, 240);
 			stepsContainer.add(pastSteps);
 			pastSteps.setLayout(null);
 			
-			newSteps.setBounds(301, 11, 154, 240);
+			newSteps.setBounds(250, 11, 200, 240);
 			stepsContainer.add(newSteps);
 			
 			
@@ -193,44 +191,70 @@ public class DetailView extends JPanel {
 			String orderIdd = Integer.toString(order.getId());
 			detailsorderId.setText(orderIdd);
 			
-			currentStepName.setText(order.getPartStepList().get(0).getStep().getName());
 			pastSteps.removeAll();
 			
-			JFrame f = this;
+			int count = 0;
+			JLabel trin = new JLabel("Nuvaarende trin");
+			trin.setBounds(1, 0, 100, 23);
+			trin.setFont(new Font("Tahoma", Font.BOLD, 12));
+			pastSteps.add(trin);
+			final DetailView DT = this;
+			final EmployeesView empView = new EmployeesView(info.getEmployees(),DT,order.getId());
+			for(int i = 0; i < order.getPartStepList().size(); i++){
+				final PartStep ps = order.getPartStepList().get(i);	
+				if(i == 0){
+					JButton btnNewButton_1 = new JButton(ps.getStep().getName());
+					btnNewButton_1.setBounds(1, 30, 153, 23);			
+					btnNewButton_1.setEnabled(false);
+					pastSteps.add(btnNewButton_1);
+					JLabel trin1 = new JLabel("tidligere trin");
+					trin1.setBounds(1, 60, 100, 23);
+					pastSteps.add(trin1);
+				}else{							
+					JButton btnNewButton_1 = new JButton(ps.getStep().getName());
+					btnNewButton_1.setBounds(1, (30 * i)+60, 153, 23);			
+					btnNewButton_1.setEnabled(false);
+					pastSteps.add(btnNewButton_1);
+				}
+				count++;
+			}
+			
 			
 			JButton btnNewButton_2 = new JButton("Tilbage");
-			btnNewButton_2.setBounds(1, 0, 153, 23);
+			btnNewButton_2.setBounds(1, (30* count)+60, 153, 23);
+			if(count == 1){
+				btnNewButton_2.setEnabled(false);
+			}
 			btnNewButton_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {	
 					try {
 						OrderCtr or = new OrderCtr();
-						or.deletePartSteps(order.getPartStepList().get(0).getId());							
-						refresh();
+							or.deletePartSteps(order.getPartStepList().get(0).getId());							
+							refresh();
+							
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
-						JOptionPane.showMessageDialog(f, "Database fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
+						e.printStackTrace();
 					}								
 				}
 			});
-			pastSteps.add(btnNewButton_2);
-			final DetailView DT = this;
-			final EmployeesView empView = new EmployeesView(info.getEmployees(),DT,order.getId());
-			for(int i = 0; i < order.getPartStepList().size(); i++){
-				final PartStep ps = order.getPartStepList().get(i);				
-				JButton btnNewButton_1 = new JButton(ps.getStep().getName());
-				btnNewButton_1.setBounds(1, (30 * i)+30, 153, 23);			
-				btnNewButton_1.setEnabled(false);
-				pastSteps.add(btnNewButton_1);
-			}
-			
+			pastSteps.add(btnNewButton_2);		
 			pastSteps.repaint();
 			pastSteps.validate();
 			
-			newSteps.removeAll();
+			
+			
+			
+			newSteps.removeAll();			
+			JLabel trin2 = new JLabel("mulige trin");
+			trin2.setBounds(1, 0, 100, 23);
+			trin2.setFont(new Font("Tahoma", Font.BOLD, 12));
+			newSteps.add(trin2);
+			
 			for(int i = 0; i < info.getSteps().size(); i++){
-				final Step s = info.getSteps().get(i);
+				final Step s = info.getSteps().get(i);						
 				JButton btnNewButton_1 = new JButton(s.getName());
-				btnNewButton_1.setBounds(1, 40 * i, 153, 23);
+				btnNewButton_1.setBounds(1, (30 * i)+30, 153, 23);
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {	
 						panel_3.add(empView);
