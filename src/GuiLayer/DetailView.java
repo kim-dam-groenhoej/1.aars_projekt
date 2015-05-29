@@ -219,7 +219,7 @@ public class DetailView extends JPanel {
 				count++;
 			}
 			
-			
+			JPanel f = this;
 			JButton btnNewButton_2 = new JButton("Tilbage");
 			btnNewButton_2.setBounds(1, (30* count)+60, 153, 23);
 			if(count == 1){
@@ -233,8 +233,7 @@ public class DetailView extends JPanel {
 							refresh();
 							
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(f, "Database fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
 					}								
 				}
 			});
