@@ -19,6 +19,7 @@ import java.util.List;
 import javax.swing.JLabel;
 
 import ModelLayer.Employee;
+import javax.swing.JCheckBox;
 
 public class EmployeesView extends JPanel {
 	private ArrayList<Employee> employees;
@@ -32,6 +33,8 @@ public class EmployeesView extends JPanel {
 		panel_4.setBounds(0, 0, 455, 211);
 		add(panel_4);
 		panel_4.setLayout(new MigLayout("", "[grow][grow]", "[grow][grow]"));
+		
+		
 		
 		int colIndex = 0;
 		int rowIndex = 0;
@@ -51,6 +54,11 @@ public class EmployeesView extends JPanel {
 			JLabel lblFlotfyr = new JLabel(list.get(i).getName());
 			lblFlotfyr.setBounds(107, 11, 102, 75);
 			panel.add(lblFlotfyr);
+			
+			JCheckBox chckbxNewCheckBox = new JCheckBox("");
+			chckbxNewCheckBox.setBounds(187, 11, 20, 20);
+			panel.add(chckbxNewCheckBox, "cell 0 0");
+			
 			if(m == 1){
 				rowIndex++;
 			}

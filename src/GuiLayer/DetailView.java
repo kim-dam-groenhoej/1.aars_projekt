@@ -231,5 +231,10 @@ public class DetailView extends JPanel {
 		return stepsContainer;
 	}
 	
-	
+	public void repaintStepsContainer(){
+		stepsContainer.setVisible(true);
+		super.repaint();
+		stepsContainer.validate();
+		stepsContainer.repaint();
+	}
 }
