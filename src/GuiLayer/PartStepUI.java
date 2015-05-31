@@ -89,13 +89,13 @@ public class PartStepUI extends JFrame {
 	private JPanel panel_1;
 	JPanel panel_2 = new JPanel();
 	DetailView k = new DetailView(panel_2, this);
-	
-	public PartStepUI() {
+	private int restaurantid;
+	public PartStepUI(int restaurantid) {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		orderCtr = new OrderCtr();
 		partstepCtr = new PartStepCtr();
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
-		
+		this.restaurantid = restaurantid;
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
 		panel.setLayout(null);
@@ -144,7 +144,7 @@ public class PartStepUI extends JFrame {
 		JFrame f = this;
 		try {
 			try {
-				orders = orderCtr.findAllActiveOrders(1);
+				orders = orderCtr.findAllActiveOrders(restaurantid);
 				
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(f, "Database fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);

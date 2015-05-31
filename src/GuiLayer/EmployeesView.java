@@ -116,9 +116,6 @@ public class EmployeesView extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {		
 				EmpView.setVisible(false);
 				dtView.showStepsContainer();
-				dtView.setVisible(true);
-				dtView.revalidate();
-				dtView.repaint();
 			}
 		});
 		BtnBack.setBounds(0, 222, 224, 23);

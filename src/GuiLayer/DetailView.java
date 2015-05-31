@@ -51,11 +51,7 @@ public class DetailView extends JPanel {
 	JPanel panel_3;
 	private PartStepUI partStepUI;
 	private JPanel panel;
-	public void showStepsContainer() {
-		this.getstepsContainer().setVisible(true);
-		this.getstepsContainer().revalidate();
-		this.getstepsContainer().repaint();
-	}
+	private JPanel headertext = new JPanel();
 	
 	public DetailView(JPanel panel, PartStepUI partStepUI){
 		
@@ -122,13 +118,16 @@ public class DetailView extends JPanel {
 			
 			
 			
-			pastSteps.setBounds(0, 11, 200, 240);
+			pastSteps.setBounds(0, 11, 180, 240);
 			stepsContainer.add(pastSteps);
+			//pastSteps.setBorder(BorderFactory.createLineBorder(Color.black));
 			pastSteps.setLayout(null);
 			
 			newSteps.setBounds(250, 11, 200, 240);
-			stepsContainer.add(newSteps);
+			newSteps.setLayout(null);
 			
+			//newSteps.setBorder(BorderFactory.createLineBorder(Color.black));
+			stepsContainer.add(newSteps);
 			
 			panel.validate();
 			panel.repaint();
@@ -139,7 +138,8 @@ public class DetailView extends JPanel {
 	public void setDetailsText(int orderid )
 	{
 		
-		JPanel p = this;		try {
+		JPanel p = this;		
+		try {
 			
 			info = partstepCtr.findOrderInfo(orderid);
 		} catch (SQLException e) {
@@ -191,8 +191,7 @@ public class DetailView extends JPanel {
 			String orderIdd = Integer.toString(order.getId());
 			detailsorderId.setText(orderIdd);
 			
-			pastSteps.removeAll();
-			
+			pastSteps.removeAll();			
 			int count = 0;
 			JLabel trin = new JLabel("Nuvaarende trin");
 			trin.setBounds(1, 0, 100, 23);
@@ -202,26 +201,28 @@ public class DetailView extends JPanel {
 			final EmployeesView empView = new EmployeesView(info.getEmployees(),DT,order.getId());
 			for(int i = 0; i < order.getPartStepList().size(); i++){
 				final PartStep ps = order.getPartStepList().get(i);	
+				JButton btnNewButton_1 = new JButton(ps.getStep().getName());
 				if(i == 0){
-					JButton btnNewButton_1 = new JButton(ps.getStep().getName());
-					btnNewButton_1.setBounds(1, 30, 153, 23);			
+					btnNewButton_1.setBounds(1, 30, 179, 23);			
 					btnNewButton_1.setEnabled(false);
+					btnNewButton_1.setBackground(new Color(97,144,64));
 					pastSteps.add(btnNewButton_1);
 					JLabel trin1 = new JLabel("tidligere trin");
 					trin1.setBounds(1, 60, 100, 23);
 					pastSteps.add(trin1);
 				}else{							
-					JButton btnNewButton_1 = new JButton(ps.getStep().getName());
-					btnNewButton_1.setBounds(1, (30 * i)+60, 153, 23);			
+					btnNewButton_1.setBounds(1, (30 * i)+60, 179, 23);	
+					btnNewButton_1.setBackground(Color.RED);
 					btnNewButton_1.setEnabled(false);
 					pastSteps.add(btnNewButton_1);
 				}
+				
 				count++;
 			}
 			
 			JPanel f = this;
 			JButton btnNewButton_2 = new JButton("Tilbage");
-			btnNewButton_2.setBounds(1, (30* count)+60, 153, 23);
+			btnNewButton_2.setBounds(1, 200, 179, 40);
 			if(count == 1){
 				btnNewButton_2.setEnabled(false);
 			}
@@ -229,8 +230,10 @@ public class DetailView extends JPanel {
 				public void actionPerformed(ActionEvent arg0) {	
 					try {
 						OrderCtr or = new OrderCtr();
-							or.deletePartSteps(order.getPartStepList().get(0).getId());							
+							or.deletePartSteps(order.getPartStepList().get(0).getId());
 							refresh();
+							setDetailsText(orderid);
+							
 							
 					} catch (SQLException e) {
 						JOptionPane.showMessageDialog(f, "Database fejl: " + e.getMessage(), "Fejl", JOptionPane.ERROR_MESSAGE);
@@ -246,14 +249,15 @@ public class DetailView extends JPanel {
 			
 			newSteps.removeAll();			
 			JLabel trin2 = new JLabel("mulige trin");
-			trin2.setBounds(1, 0, 100, 23);
+			trin2.setBounds(1, 0, 199, 23);
 			trin2.setFont(new Font("Tahoma", Font.BOLD, 12));
 			newSteps.add(trin2);
 			
 			for(int i = 0; i < info.getSteps().size(); i++){
 				final Step s = info.getSteps().get(i);						
 				JButton btnNewButton_1 = new JButton(s.getName());
-				btnNewButton_1.setBounds(1, (30 * i)+30, 153, 23);
+				btnNewButton_1.setBounds(1, (50 * i)+30, 198, 40);
+				btnNewButton_1.setBackground(new Color(97,144,64));
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {	
 						panel_3.add(empView);
@@ -263,6 +267,9 @@ public class DetailView extends JPanel {
 						partstepCtr.setPartStep(selectedStep, order);
 					}
 				});
+				
+				
+				btnNewButton_1.getPreferredSize();
 				newSteps.add(btnNewButton_1);
 			}
 			newSteps.repaint();
@@ -270,6 +277,10 @@ public class DetailView extends JPanel {
 		}	
 		
 	}
+	
+	
+	
+	
 	
 	public JPanel getstepsContainer(){
 		return stepsContainer;
@@ -310,5 +321,12 @@ public class DetailView extends JPanel {
 		partStepUI.createOrderItems();
 		initialize();
 		
+	}
+	
+	
+	public void showStepsContainer() {
+		this.getstepsContainer().setVisible(true);
+		this.getstepsContainer().revalidate();
+		this.getstepsContainer().repaint();
 	}
 }
