@@ -87,8 +87,8 @@ public class PartStepUI extends JFrame {
 	private PartStepCtr partstepCtr;
 	private List<Order> orders = new ArrayList<Order>();
 	private JPanel panel_1;
-	JPanel panel_2 = new JPanel();
-	DetailView k = new DetailView(panel_2, this);
+	private JPanel panel_2 = new JPanel();
+	private DetailView k = new DetailView(panel_2, this);
 	private int restaurantid;
 	public PartStepUI(int restaurantid) {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

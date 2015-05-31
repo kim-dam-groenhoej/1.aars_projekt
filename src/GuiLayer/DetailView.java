@@ -34,7 +34,7 @@ import ModelLayer.Town;
 
 public class DetailView extends JPanel {
 
-	PartStepCtr partstepCtr = new PartStepCtr();
+	private PartStepCtr partstepCtr = new PartStepCtr();
 	private JList list_1;
 	private JLabel DetailOrdernre;
 	private JLabel DetailCustomername;
@@ -46,9 +46,9 @@ public class DetailView extends JPanel {
 	private JLabel currentStepName = new JLabel("");
 	private JPanel newSteps = new JPanel();
 	private ArrayList<Employee> selectedEmployees;
-	OrderInfoViewModel info = null;
+	private OrderInfoViewModel info = null;
 	private JPanel stepsContainer = null;
-	JPanel panel_3;
+	private JPanel panel_3;
 	private PartStepUI partStepUI;
 	private JPanel panel;
 	private JPanel headertext = new JPanel();
@@ -212,7 +212,7 @@ public class DetailView extends JPanel {
 					pastSteps.add(trin1);
 				}else{							
 					btnNewButton_1.setBounds(1, (30 * i)+60, 179, 23);	
-					btnNewButton_1.setBackground(Color.RED);
+					btnNewButton_1.setBackground(new Color(181,213,138));
 					btnNewButton_1.setEnabled(false);
 					pastSteps.add(btnNewButton_1);
 				}
