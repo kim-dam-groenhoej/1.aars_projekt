@@ -135,7 +135,7 @@ public class DetailView extends JPanel {
 		
 	}
 	
-	public void setDetailsText(int orderid )
+	public void setDetailsText(final int orderid )
 	{
 		
 		JPanel p = this;		
@@ -220,7 +220,7 @@ public class DetailView extends JPanel {
 				count++;
 			}
 			
-			JPanel f = this;
+			final JPanel f = this;
 			JButton btnNewButton_2 = new JButton("Tilbage");
 			btnNewButton_2.setBounds(1, 200, 179, 40);
 			if(count == 1){

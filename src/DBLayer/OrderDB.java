@@ -68,11 +68,10 @@ public class OrderDB implements IOrderDB {
 			throw new IllegalArgumentException("An identifier must be a positive value.");
 		}
 		
-		String wClause = " O.rest_id = ?";
-		return multipleWhere(wClause, restaurantID);
+		return multipleWhere(restaurantID);
 	}
 	
-	private ArrayList<Order> multipleWhere(String wClause, int restaurantID) throws SQLException {
+	private ArrayList<Order> multipleWhere(int restaurantID) throws SQLException {
 		ResultSet results;
 		ArrayList<Order> orders = new ArrayList<Order>();
 		String query = "SELECT O.id as order_id, O.date as order_date, C.email as customer_email, CP.id as customer_id, CP.name as customer_name, CP.street as customer_street, CP.phone as customer_phone, T.zip as customer_zip, T.name as customer_town_name, PS.id as partstep_id, PS.startDate as partstep_startdate, S.id as step_id, S.name as step_name, S.description as step_description, S.is_last_step as step_is_last "
@@ -86,12 +85,15 @@ public class OrderDB implements IOrderDB {
 				+ "(SELECT O.id FROM [Order] AS O "
 				+ "INNER JOIN PartStep AS PS ON PS.order_id = O.id "
 				+ "INNER JOIN Step AS S ON S.id = PS.step_id "
-				+ "WHERE" + wClause + " AND is_last_step = 1 )"
+				+ "WHERE O.rest_id = ? AND is_last_step = 1 ) "
+				+ "AND O.rest_id = ? " 
 				+ "ORDER BY O.id, partstep_startdate DESC";
 		
 		PreparedStatement statement = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		statement.setQueryTimeout(2);
 		statement.setInt(1, restaurantID);
+		statement.setInt(2, restaurantID);
+		String sql = statement.toString();
 		results = statement.executeQuery();
 		while(results.next())
 		{
